@@ -1,0 +1,9 @@
+.godot/
+.DS_Store
+.tools/
+build/
+artifacts/
+assets/licensed/*
+!assets/licensed/.gitkeep
+__pycache__/
+*.py[cod]

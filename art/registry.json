@@ -1,0 +1,193 @@
+{
+  "tile_size": 64,
+  "palette": {
+    "outline": "#293544",
+    "grass": "#8ba86e",
+    "water": "#448f97",
+    "earth": "#d2ad65",
+    "cream": "#eee2c3",
+    "blue": "#487fa8"
+  },
+  "assets": {
+    "hero": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        132
+      ],
+      "hitbox": [
+        32,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "hero-stand.png",
+          "source": "public/tiny-swords/custom/nobby-idle.png",
+          "frames": 6,
+          "fps": 1.5,
+          "sha256": "c4dc2b5d0aeeb5a662c31b3ea863ab55007f05e0584992b7f5fc74e24d4e69b5",
+          "indices": [
+            1,
+            3
+          ]
+        },
+        "walk": {
+          "file": "hero-walk.png",
+          "source": "public/tiny-swords/custom/nobby-run.png",
+          "frames": 4,
+          "fps": 10,
+          "sha256": "4969c7ce31cac3f8c77581125a51dbe44ab4a5ddba4614f403319cc26616ff3e"
+        },
+        "attack": {
+          "file": "hero-attack.png",
+          "source": "public/tiny-swords/custom/nobby-attack.png",
+          "frames": 11,
+          "fps": 28,
+          "sha256": "a363968bf2b5492ce01d8bc49b59c652e9db470a69ef3205bd11ce4c489043ab"
+        }
+      }
+    },
+    "enemy-warrior": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        132
+      ],
+      "hitbox": [
+        32,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "enemy-warrior-stand.png",
+          "source": "public/tiny-swords/Units/Red Units/Warrior/Warrior_Idle.png",
+          "frames": 8,
+          "fps": 4,
+          "sha256": "104bb0c113efa967b306047d29166ca7d4925366d613dd46e5b33ac44fbb1ac4"
+        },
+        "walk": {
+          "file": "enemy-warrior-walk.png",
+          "source": "public/tiny-swords/Units/Red Units/Warrior/Warrior_Run.png",
+          "frames": 6,
+          "fps": 12,
+          "sha256": "74b9d13a4b57f75a048cb42af35ef5c0a20791f67a9b03f9e93c72790dbe2948"
+        },
+        "attack": {
+          "file": "enemy-warrior-attack.png",
+          "source": "public/tiny-swords/Units/Red Units/Warrior/Warrior_Attack1.png",
+          "frames": 4,
+          "fps": 14,
+          "sha256": "05df9fa665b8c216b3852b00250a84e55d2bdffdb39349ae152f2c8766d73bb1"
+        }
+      }
+    },
+    "tree-oak": {
+      "frame": [
+        192,
+        256
+      ],
+      "foot": [
+        96,
+        234
+      ],
+      "hitbox": [
+        40,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "tree-oak-stand.png",
+          "source": "public/tiny-swords/Terrain/Resources/Wood/Trees/Tree1.png",
+          "frames": 8,
+          "fps": 2.5,
+          "sha256": "ee3f285f992842987df5aae0e07a364a7a535e78d605f6d469115559e87df7e5"
+        },
+        "walk": {
+          "file": "tree-oak-walk.png",
+          "source": "public/tiny-swords/Terrain/Resources/Wood/Trees/Tree1.png",
+          "frames": 8,
+          "fps": 2.5,
+          "sha256": "ee3f285f992842987df5aae0e07a364a7a535e78d605f6d469115559e87df7e5"
+        }
+      }
+    },
+    "tree-small": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        164
+      ],
+      "hitbox": [
+        32,
+        20
+      ],
+      "animations": {
+        "stand": {
+          "file": "tree-small-stand.png",
+          "source": "public/tiny-swords/Terrain/Resources/Wood/Trees/Tree3.png",
+          "frames": 8,
+          "fps": 2.5,
+          "sha256": "e2317a54bb801e52f4c2fbfd4d9d91611036d7b001fe623a92b55539feddaae2"
+        },
+        "walk": {
+          "file": "tree-small-walk.png",
+          "source": "public/tiny-swords/Terrain/Resources/Wood/Trees/Tree3.png",
+          "frames": 8,
+          "fps": 2.5,
+          "sha256": "e2317a54bb801e52f4c2fbfd4d9d91611036d7b001fe623a92b55539feddaae2"
+        }
+      }
+    },
+    "bush": {
+      "frame": [
+        128,
+        128
+      ],
+      "foot": [
+        64,
+        99
+      ],
+      "hitbox": [
+        40,
+        20
+      ],
+      "animations": {
+        "stand": {
+          "file": "bush-stand.png",
+          "source": "public/tiny-swords/Terrain/Decorations/Bushes/Bushe1.png",
+          "frames": 8,
+          "fps": 2.5,
+          "sha256": "38ea6583e856d4670ce43b843aaa3ef3e675b351b02353118f04b01ba3daa4eb"
+        },
+        "walk": {
+          "file": "bush-walk.png",
+          "source": "public/tiny-swords/Terrain/Decorations/Bushes/Bushe1.png",
+          "frames": 8,
+          "fps": 2.5,
+          "sha256": "38ea6583e856d4670ce43b843aaa3ef3e675b351b02353118f04b01ba3daa4eb"
+        }
+      }
+    }
+  },
+  "terrain": {
+    "grass": {
+      "file": "grass.png",
+      "source": "src/tiled/tiny-swords/grass-darker.png",
+      "sha256": "1455d86f11c9763dda39e47899002294d9ab0a1dfd9800f594c02589cfd08fd2"
+    },
+    "path": {
+      "file": "path.png",
+      "source": "src/tiled/tiny-swords/path-earthy.png",
+      "sha256": "1d5bfa3f61c6d9c5b59633817ced37d89b293b40ffe7420aae9948c63526e214"
+    }
+  }
+}
