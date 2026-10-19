@@ -8,7 +8,10 @@ Geschichte werden eigenständig entwickelt. Keine Verbindung zu Square Enix.
 
 Eine neue Waldlichtung mit Nobby, zwei Nahkampfgegnern, Kamera, festen
 Fußkollisionen, Trefferverzögerung, Rückstoß, Lebensanzeige und einem kleinen
-Kampfziel. WASD/Pfeile bewegen, Leertaste/J greift in Bewegungsrichtung an,
+Kampfziel. Kleine Lebensbalken stehen über den Gegnern; besiegte Gegner
+verschwinden nach 0,3 Sekunden. Unten mittig zeigt ein kompaktes HUD Leben
+als rote und Mana als blaue Kugel, mit Beschwörung und Begleiterzahl dazwischen.
+WASD/Pfeile bewegen, Leertaste/J greift in Bewegungsrichtung an,
 R beschwört ein Skelett, F5 startet die Szene neu. Angriffe treffen erst nach ihrer Ausholphase,
 pro Schwung einmal und nicht durch Bäume oder andere Weltkollisionen.
 
@@ -68,6 +71,7 @@ python3 tools/check_project.py
 godot --headless --editor --path . --import
 godot --headless --path . --script tests/combat_smoke.gd
 godot --headless --path . --script tests/companions_smoke.gd
+godot --headless --path . --script tests/hud_enemy_smoke.gd
 godot --path . --script tests/capture.gd
 ```
 

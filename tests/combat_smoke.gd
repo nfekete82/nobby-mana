@@ -26,6 +26,7 @@ func run() -> void:
 	for enemy in get_nodes_in_group("enemies"):
 		enemy.set_physics_process(false)
 	var enemy = get_nodes_in_group("enemies")[0]
+	var second = get_nodes_in_group("enemies")[1]
 	var start: Vector2 = hero.position
 	Input.action_press("move_right")
 	for frame in 30:
@@ -65,7 +66,6 @@ func run() -> void:
 	enemy.take_damage(100,hero.position)
 	check(world.remaining == 1, "Repeated damage cannot duplicate defeat")
 	# A solid obstacle between close actors must stop melee.
-	var second = get_nodes_in_group("enemies")[1]
 	second.position = Vector2(670,640)
 	world.add_wall(Vector2(635,628),Vector2(12,64))
 	await physics_frame

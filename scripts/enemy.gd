@@ -3,6 +3,8 @@ extends "res://scripts/fighter.gd"
 const MOVE_SPEED := 105.0
 const AGGRO_RADIUS := 290.0
 const LEASH_RADIUS := 390.0
+const DEFEAT_FADE := 0.3
+var health_bar: ProgressBar
 var home := Vector2.ZERO
 var attack_delay := 0.8
 var target: CharacterBody2D
@@ -17,6 +19,44 @@ func _ready() -> void:
 	add_to_group("enemies")
 	super._ready()
 	home = global_position
+	build_health_bar()
+	health_changed.connect(update_health_bar)
+	defeated.connect(disappear)
+
+func build_health_bar() -> void:
+	health_bar = ProgressBar.new()
+	health_bar.name = "HealthBar"
+	health_bar.position = Vector2(-24,-101)
+	health_bar.size = Vector2(48,6)
+	health_bar.max_value = max_health
+	health_bar.value = health
+	health_bar.show_percentage = false
+	health_bar.add_theme_font_size_override("font_size",1)
+	health_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	health_bar.z_index = 10
+	var background := StyleBoxFlat.new()
+	background.bg_color = Color("16242d")
+	background.border_color = Color("293544")
+	background.set_border_width_all(1)
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color("bd464a")
+	health_bar.add_theme_stylebox_override("background",background)
+	health_bar.add_theme_stylebox_override("fill",fill)
+	add_child(health_bar)
+	health_bar.size = Vector2(48,6)
+
+func update_health_bar(current: int, maximum: int) -> void:
+	health_bar.max_value = maximum
+	health_bar.value = current
+	health_bar.visible = current > 0
+
+func disappear() -> void:
+	health_bar.hide()
+	remove_from_group("enemies")
+	# The supplied warrior has no death sheet: a short fade leaves no corpse.
+	var tween := create_tween()
+	tween.tween_property(self,"modulate:a",0.0,DEFEAT_FADE)
+	tween.tween_callback(queue_free)
 
 func _physics_process(delta: float) -> void:
 	if dead:

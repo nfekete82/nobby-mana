@@ -39,3 +39,10 @@ Tod vier bei 8 FPS. Animationen werden ohne Skalierung/Trimming ausgelesen;
 Nordbewegung verwendet die Rückenreihe. Keine neuen Bildpixel. Materialpalette
 bleibt Knochen/Creme, dunkle Schieferkonturen und blaue Kleidung wie im alten
 Spiel. Alle neuen lokalen Eingaben und SHA-256-Werte stehen im Manifest.
+
+## Kompaktes Ressourcen-HUD
+
+Siehe [HUD_BRIEF.md](HUD_BRIEF.md): funktionale rote/blaue Füllanzeigen unten
+mittig, native 64px-UI mit pixelharten Kanten und flachen Farbstufen. Keine neuen
+Sprites, keine übernommenen Diablo-Grafiken. Gegnerbalken sind native 48×6px-
+Controls; Füße, Spritegrößen, Hitboxen und Animationen bleiben unverändert.

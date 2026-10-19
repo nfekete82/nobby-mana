@@ -3,17 +3,20 @@ extends Node2D
 const Art = preload("res://scripts/art_library.gd")
 const Player = preload("res://scripts/player.gd")
 const Enemy = preload("res://scripts/enemy.gd")
+const ResourceOrb = preload("res://scripts/resource_orb.gd")
 const Navigation = preload("res://scripts/navigation.gd")
 const WORLD_SIZE := Vector2i(24, 18)
 const TILE := 64
 var hero: CharacterBody2D
 var actors: Node2D
-var health_bar: ProgressBar
+var health_bar: Range
 var status: Label
-var mana_bar: ProgressBar
+var mana_bar: Range
 var party_label: Label
 var summon_message: Label
 var summon_button: Button
+var hud_dock: Control
+var message_timer: Timer
 var _navigation: RefCounted
 var remaining := 2
 
@@ -46,7 +49,7 @@ func _ready() -> void:
 	build_hud()
 	hero.mana_changed.connect(func(_current: float, _maximum: float): refresh_party())
 	hero.companions_changed.connect(refresh_party)
-	hero.summon_feedback.connect(func(message: String): summon_message.text = message)
+	hero.summon_feedback.connect(show_summon_feedback)
 	hero.defeated.connect(refresh_party)
 	refresh_party()
 
@@ -135,69 +138,114 @@ func build_forest() -> void:
 
 func build_hud() -> void:
 	var layer := CanvasLayer.new()
+	layer.name = "HUD"
 	add_child(layer)
-	var panel := PanelContainer.new()
-	panel.position = Vector2(22,18)
+	var screen := Control.new()
+	screen.name = "Screen"
+	screen.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(screen)
+	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hud_dock = Control.new()
+	hud_dock.name = "ResourceDock"
+	hud_dock.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	screen.add_child(hud_dock)
+	hud_dock.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	hud_dock.offset_left = -160
+	hud_dock.offset_right = 160
+	hud_dock.offset_top = -94
+	hud_dock.offset_bottom = -10
+	var panel := Panel.new()
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	layer.add_child(panel)
+	panel.position = Vector2(48,22)
+	panel.size = Vector2(224,50)
 	var background := StyleBoxFlat.new()
-	background.bg_color = Color("243541")
-	background.border_color = Color("d2ad65")
-	background.set_border_width_all(2)
-	background.content_margin_left = 16
-	background.content_margin_right = 16
-	background.content_margin_top = 12
-	background.content_margin_bottom = 12
+	background.bg_color = Color("192830")
+	background.border_color = Color("796443")
+	background.set_border_width_all(1)
 	panel.add_theme_stylebox_override("panel",background)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation",7)
-	panel.add_child(box)
-	var title := Label.new()
-	title.text = "NOBBY MANA · Waldlichtung"
-	title.add_theme_color_override("font_color",Color("eee2c3"))
-	box.add_child(title)
-	health_bar = ProgressBar.new()
-	health_bar.custom_minimum_size = Vector2(330,18)
-	health_bar.max_value = 100
-	health_bar.value = 100
-	health_bar.show_percentage = false
-	var health_background := StyleBoxFlat.new()
-	health_background.bg_color = Color("16242d")
-	health_bar.add_theme_stylebox_override("background",health_background)
-	var health_fill := StyleBoxFlat.new()
-	health_fill.bg_color = Color("8ba86e")
-	health_bar.add_theme_stylebox_override("fill",health_fill)
-	box.add_child(health_bar)
-	mana_bar = ProgressBar.new()
-	mana_bar.custom_minimum_size = Vector2(330,14)
+	hud_dock.add_child(panel)
+	health_bar = ResourceOrb.new()
+	health_bar.name = "HealthOrb"
+	health_bar.position = Vector2(0,12)
+	health_bar.size = Vector2(64,64)
+	health_bar.max_value = hero.max_health
+	health_bar.value = hero.health
+	hud_dock.add_child(health_bar)
+	mana_bar = ResourceOrb.new()
+	mana_bar.name = "ManaOrb"
+	mana_bar.mana_style = true
+	mana_bar.position = Vector2(256,12)
+	mana_bar.size = Vector2(64,64)
 	mana_bar.max_value = hero.MAX_MANA
-	mana_bar.show_percentage = false
-	mana_bar.add_theme_stylebox_override("background",health_background)
-	var mana_fill := StyleBoxFlat.new()
-	mana_fill.bg_color = Color("487fa8")
-	mana_bar.add_theme_stylebox_override("fill",mana_fill)
-	box.add_child(mana_bar)
-	party_label = Label.new()
-	box.add_child(party_label)
+	mana_bar.step = 0
+	hud_dock.add_child(mana_bar)
 	summon_button = Button.new()
-	summon_button.text = "R · Skelett erwecken (10 Mana)"
+	summon_button.name = "Summon"
+	summon_button.text = "R · Erwecken"
+	summon_button.position = Vector2(93,27)
+	summon_button.size = Vector2(134,23)
+	summon_button.add_theme_font_size_override("font_size",13)
 	summon_button.focus_mode = Control.FOCUS_NONE
+	summon_button.tooltip_text = "Skelett erwecken · 10 Mana · bis zu 3 Begleiter für 2 Minuten.\nWASD/Pfeile: bewegen · Leertaste/J: Angriff · F5: Neustart"
 	summon_button.pressed.connect(func(): hero.summon_skeleton())
-	box.add_child(summon_button)
-	summon_message = Label.new()
-	summon_message.text = "Skelette folgen dir und greifen Gegner selbstständig an."
-	summon_message.add_theme_font_size_override("font_size",13)
-	summon_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	box.add_child(summon_message)
+	hud_dock.add_child(summon_button)
+	party_label = Label.new()
+	party_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	party_label.position = Vector2(70,51)
+	party_label.size = Vector2(180,18)
+	party_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	party_label.add_theme_font_size_override("font_size",11)
+	party_label.add_theme_color_override("font_color",Color("eee2c3"))
+	hud_dock.add_child(party_label)
+	for data in [["LEBEN",0],["MANA",256]]:
+		var label := Label.new()
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.text = data[0]
+		label.position = Vector2(data[1],-2)
+		label.size = Vector2(64,14)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size",10)
+		label.add_theme_color_override("font_color",Color("eee2c3"))
+		label.add_theme_color_override("font_outline_color",Color("16242d"))
+		label.add_theme_constant_override("outline_size",3)
+		hud_dock.add_child(label)
 	status = Label.new()
-	status.text = "Zwei Wächter bewachen die Lichtung."
-	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	status.add_theme_font_size_override("font_size",14)
-	box.add_child(status)
-	var help := Label.new()
-	help.text = "WASD / Pfeile: laufen · Leertaste / J: Angriff\nR: Skelett erwecken · F5: Neustart"
-	help.add_theme_font_size_override("font_size",13)
-	box.add_child(help)
+	status.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	screen.add_child(status)
+	status.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	status.offset_left = -300
+	status.offset_right = 300
+	status.offset_top = 12
+	status.offset_bottom = 36
+	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	status.text = "Waldlichtung · 2 Wächter"
+	status.add_theme_font_size_override("font_size",13)
+	status.add_theme_color_override("font_color",Color("eee2c3"))
+	status.add_theme_color_override("font_outline_color",Color("16242d"))
+	status.add_theme_constant_override("outline_size",4)
+	summon_message = Label.new()
+	summon_message.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	screen.add_child(summon_message)
+	summon_message.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	summon_message.offset_left = -300
+	summon_message.offset_right = 300
+	summon_message.offset_top = -124
+	summon_message.offset_bottom = -100
+	summon_message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	summon_message.add_theme_font_size_override("font_size",12)
+	summon_message.add_theme_color_override("font_outline_color",Color("16242d"))
+	summon_message.add_theme_constant_override("outline_size",4)
+	summon_message.hide()
+	message_timer = Timer.new()
+	message_timer.one_shot = true
+	message_timer.wait_time = 2.5
+	message_timer.timeout.connect(summon_message.hide)
+	layer.add_child(message_timer)
+
+func show_summon_feedback(message: String) -> void:
+	summon_message.text = "Skelett erweckt" if message.begins_with("Skelett erweckt") else message
+	summon_message.show()
+	message_timer.start()
 
 func on_enemy_defeated() -> void:
 	remaining -= 1
@@ -209,7 +257,7 @@ func on_enemy_defeated() -> void:
 func refresh_party() -> void:
 	var count: int = hero.companion_count()
 	mana_bar.value = hero.mana
-	party_label.text = "Mana %d / 100    ·    Skelette %d / 3" % [int(hero.mana),count]
+	party_label.text = "Skelette %d / 3 · 10 Mana" % count
 	summon_button.disabled = hero.dead or hero.mana < hero.SUMMON_COST or count >= hero.SUMMON_LIMIT
 
 func navigation() -> RefCounted:

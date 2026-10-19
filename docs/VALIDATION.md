@@ -58,3 +58,33 @@ die Sichtprüfung erfolgt mit echten nativen Godot-Screenshots.
 Auch die vorgeschriebenen Prüfungen im alten Referenzprojekt bestanden:
 `npm run art:style:check`, `npm test` (134/134), `npm run build`,
 `npm run art:references`. Bestehende Buildwarnung zur Chunkgröße bleibt bestehen.
+
+## Kompaktes HUD und Gegneranzeigen
+
+Geändert: `scripts/clearing.gd` (320×84px-Dock unten mittig),
+`scripts/enemy.gd` (Lebensbalken, Entfernung nach Tod),
+`tests/combat_smoke.gd` (lebenden zweiten Gegner vor Tod des ersten referenzieren),
+README und Art-Direction. Neu: `scripts/resource_orb.gd`,
+`shaders/resource_orb.gdshader`, `tests/hud_enemy_smoke.gd` und HUD-Brief.
+
+Referenzen: bisherige HUD-Palette, native Tiny-Swords-WoodTable-UI und
+vorhandene Gameplay-Sprites. Keine neuen Bitmapassets oder Änderungen an
+Sprites/Frames/Füßen. Shader ist eine funktionale native Ressourcenanzeige
+mit harten 64px-Kanten, flachen Farbflächen und vertikalem Füllstand.
+
+Godot-Import, Combat-Smoke, Companion-Smoke und HUD/Enemy-Smoke bestanden.
+Letzterer prüft echte Health-/Mana-Signale samt Füllwerten, mitwandernde
+Gegnerbalken und deren tatsächliche 48×6px-Größe trotz Theme-Mindestgrößen,
+zentrierten unteren Anker bei 960×640, 1280×720 und 640×480, sofortige
+Entfernung aus der Zielgruppe, einmaligen Zielfortschritt sowie tatsächliche
+Freigabe des besiegten Gegners nach 0,3 Sekunden Fade.
+
+Echter nativer Kampfscreenshot `artifacts/summon-combat.png` visuell geprüft.
+Im ersten Bild waren die Theme-Mindesthöhen der Balken zu groß; korrigiert
+und erneut aufgenommen. Das große linke Panel ist entfernt, der Spielbereich
+bleibt frei. Die WoodTable-Quellreferenz wurde daneben angesehen. Die native
+Godot-Sichtprüfung ersetzt weiterhin den noch nicht eingerichteten Web-Export.
+
+Vorgeschriebene Referenzprojekt-Checks bestanden ebenfalls: art:style:check,
+134/134 npm-Tests, Build und art:references. Bestehende Buildwarnung zur
+Chunkgröße bleibt unverändert.
