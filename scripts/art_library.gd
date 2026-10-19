@@ -15,13 +15,19 @@ static func frames_for(id: String) -> SpriteFrames:
 		var sheet: Texture2D = load(file)
 		frames.add_animation(state)
 		frames.set_animation_speed(state, float(animation.fps))
-		frames.set_animation_loop(state, state != "attack")
+		frames.set_animation_loop(state, state in ["stand", "walk"])
 		var indices: Array = animation.get("indices", range(int(animation.frames)))
-		for index: int in indices:
-			var texture := AtlasTexture.new()
-			texture.atlas = sheet
-			texture.region = Rect2(index * int(data.frame[0]), 0, data.frame[0], data.frame[1])
-			frames.add_frame(state, texture)
+		for row: int in int(animation.get("rows", 1)):
+			var name := state if row == 0 else state + "_back"
+			if row > 0:
+				frames.add_animation(name)
+				frames.set_animation_speed(name, float(animation.fps))
+				frames.set_animation_loop(name, state in ["stand", "walk"])
+			for index: int in indices:
+				var texture := AtlasTexture.new()
+				texture.atlas = sheet
+				texture.region = Rect2(index * int(data.frame[0]), row * int(data.frame[1]), data.frame[0], data.frame[1])
+				frames.add_frame(name, texture)
 	return frames
 
 static func sprite_for(id: String) -> AnimatedSprite2D:

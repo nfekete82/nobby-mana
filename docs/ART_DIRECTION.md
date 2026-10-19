@@ -26,3 +26,16 @@ vollständigen vier Blickrichtungen. Bis dafür zusammenhängende neue Animation
 vorliegen, werden existierende Posen gespiegelt. Kein Anspruch auf fertige
 Secret-of-Mana-Optik oder finale visuelle Parität. UI-Rahmen und Balken sind
 native Godot-Controls, keine Illustrationsersatzgrafiken.
+
+## Skelettbegleiter
+
+Vor der Umsetzung festgelegt: dieselben vorhandenen `skeleton`-Assets aus
+Nobby Worlds Registry, Identitätsreferenz `skeleton`, nativer Proportionsmaster
+`enemy-warrior`, Gameplayvergleich Nobby und die bisherigen Skelettbegleiter.
+Alle Zellen 192×192, Fuß [96,132], Hitbox 32×24. Je zwei getrennte Richtungsreihen:
+Stand sechs Quellframes (stabile Posen [0,2]) bei 4 FPS, Lauf sechs bei 10 FPS,
+Angriff sechs bei 16 FPS, Spawn sechs bei 9 FPS, Treffer zwei bei 10 FPS,
+Tod vier bei 8 FPS. Animationen werden ohne Skalierung/Trimming ausgelesen;
+Nordbewegung verwendet die Rückenreihe. Keine neuen Bildpixel. Materialpalette
+bleibt Knochen/Creme, dunkle Schieferkonturen und blaue Kleidung wie im alten
+Spiel. Alle neuen lokalen Eingaben und SHA-256-Werte stehen im Manifest.

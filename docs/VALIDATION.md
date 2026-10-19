@@ -22,3 +22,39 @@ Offen: manuelle Bewertung des Kampfgefühls durch den Spieler, vollständige
 vier Blickrichtungen, Dorf, Dialoge, Dungeon/Boss und neue Spielstände.
 Das öffentliche Repo enthält keine PNGs und keine Godot-Engine. Ein öffentlicher
 Clone ist erst nach Einrichtung der rechtmäßig bezogenen Grafiken spielbar.
+
+## Erweiterung: beschworene Skelettbegleiter
+
+Regeln aus Nobby World: R bzw. HUD-Button, 10 Mana, drei Begleiter, keine
+Beschwörungswartezeit, 120 Sekunden, 85 HP und 10 Schaden. Mana regeneriert
+nach 0,25 Sekunden Ruhe mit 5 Punkten pro Sekunde. F5 ersetzt R als Neustart.
+Der Prototyp besitzt keine Klassenwahl; Nobby kann die Fähigkeit direkt nutzen.
+
+Neue Dateien: `scripts/companion.gd`, `scripts/navigation.gd`,
+`tests/companions_smoke.gd` und zugehörige Godot-UIDs.
+Angepasst: Player/Fighter/Enemy/Clearing, Art-Loader und Registry, PNG-Prüfung,
+Screenshot-Skript, Start-/Editor-Dateien, README, Art-Direction und Credits.
+Keine PNG-Pixel verändert. Die sechs vorhandenen Skelett-Sheets werden nur lokal
+kopiert. Alle 20 lokalen PNGs bestehen Hash-/Framegrößenprüfung inklusive
+beider 192px-Richtungsreihen. Lizenzierte Dateien bleiben aus Git ausgeschlossen.
+
+Godot-Import ohne Scriptfehler; ursprünglicher Combat-Smoke und neuer
+Companion-Smoke bestanden. Neue Tests umfassen tatsächlichen R-Input,
+Manakosten/Limit/Fehlschläge, Regeneration, kollisionsfreie getrennte Spawns,
+Zielbindung trotz entfernten Besitzers, tatsächliche KI-Schadensabwicklung auf
+beiden Seiten, keine freundlichen Treffer, nähestes erreichbares Gegnerziel,
+A*-Umweg samt tatsächlichem Treffer nach einer Wandumrundung, Ablehnung eines
+eingeschlossenen Ziels, echtes Folgen, Rückenanimation, Ablauf/Tod/Ersatz,
+Besitzertod sowie F5-Neustart mit zurückgesetztem Mana und Begleiterstand.
+
+Native Screenshots `artifacts/summon-party.png` und `artifacts/summon-combat.png`
+aufgenommen und bei 1:1-Pixelzoom neben den aktuellen Browser-Referenzkarten
+`skeleton` und `enemy-warrior` angesehen. HUD nach dem ersten Screenshot
+verschmälert, damit es Nobby am Start freilässt. Beide Richtungsreihen werden
+unverändert dargestellt. Keine Behauptung einer neuen/fertigen SNES-Art-Direction.
+Ein Web-Spieltest des Godot-Projekts bleibt mangels Web-Export noch ausstehend;
+die Sichtprüfung erfolgt mit echten nativen Godot-Screenshots.
+
+Auch die vorgeschriebenen Prüfungen im alten Referenzprojekt bestanden:
+`npm run art:style:check`, `npm test` (134/134), `npm run build`,
+`npm run art:references`. Bestehende Buildwarnung zur Chunkgröße bleibt bestehen.

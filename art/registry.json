@@ -176,6 +176,74 @@
           "sha256": "38ea6583e856d4670ce43b843aaa3ef3e675b351b02353118f04b01ba3daa4eb"
         }
       }
+    },
+    "skeleton": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        132
+      ],
+      "hitbox": [
+        32,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "skeleton-stand.png",
+          "source": "public/tiny-swords/expansion/skeleton-stand.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 4,
+          "sha256": "47bf34ef5c9f5b68da3f76ed794fed73021a18d159d7bedde9c0644fcd108273",
+          "indices": [
+            0,
+            2
+          ]
+        },
+        "walk": {
+          "file": "skeleton-walk.png",
+          "source": "public/tiny-swords/expansion/skeleton-walk.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 10,
+          "sha256": "5c02ab9584262433f9f70cc8afecc815104b65e2e08e24f62ce74ca6d0e538c4"
+        },
+        "attack": {
+          "file": "skeleton-attack.png",
+          "source": "public/tiny-swords/expansion/skeleton-attack.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 16,
+          "sha256": "b559b85f26955163d7e37f95218b404b662141af12ba85a7213c4df788628688"
+        },
+        "spawn": {
+          "file": "skeleton-spawn.png",
+          "source": "public/tiny-swords/expansion/skeleton-spawn.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 9,
+          "sha256": "04548a5f70294ca3f8f0c4df24d824bb4498f7cd26292cc05e4e6f85d56b0f58"
+        },
+        "hit": {
+          "file": "skeleton-hit.png",
+          "source": "public/tiny-swords/expansion/skeleton-hit.png",
+          "frames": 2,
+          "rows": 2,
+          "fps": 10,
+          "sha256": "cc2b6d4faa2a4119a32a48c6e0523ca167676ecde78797721a06fca93c2cf2b4"
+        },
+        "death": {
+          "file": "skeleton-death.png",
+          "source": "public/tiny-swords/expansion/skeleton-death.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 8,
+          "sha256": "c9c5798a71890a13b14455f486e12794c88c2684436c8d7d0ac13f25b35d9436"
+        }
+      }
     }
   },
   "terrain": {

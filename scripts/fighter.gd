@@ -11,7 +11,9 @@ const ATTACK_RECOVERY := 0.46
 const IMPACT_TIME := 0.16
 const INVULNERABILITY := 0.65
 
+var max_health := MAX_HEALTH
 var health := MAX_HEALTH
+var attack_damage := ATTACK_DAMAGE
 var facing := Vector2.DOWN
 var sprite: AnimatedSprite2D
 var attack_remaining := 0.0
@@ -50,7 +52,7 @@ func start_attack() -> void:
 	did_impact = false
 	if absf(facing.x) > 0.1:
 		sprite.flip_h = facing.x < 0
-	sprite.play("attack")
+	sprite.play(animation_for("attack"))
 
 func can_hit(target_position: Vector2) -> bool:
 	var offset := target_position - global_position
@@ -63,7 +65,7 @@ func resolve_attack() -> void:
 		# World geometry must block melee, even at close range.
 		var query := PhysicsRayQueryParameters2D.create(global_position + Vector2(0,-12), target.global_position + Vector2(0,-12), 1)
 		if get_world_2d().direct_space_state.intersect_ray(query).is_empty():
-			target.take_damage(ATTACK_DAMAGE, global_position)
+			target.take_damage(attack_damage, global_position)
 
 func take_damage(amount: int, origin: Vector2) -> void:
 	if dead or invulnerable_remaining > 0.0:
@@ -71,7 +73,7 @@ func take_damage(amount: int, origin: Vector2) -> void:
 	health = maxi(0, health - amount)
 	invulnerable_remaining = INVULNERABILITY
 	knockback = origin.direction_to(global_position) * 190.0
-	health_changed.emit(health, MAX_HEALTH)
+	health_changed.emit(health, max_health)
 	if health == 0:
 		dead = true
 		velocity = Vector2.ZERO
@@ -88,6 +90,10 @@ func animate_movement(direction: Vector2) -> void:
 		facing = direction.normalized()
 		if absf(direction.x) > 0.1:
 			sprite.flip_h = direction.x < 0
-		sprite.play("walk")
+		sprite.play(animation_for("walk"))
 	else:
-		sprite.play("stand")
+		sprite.play(animation_for("stand"))
+
+func animation_for(state: String) -> String:
+	var back := state + "_back"
+	return back if facing.y < -0.25 and sprite.sprite_frames.has_animation(back) else state

@@ -19,7 +19,7 @@ for key, asset in registry['assets'].items():
         if path.exists():
             data = path.read_bytes()
             assert data[:8] == b'\x89PNG\r\n\x1a\n'
-            assert struct.unpack('>II',data[16:24]) == (asset['frame'][0]*animation['frames'],asset['frame'][1]), key
+            assert struct.unpack('>II',data[16:24]) == (asset['frame'][0]*animation['frames'],asset['frame'][1]*animation.get('rows',1)), key
             assert hashlib.sha256(data).hexdigest() == animation['sha256'], key
             checked += 1
 for entry in registry['terrain'].values():
@@ -33,4 +33,5 @@ assert 'scale_mode="integer"' in (ROOT/'project.godot').read_text()
 if (ROOT/'.git').exists():
     tracked = subprocess.check_output(['git','ls-files','assets/licensed'],cwd=ROOT,text=True).splitlines()
     assert tracked in ([], ['assets/licensed/.gitkeep']), 'Licensed PNGs must stay local'
-print(f'Project structure PASS; {checked} local PNGs verified (runtime requires 14).')
+required = sum(len(asset['animations']) for asset in registry['assets'].values()) + len(registry['terrain'])
+print(f'Project structure PASS; {checked} local PNGs verified (runtime requires {required}).')

@@ -3,12 +3,18 @@ extends Node2D
 const Art = preload("res://scripts/art_library.gd")
 const Player = preload("res://scripts/player.gd")
 const Enemy = preload("res://scripts/enemy.gd")
+const Navigation = preload("res://scripts/navigation.gd")
 const WORLD_SIZE := Vector2i(24, 18)
 const TILE := 64
 var hero: CharacterBody2D
 var actors: Node2D
 var health_bar: ProgressBar
 var status: Label
+var mana_bar: ProgressBar
+var party_label: Label
+var summon_message: Label
+var summon_button: Button
+var _navigation: RefCounted
 var remaining := 2
 
 func _ready() -> void:
@@ -31,19 +37,24 @@ func _ready() -> void:
 	hero.position = Vector2(448, 640)
 	actors.add_child(hero)
 	hero.health_changed.connect(func(current: int, _maximum: int): health_bar.value = current)
-	hero.defeated.connect(func(): status.text = "Nobby ist erschöpft. Drücke R für einen neuen Versuch.")
+	hero.defeated.connect(func(): status.text = "Nobby ist erschöpft. Drücke F5 für einen neuen Versuch.")
 	for point in [Vector2(850, 570), Vector2(1050, 770)]:
 		var enemy := Enemy.new()
 		enemy.position = point
 		actors.add_child(enemy)
 		enemy.defeated.connect(on_enemy_defeated)
 	build_hud()
+	hero.mana_changed.connect(func(_current: float, _maximum: float): refresh_party())
+	hero.companions_changed.connect(refresh_party)
+	hero.summon_feedback.connect(func(message: String): summon_message.text = message)
+	hero.defeated.connect(refresh_party)
+	refresh_party()
 
 func configure_input() -> void:
 	var bindings := {
 		"move_left": [KEY_A, KEY_LEFT], "move_right": [KEY_D, KEY_RIGHT],
 		"move_up": [KEY_W, KEY_UP], "move_down": [KEY_S, KEY_DOWN],
-		"attack": [KEY_SPACE, KEY_J], "restart": [KEY_R],
+		"attack": [KEY_SPACE, KEY_J], "summon": [KEY_R], "restart": [KEY_F5],
 	}
 	for action: String in bindings:
 		if not InputMap.has_action(action):
@@ -84,6 +95,7 @@ func build_ground() -> void:
 	add_wall(Vector2(1552,576),Vector2(32,1152))
 
 func add_wall(at: Vector2, size: Vector2) -> void:
+	_navigation = null
 	var body := StaticBody2D.new()
 	body.position = at
 	body.collision_layer = 1
@@ -156,17 +168,67 @@ func build_hud() -> void:
 	health_fill.bg_color = Color("8ba86e")
 	health_bar.add_theme_stylebox_override("fill",health_fill)
 	box.add_child(health_bar)
+	mana_bar = ProgressBar.new()
+	mana_bar.custom_minimum_size = Vector2(330,14)
+	mana_bar.max_value = hero.MAX_MANA
+	mana_bar.show_percentage = false
+	mana_bar.add_theme_stylebox_override("background",health_background)
+	var mana_fill := StyleBoxFlat.new()
+	mana_fill.bg_color = Color("487fa8")
+	mana_bar.add_theme_stylebox_override("fill",mana_fill)
+	box.add_child(mana_bar)
+	party_label = Label.new()
+	box.add_child(party_label)
+	summon_button = Button.new()
+	summon_button.text = "R · Skelett erwecken (10 Mana)"
+	summon_button.focus_mode = Control.FOCUS_NONE
+	summon_button.pressed.connect(func(): hero.summon_skeleton())
+	box.add_child(summon_button)
+	summon_message = Label.new()
+	summon_message.text = "Skelette folgen dir und greifen Gegner selbstständig an."
+	summon_message.add_theme_font_size_override("font_size",13)
+	summon_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(summon_message)
 	status = Label.new()
 	status.text = "Zwei Wächter bewachen die Lichtung."
+	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	status.add_theme_font_size_override("font_size",14)
 	box.add_child(status)
 	var help := Label.new()
-	help.text = "WASD / Pfeile: laufen    Leertaste / J: Angriff    R: Neustart"
-	help.add_theme_font_size_override("font_size",15)
+	help.text = "WASD / Pfeile: laufen · Leertaste / J: Angriff\nR: Skelett erwecken · F5: Neustart"
+	help.add_theme_font_size_override("font_size",13)
 	box.add_child(help)
 
 func on_enemy_defeated() -> void:
 	remaining -= 1
 	if remaining == 0:
-		status.text = "Lichtung befreit! R startet eine neue Runde."
+		status.text = "Lichtung befreit! F5 startet eine neue Runde."
 	else:
 		status.text = "Noch ein Wächter."
+
+func refresh_party() -> void:
+	var count: int = hero.companion_count()
+	mana_bar.value = hero.mana
+	party_label.text = "Mana %d / 100    ·    Skelette %d / 3" % [int(hero.mana),count]
+	summon_button.disabled = hero.dead or hero.mana < hero.SUMMON_COST or count >= hero.SUMMON_LIMIT
+
+func navigation() -> RefCounted:
+	if _navigation == null:
+		_navigation = Navigation.new(self)
+	return _navigation
+
+func summon_position(origin: Vector2) -> Variant:
+	var nav = navigation()
+	for radius in [56,80,104]:
+		for direction in [Vector2.RIGHT,Vector2.LEFT,Vector2.DOWN,Vector2.UP,Vector2(1,1).normalized(),Vector2(-1,1).normalized(),Vector2(1,-1).normalized(),Vector2(-1,-1).normalized()]:
+			var point: Vector2 = origin + direction * radius
+			if not nav.free_at(point) or not nav.clear_line(origin,point) or nav.path(origin,point).is_empty():
+				continue
+			var occupied := false
+			for group in ["allies","enemies"]:
+				for actor in get_tree().get_nodes_in_group(group):
+					if not actor.dead and point.distance_to(actor.global_position) < 38:
+						occupied = true
+			if not occupied:
+				return point
+	return null

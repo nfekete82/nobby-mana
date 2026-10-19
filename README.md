@@ -9,7 +9,7 @@ Geschichte werden eigenständig entwickelt. Keine Verbindung zu Square Enix.
 Eine neue Waldlichtung mit Nobby, zwei Nahkampfgegnern, Kamera, festen
 Fußkollisionen, Trefferverzögerung, Rückstoß, Lebensanzeige und einem kleinen
 Kampfziel. WASD/Pfeile bewegen, Leertaste/J greift in Bewegungsrichtung an,
-R startet die Szene neu. Angriffe treffen erst nach ihrer Ausholphase,
+R beschwört ein Skelett, F5 startet die Szene neu. Angriffe treffen erst nach ihrer Ausholphase,
 pro Schwung einmal und nicht durch Bäume oder andere Weltkollisionen.
 
 Die aktuellen Nobby-/Tiny-Swords-Grafiken sind wiederverwendete Prototypgrafiken.
@@ -17,6 +17,25 @@ Sie stellen noch keine neue SNES-Art-Direction dar. Die vorhandenen Sheets
 haben keine vollständigen vier Blickrichtungen; die Darstellung verwendet
 vorerst die vorhandenen Posen und horizontale Spiegelung. Kampfprüfungen
 arbeiten bereits mit der tatsächlichen Blickrichtung.
+
+## Skelette als Mitkämpfer
+
+**R** oder der HUD-Button erweckt ein Skelett für **10 Mana**, ohne Cooldown.
+Bis zu drei Skelette kämpfen gleichzeitig; sie haben jeweils 85 Leben,
+verursachen 10 Schaden und bleiben bis zu zwei Minuten. Ohne Gegner folgen
+sie Nobby in Formation. Gegner werden innerhalb von 300 Pixeln gesucht;
+ein lebendes Kampfziel bleibt bis 480 Pixel Entfernung gebunden, auch wenn
+Nobby wegläuft. Wege um Stämme/Wände verwenden ein kollisionsgeprüftes A*-Raster.
+Gegner wählen den nächsten erreichbaren Verbündeten und können Skelette töten.
+Keine freundlichen Treffer. Tod/Timeout gibt den Platz sofort wieder frei;
+Nobbys Tod oder F5 entfernt seine Begleiter. F5 setzt auch Mana und Gegner zurück.
+Mana erholt sich im Stehen nach 0,25 Sekunden Ruhe um 5 Punkte pro Sekunde.
+Das benötigt im Prototyp keine Charakterklassenwahl und keine Gegnerleichen.
+
+Stand/Lauf/Angriff/Beschwörung/Tod verwenden unveränderte vorhandene Skelett-
+Sheets einschließlich Rückenansichten, nativer 192px-Zellen und fester Füße.
+Nach einem Pull einmal `python3 tools/setup_assets.py` ausführen (oder die
+aktualisierte Startdatei verwenden), damit die neuen lokalen PNGs vorhanden sind.
 
 ## Lokal starten
 
@@ -48,6 +67,7 @@ GitHub liefert den Pixel-Frog-Pack nicht mit. Details in [CREDITS.md](CREDITS.md
 python3 tools/check_project.py
 godot --headless --editor --path . --import
 godot --headless --path . --script tests/combat_smoke.gd
+godot --headless --path . --script tests/companions_smoke.gd
 godot --path . --script tests/capture.gd
 ```
 
@@ -62,7 +82,7 @@ Projektdateien; vollständige Laufzeittests benötigen die lokalen Grafiken.
 2. Kleines Dorf, NPC-Dialog und eine eigenständige Aufgabe ergänzen.
 3. Wald-Dungeon und ersten Boss bauen.
 4. Inventar, Ausrüstung, Magie und neue Spielstände ergänzen.
-5. Begleiter erst nach einem überzeugenden Einzelspielerabschnitt entwickeln.
+5. Begleiter im nächsten Spielabschnitt weiter abstimmen.
 
 Das alte RPG-JS-Spiel bleibt ein separates Projekt. Karten, Objekt-IDs und
 Spielstände daraus werden hier nicht automatisch importiert.

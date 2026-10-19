@@ -15,3 +15,8 @@
 
 Für den neuen Spielcode wurde noch keine Open-Source-Lizenz festgelegt.
 Die öffentliche Sichtbarkeit erteilt keine weitergehenden Nutzungsrechte.
+
+Die Skelettbegleiter verwenden ebenfalls unveränderte Nobby-World-Expansion-PNGs.
+Diese wurden dort mit OpenAI ImageGen anhand der Tiny-Swords-/Gameplayreferenzen
+entworfen und deterministisch kompiliert; Quellen/Provenienz verbleiben im alten
+Projekt. Auch diese Dateien bleiben lokal und werden nicht mit Git veröffentlicht.
