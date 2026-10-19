@@ -53,3 +53,12 @@ Controls; Füße, Spritegrößen, Hitboxen und Animationen bleiben unverändert.
 HUD-Anordnung: gestaffelte 96px-Kugeln ganz links, R-Skelettslot daneben.
 Schamane, native Animationsmetadaten, eigene kleine Pfeil-Pixelpläne und
 die größere editierbare Karte sind dort mit Referenzen/Abmessungen dokumentiert.
+
+## Affen-Schamane und Waldkobolde
+
+[CREATURE_ART_BRIEF.md](CREATURE_ART_BRIEF.md) dokumentiert die vorab festgelegten
+nativen Referenzen, 192px-Zellen, Füße/Hitboxen, Paletten und Animationszahlen.
+Neue Identitätsteile werden mit echten bestehenden Monk-/Warrior-Bewegungen
+komponiert; keine generierten Ersatzbeine. Quellen/Prompts bleiben getrennt
+von lokalen Produktionsatlanten. Tatsächliche Spiel- und Laufsichtprüfung
+und die animierte Vergleichsgalerie sind in [CREATURES.md](CREATURES.md) beschrieben.

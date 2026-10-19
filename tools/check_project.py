@@ -15,12 +15,13 @@ for key, asset in registry['assets'].items():
     for state, animation in asset['animations'].items():
         assert animation['frames'] > 0 and animation['fps'] > 0
         assert all(0 <= n < animation['frames'] for n in animation.get('indices', []))
-        path = ROOT / 'assets/licensed' / animation['file']
+        path = ROOT / ('assets/compiled' if animation.get('compiled') else 'assets/licensed') / animation['file']
         if path.exists():
             data = path.read_bytes()
             assert data[:8] == b'\x89PNG\r\n\x1a\n'
             assert struct.unpack('>II',data[16:24]) == (asset['frame'][0]*animation['frames'],asset['frame'][1]*animation.get('rows',1)), key
-            assert hashlib.sha256(data).hexdigest() == animation['sha256'], key
+            if not animation.get('compiled'):
+                assert hashlib.sha256(data).hexdigest() == animation['sha256'], key
             checked += 1
 for entry in registry['terrain'].values():
     path = ROOT / 'assets/licensed' / entry['file']

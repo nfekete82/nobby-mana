@@ -20,6 +20,7 @@ func run() -> void:
 	root.add_child(world)
 	current_scene = world
 	await frames(3)
+	var initial_enemies: int = world.remaining
 	var hero = world.hero
 	for enemy in get_nodes_in_group("enemies"):
 		enemy.set_physics_process(false)
@@ -199,7 +200,7 @@ func run() -> void:
 	await frames(4)
 	world = current_scene
 	check(world.get_instance_id() != previous_id, "F5 reloads the current scene")
-	check(world.hero.companion_count() == 0 and world.hero.mana == 100 and world.remaining == 2, "Restart resets party, mana and enemies")
+	check(world.hero.companion_count() == 0 and world.hero.mana == 100 and world.remaining == initial_enemies, "Restart resets party, mana and enemies")
 	print("Companion smoke: ", "PASS" if failures.is_empty() else "FAIL", " (",failures.size()," failures)")
 	world.queue_free()
 	quit(0 if failures.is_empty() else 1)

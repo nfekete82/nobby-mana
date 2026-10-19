@@ -40,3 +40,11 @@ Einrichten nicht neu generiert. `tools/create_level.gd` war nur die einmalige
 Erstellung und verweigert jedes Überschreiben. Das alte RPG-JS-/Tiled-Projekt
 bleibt getrennt. Der Speichern/Laden-Test arbeitet ausschließlich in einer
 vorübergehenden Testdatei, nicht an deiner Projektkarte.
+
+## Waldkobolde
+
+Die Szenen scenes/encounters/goblin_scout.tscn und goblin_brute.tscn lassen
+sich als Gegner in die Encounters-Gruppe ziehen. Die separate Standardgruppe
+liegt in forest_goblins.tscn und kann dort bearbeitet werden; deine bestehende
+Waldkarte wird dafür nicht überschrieben. Beim Root schaltet Include Goblin Camp
+diese Zusatzgruppe ein/aus. Details: [CREATURES.md](CREATURES.md).

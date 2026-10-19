@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/encounters/goblin_scout.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/encounters/goblin_brute.tscn" id="2"]
+[node name="ForestGoblins" type="Node2D"]
+[node name="ScoutNorth" parent="." instance=ExtResource("1")]
+position = Vector2(1760,720)
+[node name="ScoutEast" parent="." instance=ExtResource("1")]
+position = Vector2(2160,1050)
+[node name="BruteNorth" parent="." instance=ExtResource("2")]
+position = Vector2(1960,640)
+[node name="BruteSouth" parent="." instance=ExtResource("2")]
+position = Vector2(1900,1140)

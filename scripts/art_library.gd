@@ -11,7 +11,7 @@ static func frames_for(id: String) -> SpriteFrames:
 	frames.remove_animation("default")
 	for state: String in data.animations:
 		var animation: Dictionary = data.animations[state]
-		var file := "res://assets/licensed/" + str(animation.file)
+		var file := ("res://assets/compiled/" if animation.get("compiled",false) else "res://assets/licensed/") + str(animation.file)
 		assert(ResourceLoader.exists(file), "Missing art. Run python3 tools/setup_assets.py")
 		var sheet: Texture2D = load(file)
 		frames.add_animation(state)

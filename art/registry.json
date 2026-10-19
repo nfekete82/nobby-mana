@@ -312,6 +312,176 @@
           "sha256": "3eb2ecb449e0fdb42d40b3d9612654156c7f6477d574fa192d566f587fec330e"
         }
       }
+    },
+    "monkey-shaman": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        132
+      ],
+      "hitbox": [
+        32,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "monkey-shaman-stand.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 0.5,
+          "compiled": true,
+          "indices": [
+            0,
+            4
+          ]
+        },
+        "walk": {
+          "file": "monkey-shaman-walk.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 12,
+          "compiled": true
+        },
+        "attack": {
+          "file": "monkey-shaman-attack.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 16,
+          "compiled": true
+        },
+        "heal": {
+          "file": "monkey-shaman-heal.png",
+          "frames": 11,
+          "rows": 2,
+          "fps": 9,
+          "compiled": true
+        },
+        "hit": {
+          "file": "monkey-shaman-hit.png",
+          "frames": 2,
+          "rows": 2,
+          "fps": 10,
+          "compiled": true
+        },
+        "death": {
+          "file": "monkey-shaman-death.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 8,
+          "compiled": true
+        }
+      },
+      "motion_reference": "shaman",
+      "identity_source": "art/generated-source/creatures/monkey-parts.png"
+    },
+    "goblin-scout": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        132
+      ],
+      "hitbox": [
+        32,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "goblin-scout-stand.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 4,
+          "compiled": true
+        },
+        "walk": {
+          "file": "goblin-scout-walk.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 12,
+          "compiled": true
+        },
+        "attack": {
+          "file": "goblin-scout-attack.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 12,
+          "compiled": true
+        },
+        "hit": {
+          "file": "goblin-scout-hit.png",
+          "frames": 2,
+          "rows": 2,
+          "fps": 10,
+          "compiled": true
+        },
+        "death": {
+          "file": "goblin-scout-death.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 8,
+          "compiled": true
+        }
+      },
+      "motion_reference": "enemy-warrior",
+      "identity_source": "art/generated-source/creatures/goblin-parts.png"
+    },
+    "goblin-brute": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        132
+      ],
+      "hitbox": [
+        32,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "goblin-brute-stand.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 4,
+          "compiled": true
+        },
+        "walk": {
+          "file": "goblin-brute-walk.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 12,
+          "compiled": true
+        },
+        "attack": {
+          "file": "goblin-brute-attack.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 12,
+          "compiled": true
+        },
+        "hit": {
+          "file": "goblin-brute-hit.png",
+          "frames": 2,
+          "rows": 2,
+          "fps": 10,
+          "compiled": true
+        },
+        "death": {
+          "file": "goblin-brute-death.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 8,
+          "compiled": true
+        }
+      },
+      "motion_reference": "enemy-warrior",
+      "identity_source": "art/generated-source/creatures/goblin-parts.png"
     }
   },
   "terrain": {

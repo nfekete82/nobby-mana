@@ -28,3 +28,11 @@ Die kleinen Pfeile sind eigene handgesetzte Pixelpläne in der bestehenden
 Materialpalette, deterministisch kompiliert aus art/generated-source/arrow.json.
 Das angehängte Diablo-Bild dient nur als Layoutreferenz; keine Bildteile
 daraus werden im Spiel oder Repository verwendet.
+
+Affen- und Kobold-Kopf-/Schweifteile wurden mit dem eingebauten OpenAI-Imagegen-
+Werkzeug neu erzeugt, anhand der bestehenden nativen Monk-/Warrior- und
+Gameplayreferenzen. Originalausgaben und vollständige Prompts/Provenienz unter
+art/generated-source/creatures. Der deterministische Creature-Compiler verbindet
+die neuen Teile mit vorhandenen lizenzierten Bewegungsposen; die daraus
+komponierten Produktionssprites bleiben lokal in assets/compiled. Neue Figuren
+sind eigene Erweiterungen, keine originalen Pixel-Frog-Packdateien.

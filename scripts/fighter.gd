@@ -21,6 +21,7 @@ var invulnerable_remaining := 0.0
 var knockback := Vector2.ZERO
 var did_impact := false
 var dead := false
+var hurt_remaining := 0.0
 var target_group := "enemies"
 var asset_id := "hero"
 
@@ -36,6 +37,7 @@ func _ready() -> void:
 	add_child(collider)
 
 func tick_combat(delta: float) -> void:
+	hurt_remaining = maxf(0,hurt_remaining-delta)
 	invulnerable_remaining = maxf(0.0, invulnerable_remaining - delta)
 	knockback = knockback.move_toward(Vector2.ZERO, 850.0 * delta)
 	sprite.modulate = Color(1, 0.55, 0.45) if invulnerable_remaining > 0.45 else Color.WHITE
@@ -74,6 +76,9 @@ func take_damage(amount: int, origin: Vector2) -> void:
 	invulnerable_remaining = INVULNERABILITY
 	knockback = origin.direction_to(global_position) * 190.0
 	health_changed.emit(health, max_health)
+	if health > 0 and sprite.sprite_frames.has_animation("hit") and attack_remaining <= 0:
+		hurt_remaining = 0.2
+		sprite.play(animation_for("hit"))
 	if health == 0:
 		dead = true
 		velocity = Vector2.ZERO
@@ -81,10 +86,13 @@ func take_damage(amount: int, origin: Vector2) -> void:
 		collision_mask = 0
 		sprite.stop()
 		sprite.modulate = Color(0.5, 0.5, 0.5, 0.6)
+		if sprite.sprite_frames.has_animation("death"):
+			sprite.modulate = Color.WHITE
+			sprite.play(animation_for("death"))
 		defeated.emit()
 
 func animate_movement(direction: Vector2) -> void:
-	if attack_remaining > 0.0 or dead:
+	if attack_remaining > 0.0 or hurt_remaining > 0.0 or dead:
 		return
 	if direction.length_squared() > 0.01:
 		facing = direction.normalized()

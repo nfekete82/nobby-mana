@@ -4,6 +4,8 @@ const MOVE_SPEED := 105.0
 const AGGRO_RADIUS := 290.0
 const LEASH_RADIUS := 390.0
 const DEFEAT_FADE := 0.3
+@export_enum("warrior","goblin-scout","goblin-brute") var enemy_kind := "warrior"
+var move_speed := MOVE_SPEED
 var health_bar: ProgressBar
 var home := Vector2.ZERO
 var attack_delay := 0.8
@@ -12,7 +14,12 @@ var route := PackedVector2Array()
 var repath_remaining := 0.0
 
 func _ready() -> void:
-	asset_id = "enemy-warrior"
+	asset_id = "enemy-warrior" if enemy_kind == "warrior" else enemy_kind
+	if enemy_kind != "warrior":
+		max_health = 45 if enemy_kind == "goblin-scout" else 75
+		health = max_health
+		attack_damage = 10 if enemy_kind == "goblin-scout" else 18
+		move_speed = 135 if enemy_kind == "goblin-scout" else 95
 	target_group = "allies"
 	collision_layer = 4
 	collision_mask = 1
@@ -26,7 +33,7 @@ func _ready() -> void:
 func build_health_bar() -> void:
 	health_bar = ProgressBar.new()
 	health_bar.name = "HealthBar"
-	health_bar.position = Vector2(-24,-101)
+	health_bar.position = Vector2(-24,-101 if enemy_kind == "warrior" else -83)
 	health_bar.size = Vector2(48,6)
 	health_bar.max_value = max_health
 	health_bar.value = health
@@ -55,6 +62,10 @@ func disappear() -> void:
 	remove_from_group("enemies")
 	# The supplied warrior has no death sheet: a short fade leaves no corpse.
 	var tween := create_tween()
+	if sprite.sprite_frames.has_animation("death"):
+		sprite.modulate = Color.WHITE
+		sprite.play(animation_for("death"))
+		tween.tween_interval(0.5)
 	tween.tween_property(self,"modulate:a",0.0,DEFEAT_FADE)
 	tween.tween_callback(queue_free)
 
@@ -80,7 +91,7 @@ func _physics_process(delta: float) -> void:
 		if not route.is_empty():
 			direction = global_position.direction_to(route[0])
 	animate_movement(direction)
-	velocity = direction * MOVE_SPEED * (0.0 if attack_remaining > 0 else 1.0) + knockback
+	velocity = direction * move_speed * (0.0 if attack_remaining > 0 else 1.0) + knockback
 	move_and_slide()
 
 func choose_target(world: Node2D) -> void:

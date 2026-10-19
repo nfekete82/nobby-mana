@@ -20,7 +20,7 @@ var mana_idle_remaining := MANA_IDLE_GRACE
 func _ready() -> void:
 	var session := get_node_or_null("/root/Session")
 	character_class = session.selected_class if session != null else "shaman"
-	asset_id = "shaman" if character_class == "shaman" else "hero"
+	asset_id = {"mage":"hero","shaman":"shaman","monkey":"monkey-shaman"}[character_class]
 	target_group = "enemies"
 	collision_layer = 2
 	collision_mask = 1
@@ -51,7 +51,7 @@ func _physics_process(delta: float) -> void:
 		shoot_at(aim_position(false))
 	if Input.is_action_just_pressed("summon"):
 		summon_skeleton()
-	velocity = direction * MOVE_SPEED * (0.2 if attack_remaining > 0 else 1.0) + knockback
+	velocity = direction * MOVE_SPEED * (0.0 if casting_remaining > 0 else (0.2 if attack_remaining > 0 else 1.0)) + knockback
 	move_and_slide()
 	regenerate_mana(delta,direction != Vector2.ZERO or attack_remaining > 0 or knockback.length() > 1 or casting_remaining > 0)
 
@@ -63,7 +63,7 @@ func companion_count() -> int:
 	return count
 
 func summon_skeleton() -> bool:
-	if character_class != "shaman":
+	if not is_summoner():
 		summon_feedback.emit("Nur der Schamane kann Skelette erwecken.")
 		return false
 	if dead:
@@ -92,6 +92,8 @@ func summon_skeleton() -> bool:
 			break
 	companion.position = point
 	get_parent().add_child(companion)
+	casting_remaining = 11.0/9.0
+	sprite.play(animation_for("heal"))
 	mana -= SUMMON_COST
 	mana_idle_remaining = MANA_IDLE_GRACE
 	mana_changed.emit(mana,MAX_MANA)
@@ -138,7 +140,7 @@ func aim_position(mouse_aim := true) -> Vector2:
 	return point
 
 func shoot_at(point: Vector2) -> bool:
-	if dead or shot_cooldown > 0 or attack_remaining > 0:
+	if dead or hurt_remaining > 0 or shot_cooldown > 0 or attack_remaining > 0:
 		return false
 	var cost := 6.0 if character_class == "mage" else 0.0
 	if mana < cost:
@@ -162,3 +164,21 @@ func shoot_at(point: Vector2) -> bool:
 	sprite.flip_h = facing.x < 0
 	sprite.play(animation_for("attack"))
 	return true
+
+func is_summoner() -> bool:
+	return character_class in ["shaman","monkey"]
+
+func display_name() -> String:
+	return {"mage":"Magier","shaman":"Schamane","monkey":"Affen-Schamane"}[character_class]
+
+func take_damage(amount: int, origin: Vector2) -> void:
+	var before := health
+	super.take_damage(amount,origin)
+	if health < before:
+		casting_remaining = 0
+
+func start_attack() -> void:
+	if dead or hurt_remaining > 0:
+		return
+	casting_remaining = 0
+	super.start_attack()

@@ -51,14 +51,21 @@ func _ready() -> void:
 	actors.add_child(hero)
 	hero.health_changed.connect(func(current: int, _maximum: int): health_bar.value = current)
 	hero.defeated.connect(func(): status.text = "Nobby ist erschöpft. Drücke F5 für einen neuen Versuch.")
-	var encounters := level.get_node("Encounters")
-	remaining = encounters.get_child_count()
-	for marker in encounters.get_children():
-		var enemy := Enemy.new()
-		enemy.position = marker.position
-		actors.add_child(enemy)
-		enemy.defeated.connect(on_enemy_defeated)
-	encounters.hide()
+	var encounter_sets: Array[Node] = [level.get_node("Encounters")]
+	if level.include_goblin_camp:
+		var camp: Node2D = load("res://scenes/encounters/forest_goblins.tscn").instantiate()
+		level.add_child(camp)
+		encounter_sets.append(camp)
+	remaining = 0
+	for encounters in encounter_sets:
+		for marker in encounters.get_children():
+			var enemy := Enemy.new()
+			enemy.enemy_kind = marker.get_meta("enemy_kind","warrior")
+			enemy.position = marker.position
+			actors.add_child(enemy)
+			enemy.defeated.connect(on_enemy_defeated)
+			remaining += 1
+		encounters.hide()
 	build_hud()
 	hero.mana_changed.connect(func(_current: float, _maximum: float): refresh_party())
 	hero.companions_changed.connect(refresh_party)
@@ -254,9 +261,9 @@ func on_enemy_defeated() -> void:
 func refresh_party() -> void:
 	var count: int = hero.companion_count()
 	mana_bar.value = hero.mana
-	party_label.text = ("Schamane · Skelette %d / 3" % count) if hero.character_class == "shaman" else "Magier · Arkane Pfeile"
+	party_label.text = (hero.display_name()+" · Skelette %d / 3" % count) if hero.is_summoner() else "Magier · Arkane Pfeile"
 	shoot_button.disabled = hero.dead or (hero.character_class == "mage" and hero.mana < 6)
-	summon_button.disabled = hero.character_class != "shaman" or hero.dead or hero.mana < hero.SUMMON_COST or count >= hero.SUMMON_LIMIT
+	summon_button.disabled = not hero.is_summoner() or hero.dead or hero.mana < hero.SUMMON_COST or count >= hero.SUMMON_LIMIT
 
 func navigation() -> RefCounted:
 	if _navigation == null:

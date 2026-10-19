@@ -7,18 +7,21 @@ from pathlib import Path
 import shutil
 import zlib
 import struct
+import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', type=Path, default=ROOT.parent / 'nobby_world')
+    parser.add_argument('--godot', type=Path, help='Optional path to Godot executable')
     args = parser.parse_args()
     registry = json.loads((ROOT / 'art/registry.json').read_text())
     entries = list(registry['terrain'].values())
     for asset in registry['assets'].values():
         for animation in asset['animations'].values():
-            entries.append(animation)
+            if not animation.get('compiled'):
+                entries.append(animation)
     # Validate everything before copying anything.
     for entry in entries:
         source = args.source / entry['source']
@@ -39,6 +42,13 @@ def main():
             '[params]\ncompress/mode=0\nmipmaps/generate=false\n'
             'process/fix_alpha_border=false\n')
     compile_projectiles()
+    engine = args.godot or (ROOT/'.tools/Godot.app/Contents/MacOS/Godot')
+    if not engine.is_file():
+        found = shutil.which('godot')
+        if not found:
+            parser.error('Godot is needed to compile creature art; use --godot /path/to/godot')
+        engine = Path(found)
+    subprocess.run([str(engine),'--headless','--path',str(ROOT),'--script','tools/compile_creatures.gd'],check=True)
     print(f'{len(entries)} licensed PNGs installed locally; none are tracked by Git.')
 
 def compile_projectiles():

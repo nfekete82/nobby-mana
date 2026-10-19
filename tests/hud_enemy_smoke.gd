@@ -16,6 +16,7 @@ func run() -> void:
 	current_scene = world
 	await physics_frame
 	await physics_frame
+	var initial_enemies: int = world.remaining
 	world.hero.set_physics_process(false)
 	var enemies := get_nodes_in_group("enemies")
 	for enemy in enemies:
@@ -49,12 +50,12 @@ func run() -> void:
 	enemy.take_damage(100,world.hero.position)
 	check(not enemy.health_bar.visible, "Dead enemy hides health bar immediately")
 	check(not enemy.is_in_group("enemies"), "Dead enemy leaves targeting group immediately")
-	check(world.remaining == 1, "Defeat advances objective exactly once")
+	check(world.remaining == initial_enemies-1, "Defeat advances objective exactly once")
 	enemy.take_damage(100,world.hero.position)
-	check(world.remaining == 1, "Repeated damage cannot count defeat twice")
+	check(world.remaining == initial_enemies-1, "Repeated damage cannot count defeat twice")
 	await create_timer(0.45).timeout
 	check(not is_instance_valid(enemy), "Dead enemy is removed from the scene after fade")
-	check(get_nodes_in_group("enemies").size() == 1, "Living enemy remains after cleanup")
+	check(get_nodes_in_group("enemies").size() == initial_enemies-1, "Living enemy remains after cleanup")
 	print("HUD/enemy smoke: ","PASS" if failures.is_empty() else "FAIL"," (",failures.size()," failures)")
 	world.queue_free()
 	quit(0 if failures.is_empty() else 1)

@@ -6,14 +6,14 @@ Geschichte werden eigenständig entwickelt. Keine Verbindung zu Square Enix.
 
 ## Spielen
 
-Beim Start **Magier** oder **Schamane** wählen. Esc öffnet die Klassenwahl
+Beim Start **Magier**, **Schamane** oder **Affen-Schamane** wählen. Esc öffnet die Klassenwahl
 wieder; F5 startet die aktuelle Klasse neu. WASD/Pfeile bewegen, Leertaste
 ist Nahkampf. **Linksklick** wirft in Richtung der Maus, **J** visiert den
 nächsten Gegner an. Pfeile fliegen sichtbar, treffen einmal und werden von
 Wänden/Bäumen gestoppt. Schamane: 18 Schaden ohne Manakosten. Magier: arkane
 Pfeile, 25 Schaden für 6 Mana. Keine Munitionsverwaltung.
 
-Der Schamane erweckt mit **R** oder dem Skelettsymbol bis zu drei Mitkämpfer
+Menschlicher Schamane und Affen-Schamane erwecken mit **R** oder dem Skelettsymbol bis zu drei Mitkämpfer
 für je 10 Mana und zwei Minuten. Sie folgen ihm und kämpfen selbstständig.
 Gegner können sie besiegen. Mana erholt sich im Stehen nach 0,25 Sekunden
 Ruhe mit 5 Punkten pro Sekunde. Der Magier hat keine Skelettbeschwörung.
@@ -27,6 +27,15 @@ Lichtung, Verbindungspfad und Baumgruppen. Die vorhandenen Tiny-Swords-/Nobby-
 Grafiken bleiben Prototypgrafiken; keine übernommenen Secret-of-Mana- oder
 Diablo-Assets. Der Schamane besitzt Vorder-/Rückenreihen, der Magier behält
 vorerst die bisherigen seitlich/frontalen Posen.
+
+## Neue Figuren
+
+Der **Affen-Schamane** ist ein spielbarer Charakter mit neuen Kopf-/Schweifteilen
+auf authentischen nativen Monk-Bewegungen: vier echte Laufphasen, getrennte
+Vorder-/Rückenreihen, Wurf, Beschwörung, Treffer und Tod. Füße und Hitbox bleiben
+fest. Zwei **Waldkoboldtypen** bewachen die östliche Lichtung: schnelle Späher
+und kräftigere Raufbolde, mit eigenen Werten und platzierbaren Editorvorlagen.
+[Figuren, Grafikquellen und Editor-Anleitung](docs/CREATURES.md).
 
 ## Leveleditor
 
@@ -73,6 +82,7 @@ godot --headless --path . --script tests/combat_smoke.gd
 godot --headless --path . --script tests/companions_smoke.gd
 godot --headless --path . --script tests/hud_enemy_smoke.gd
 godot --headless --path . --script tests/classes_editor_smoke.gd
+godot --headless --path . --script tests/creatures_smoke.gd
 godot --path . --script tests/capture.gd
 ```
 

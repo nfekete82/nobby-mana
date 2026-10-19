@@ -131,3 +131,50 @@ Schamanen-/Warrior-/Skelettreferenzen und Browsergalerie verglichen. Keine
 neue SNES-Art-Direction behauptet. Eigene Pfeile sind eine dokumentierte
 Ergänzung, da der vorhandene Packbestand keinen nativen Pfeil enthält.
 Godot-Web-Export bleibt noch nicht eingerichtet; Spiel-Sichtprüfung nativ.
+
+## Affen-Schamane, Waldkobolde und native Animationen
+
+Neue Bildquellen mit eingebautem Imagegen: monkey-parts.png/goblin-parts.png,
+je 1280×1280 mit Alpha; Prompts und SHA-256-Provenienz unter
+art/generated-source/creatures. Keine CLI/API-Fallbacks. Der neue deterministische
+Godot-Compiler normalisiert einmalig Kopf/Schweifteile per Nearest, quantisiert
+Paletten, setzt binäres Alpha und komponiert feste 192px-Zellen mit [96,132]-Fuß.
+Die Produktionsbilder enthalten bestehende lizenzierte Körperposen und bleiben
+unter dem ignorierten assets/compiled. Native Packbilder wurden nicht verändert.
+
+Neu: drei Registry-Einträge (Affen-Schamane, Kobold-Späher/Raufbold), Compiler,
+Bildteile/Prompts/Provenienz, Encounter-Marker und drei platzierbare Szenen,
+animierte Galerie, Kreaturentest und Spiel-Capture. Angepasst: Klassenmenü/Session,
+Player/Fighter/Enemy, Clearing, LevelData, Art-Loader, Setup/Checks, Launcher und
+Regressionstests für dynamische Gegnerzahlen. README/Editor-/Art-Dokumentation
+und Credits ergänzen Quellen, Bedienung und Grenzen.
+
+Die bereits manuell bearbeitete scenes/levels/forest.tscn wurde nicht angefasst
+oder mit eingecheckt. Vier neue Gegner stehen in einer separaten Zusatzszene;
+die vorhandenen beiden Encounters und deine Karteneinstellungen bleiben erhalten.
+
+Bestanden: Godot-Import, Combat-Smoke, Companion-Smoke, HUD/Enemy-Smoke,
+Classes/Projectile/Editor-Smoke und Creature-Smoke. Neue Tests prüfen sämtliche
+16 neuen Produktionsatlanten mit nativen Einzelzellen, zwei getrennten Reihen,
+binärem Alpha und nichtleeren Posen. Alle vier nativen unteren Roben-/Beinphasen
+bleiben in beiden Richtungen pixelgenau erhalten; entgegengesetzte Kontakte
+und Durchschwünge bleiben verschieden. Affen-Klassenbutton, elfteilige
+Beschwörung, Übergang zu Rückenlauf, echter Pfeiltreffer, tatsächliche Kobold-KI-
+Treffer, unterschiedliche Werte und Todesanimation/Entfernung wurden geprüft.
+Koboldgruppe wurde ohne Tool-Scriptfehler im nativen Godot-Editor geladen.
+
+Echte Gameplaybilder: artifacts/creatures/party.png und walk-gameplay.png
+(vier tatsächliche Front-/Rücklaufzustände). Nach der ersten Aufnahme wurden
+ausschließlich Testreste aus dem Capture entfernt. Beide Bilder anschließend
+bei nativer Pixelgröße angesehen. Browsergalerie review.html und einzelne
+192px-Karten von originalem Schamanen, Affe und Kobold daneben verglichen.
+Erweiterte Klassenwahl ebenfalls aufgenommen und geprüft.
+
+42 lokale Runtime-PNGs strukturell geprüft (26 bestehende Lizenzdateien und
+16 neue Kompilate). Referenzprojekt ebenfalls grün: art:style:check, 134/134
+npm-Tests, Build, art:references. Bestehende Chunkgrößenwarnung bleibt bestehen.
+
+Grenzen: bestehende native Körperbewegungen werden wiederverwendet und für
+Rückansichten abgeleitet; keine vollständig separat gezeichneten vier
+Blickrichtungen. Die Galerie ist eine Sichtprüfung, kein Beweis für perfekte
+Animation oder vollständige Stilparität. Kein neuer Godot-Web-Export eingerichtet.

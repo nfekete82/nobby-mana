@@ -27,7 +27,7 @@ func _ready() -> void:
 	var cards := HBoxContainer.new()
 	cards.add_theme_constant_override("separation",24)
 	box.add_child(cards)
-	for id: String in ["mage","shaman"]:
+	for id: String in ["mage","shaman","monkey"]:
 		var card := VBoxContainer.new()
 		card.custom_minimum_size = Vector2(230,0)
 		cards.add_child(card)
@@ -35,10 +35,10 @@ func _ready() -> void:
 		portrait.custom_minimum_size = Vector2(192,192)
 		portrait.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 		portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		portrait.texture = Art.frames_for("hero" if id == "mage" else "shaman").get_frame_texture("stand",0)
+		portrait.texture = Art.frames_for({"mage":"hero","shaman":"shaman","monkey":"monkey-shaman"}[id]).get_frame_texture("stand",0)
 		card.add_child(portrait)
 		var button := Button.new()
-		button.text = "Magier" if id == "mage" else "Schamane"
+		button.text = {"mage":"Magier","shaman":"Schamane","monkey":"Affen-Schamane"}[id]
 		button.custom_minimum_size = Vector2(220,42)
 		button.pressed.connect(choose.bind(id))
 		choice_buttons[id] = button

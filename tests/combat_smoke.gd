@@ -17,6 +17,7 @@ func run() -> void:
 	root.add_child(world)
 	await physics_frame
 	await physics_frame
+	var initial_enemies: int = world.remaining
 	var hero = world.hero
 	check(hero != null, "Player spawns")
 	if hero == null:
@@ -62,9 +63,9 @@ func run() -> void:
 	enemy.invulnerable_remaining = 0
 	enemy.take_damage(100,hero.position)
 	check(enemy.dead and enemy.health == 0, "Lethal damage defeats enemy")
-	check(world.remaining == 1, "Defeat updates objective once")
+	check(world.remaining == initial_enemies-1, "Defeat updates objective once")
 	enemy.take_damage(100,hero.position)
-	check(world.remaining == 1, "Repeated damage cannot duplicate defeat")
+	check(world.remaining == initial_enemies-1, "Repeated damage cannot duplicate defeat")
 	# A solid obstacle between close actors must stop melee.
 	second.position = Vector2(670,640)
 	world.add_wall(Vector2(635,628),Vector2(12,64))

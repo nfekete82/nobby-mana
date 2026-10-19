@@ -1,0 +1,42 @@
+{
+  "sources": [
+    {
+      "file": "monkey-parts.png",
+      "sha256": "ac411aa2f52664f5e09297ba4a5ce0b3df8213ffdeb202124929b893210dff37",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background": true
+    },
+    {
+      "file": "goblin-parts.png",
+      "sha256": "c09df4901b3803ae469709efa5f8b84d214248a7dbda9b4505a60db3d3254c6a",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background": true
+    }
+  ],
+  "compiler": "tools/compile_creatures.gd",
+  "runtime_cell": [
+    192,
+    192
+  ],
+  "foot": [
+    96,
+    132
+  ],
+  "hitbox": [
+    32,
+    24
+  ],
+  "native_motion": [
+    "shaman (native Monk edit)",
+    "enemy-warrior (native Red Warrior)"
+  ],
+  "notes": "Generated identity parts plus existing licensed native motion. Runtime composites remain local assets/compiled."
+}
