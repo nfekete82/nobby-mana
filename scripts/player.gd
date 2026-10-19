@@ -92,7 +92,7 @@ func summon_skeleton() -> bool:
 			break
 	companion.position = point
 	get_parent().add_child(companion)
-	casting_remaining = 11.0/9.0
+	casting_remaining = float(sprite.sprite_frames.get_frame_count("heal"))/sprite.sprite_frames.get_animation_speed("heal")
 	sprite.play(animation_for("heal"))
 	mana -= SUMMON_COST
 	mana_idle_remaining = MANA_IDLE_GRACE

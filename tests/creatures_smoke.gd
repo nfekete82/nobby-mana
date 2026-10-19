@@ -39,23 +39,21 @@ func run() -> void:
 					if alpha == 255:
 						counts[(y/192)*int(animation.frames)+x/192] += 1
 			check(binary and counts.min() > 100,"Binary alpha and nonempty frames: "+id+"/"+state)
-	var monkey := png("res://assets/compiled/monkey-shaman-walk.png")
-	var native := png("res://assets/licensed/shaman-walk.png")
-	var same_legs := true
-	var phases: Array[String] = []
-	for row in 2:
-		for frame in 4:
-			var signature := ""
-			for y in range(110,140):
-				for x in range(80,112):
-					var at := Vector2i(frame*192+x,row*192+y)
-					if monkey.get_pixelv(at) != native.get_pixelv(at):
-						same_legs = false
-					signature += str(monkey.get_pixelv(at).to_rgba32())
-			if row == 0:
-				phases.append(signature)
-	check(same_legs,"All original robe/leg pixels preserved in all four front/back gait poses")
-	check(phases[0] != phases[2] and phases[1] != phases[3],"Opposite foot contacts and passing phases remain distinct")
+	# Whole new figures: independently authored front/rear gait poses must vary,
+	# stay inside their cells and land on the shared baseline. Visual review
+	# remains necessary to judge whether the step sequence actually looks good.
+	for id: String in ["monkey-shaman","goblin-scout","goblin-brute"]:
+		var walk := png("res://assets/compiled/"+id+"-walk.png")
+		var signatures: Array[String] = []
+		for row in 2:
+			for frame in 6:
+				var pose := walk.get_region(Rect2i(frame*192,row*192,192,192))
+				var occupied := pose.get_used_rect()
+				check(occupied.position.x > 1 and occupied.end.x < 191 and occupied.position.y > 1 and occupied.end.y == 132,"Unclipped whole pose with stable foot baseline: "+id)
+				var legs := pose.get_region(Rect2i(65,110,65,22))
+				var signature := legs.get_data().hex_encode()
+				check(not signatures.has(signature),"Distinct leg phases/facings: "+id)
+				signatures.append(signature)
 	var session := root.get_node_or_null("Session")
 	if session == null:
 		session = load("res://scripts/session.gd").new()
@@ -77,18 +75,18 @@ func run() -> void:
 		return
 	var hero = world.hero
 	check(hero.asset_id == "monkey-shaman" and hero.is_summoner(),"Selecting monkey starts the playable shaman")
-	check(hero.sprite.sprite_frames.get_frame_count("walk") == 4 and hero.sprite.sprite_frames.get_animation_speed("walk") == 12,"Native four-frame 12 FPS walk")
+	check(hero.sprite.sprite_frames.get_frame_count("walk") == 6 and hero.sprite.sprite_frames.get_animation_speed("walk") == 12,"New complete six-frame 12 FPS walk")
 	for enemy in get_nodes_in_group("enemies"):
 		enemy.set_physics_process(false)
 	check(hero.summon_skeleton() and hero.companion_count() == 1,"Monkey summons an actual fighting skeleton")
-	check(hero.sprite.animation == "heal" and hero.sprite.sprite_frames.get_frame_count("heal") == 11,"Summoning plays all eleven native casting poses")
+	check(hero.sprite.animation == "heal" and hero.sprite.sprite_frames.get_frame_count("heal") == 6,"Summoning plays six complete newly authored casting poses")
 	for companion in get_nodes_in_group("companions"):
 		companion.set_physics_process(false)
 	await frames(78)
 	Input.action_press("move_up")
 	await frames(8)
 	Input.action_release("move_up")
-	check(hero.sprite.animation == "walk_back","Movement after casting transitions to native rear walk")
+	check(hero.sprite.animation == "walk_back","Movement after casting transitions to separately drawn rear walk")
 	hero.set_physics_process(false)
 	hero.position = Vector2(600,640)
 	var warrior = get_nodes_in_group("enemies")[0]

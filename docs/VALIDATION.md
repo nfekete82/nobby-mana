@@ -178,3 +178,42 @@ Grenzen: bestehende native Körperbewegungen werden wiederverwendet und für
 Rückansichten abgeleitet; keine vollständig separat gezeichneten vier
 Blickrichtungen. Die Galerie ist eine Sichtprüfung, kein Beweis für perfekte
 Animation oder vollständige Stilparität. Kein neuer Godot-Web-Export eingerichtet.
+
+## Vollständige Figuren v2 (ersetzt die abgelehnte Montage)
+
+Die frühere Sichtprüfung der montierten Kopf-/Körperfiguren ist durch die
+Ablehnung des Nutzers überholt. Affe, Späher und Raufbold wurden nun als
+vollständige Figuren neu erstellt; Produktionsbrief vorab aktualisiert.
+Imagegen eingebaut, drei unveränderte Quellen (je1086×1448), vollständige
+Prompts/SHA256/Layout unter art/generated-source/creatures/fullbody-v2.
+Referenzen: native Blue Monk Run, Red Warrior Idle und Gameplay shaman-stand.
+Native Masterdateien bleiben unverändert, keine Körper aus ihnen montiert.
+
+Geändert: Quellen, Registry, Compiler, Creature-Dokumentation/Galerie,
+Frame-/Gameplaytest und tatsächliche Laufaufnahme. Beschwörungsdauer liest
+nun die verwendete Animation (Affe6/5=1,2s, Mensch weiterhin11/9s).
+
+Geprüft: python3 tools/check_project.py (42 lokale Runtime-PNGs plus eigene
+Quellhashes/-abmessungen); Godot headless editor import --quit; combat_smoke,
+companions_smoke, hud_enemy_smoke, classes_editor_smoke, creatures_smoke alle
+PASS mit0Fehlern. Echte Editor-Vorschau forest_goblins ohne Scriptfehler.
+Zusätzliche vorgeschriebene Checks im benachbarten nobby_world:
+art:style:check PASS; npm test134/134PASS; npm run build PASS (bekannte
+Chunkgrößenwarnung); art:references PASS. Der erste npm-Testversuch scheiterte
+am Sandbox-gesperrten lokalen Listen-Port; Wiederholung mit lokalem Portzugriff
+bestand vollständig. Alte handbearbeitete TMX-Karten nicht überschrieben.
+
+Visuell: tatsächliche Godot-Aufnahme artifacts/creatures/party.png und sechs
+Vorder-/Rücken-Laufphasen in walk-gameplay.png bei nativem Pixelzoom angesehen;
+animierte Chrome-Galerie review.html und native style-reference.html ebenfalls
+geprüft. Eigene Körper lesen sich zusammenhängend, Größen passend, feste Füße,
+harte Pixel, kein Kopf-/Ritterkörper-Mix. Kein Versprechen perfekter Animation
+oder identischer Handschrift zum Originalpack: selbstständige generierte
+Figuren bleiben etwas kleinteiliger schattiert. Zwei echte Ansichten plus
+seitliche Spiegelung, keine vier vollständig getrennten Richtungsbögen.
+Ein falscher liegender Scout-Angriffsframe wird bewusst nicht verwendet;
+Layout dokumentiert die Auswahl vollständiger Ersatzposen aus derselben Folge.
+
+Die zuvor manuell bearbeitete scenes/levels/forest.tscn bleibt unverändert
+außerhalb dieses Grafikcommits. Keine Szenen-IDs, Platzierungen, Kollisions-
+oder Kampfwerte durch diese Änderung ersetzt.

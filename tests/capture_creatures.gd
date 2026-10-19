@@ -44,13 +44,13 @@ func capture() -> void:
 	await frames(40)
 	for enemy in get_nodes_in_group("enemies"):
 		enemy.position = Vector2(2300,1500)
-	var contact := Image.create(192*4,192*2,false,Image.FORMAT_RGBA8)
+	var contact := Image.create(192*6,192*2,false,Image.FORMAT_RGBA8)
 	for row in 2:
 		hero.position = Vector2(600,640)
 		hero.casting_remaining = 0
 		var action := "move_right" if row == 0 else "move_up"
 		Input.action_press(action)
-		for frame in 4:
+		for frame in 6:
 			await frames(5)
 			await RenderingServer.frame_post_draw
 			var screen: Vector2 = hero.get_global_transform_with_canvas().origin

@@ -1,30 +1,36 @@
-# Affen-Schamane und Waldkobolde – Produktionsbrief
+# Vollständige Figuren – Neubau v2
 
-Vor Produktion festgelegt: bestehende native Tiny-Swords-Actor-Sprache bleibt
-Master. Gleiche Perspektive, dunkle Schieferkonturen, Licht oben links, wenige
-flache Materialfarben, native Pixelcluster. Terrain bleibt 64px. Alle Runtime-
-Actor-Zellen 192×192, Fuß [96,132], Hitbox 32×24; keine Tiled-Skalierung.
+Der Nutzer hat die Kopf-/Körpermontage abgelehnt. Dieser Brief ersetzt die
+bisherige Produktion: Affe, Späher und Raufbold werden als ganze Figuren neu
+gezeichnet. Kein Übernehmen von Monk-Beinen, Warrior-Rüstung, ausgeschnittenen
+Köpfen oder gedrehten Standbildern als Tod. Bestehende Figuren bleiben unverändert.
 
-Affen-Schamane: neue Affenidentität (braunes Fell, helle Schnauze, runde Ohren,
-Schweif), vorhandener petrolfarbener Schamanenumhang und Holzstab. Primäre
-Same-Category-Referenz: native Blue Monk Idle/Run/Heal. Gameplayvergleich:
-bestehender shaman sowie enemy-warrior. Native Roben-/Fuß-/Armbewegungen
-werden bevorzugt übernommen; neue Kopf-/Schweifteile bilden die Identität.
-Stand 2 ruhige Posen/0,5 FPS, Lauf 4 native Posen/12 FPS, Angriff 6/16 FPS,
-Beschwörung 11/9 FPS, jeweils Vorder-/Rückenreihe. Treffer und Tod behalten
-eigene Zustände. Keine künstlichen zusätzlichen Laufbilder oder Beine.
+Vor der Produktion: Native Same-Category-Master sind Blue Monk Run/Idle und
+Red Warrior Idle/Run aus dem lokal lizenzierten Tiny-Swords-Pack. Vergleich im
+Gameplay: vorhandener menschlicher Schamane und enemy-warrior. Stilregeln aus
+nobby_world/docs/ART_STYLE.md, art/style-references.json und
+TINY_SWORDS_ART_DIRECTION.md gelten weiterhin: große flache Pixelcluster,
+schieferblaue Kontur, 3–4 Farbstufen je Material, Licht oben links, 3/4-Aufsicht.
 
-Kleine Waldkobolde: geduckte, grüne Wesen mit großen spitzen Ohren, dunklem
-Leder/Blätterkleidung und kleinen Waffen. Master-Ausrüstung, Proportionen und
-Animation: native Red/Black Warrior Idle/Run/Attack. Gameplayvergleich: vorhandene
-Krieger und Schamane. Zwei Varianten: Waldkobold-Späher und Waldkobold-Raufbold,
-mit unterscheidbarer Ausrüstung/Farbakzenten und echtem Gameplayeinsatz.
-Stand 4/4 FPS, Lauf 6/12 FPS, Angriff 4/12 FPS, Treffer 2/10 FPS, Tod 4/8 FPS,
-Vorder-/Rückenansichten. Sichtbare Körperhöhe ungefähr 55–65px, keine gestreckten
-oder weich verkleinerten Figuren. Quellen und Kompilate getrennt halten.
+Runtime-Zellen 192×192, fester Fuß [96,132], Hitbox 32×24. Affe ca. 70px hoch,
+Kobolde ca. 60–64px. Quellen enthalten vollständige Figuren auf regelmäßigem
+Raster; eine feste gemeinsame Nearest-Skalierung pro Figur, keine einzelnen
+Körperteile und kein Strecken pro Pose. Richtungen separat gezeichnet.
 
-Neue Bitmapquellen entstehen mit dem eingebauten Imagegen-Werkzeug anhand
-der tatsächlich beigefügten nativen Referenzen. Danach deterministisches
-Trennen, Paletten-/Alpha-Normalisierung und feste Frameanker. Tatsächliche
-Bewegungsschleifen und Gameplay bei nativer Pixelgröße ansehen; weder Bilder
-noch strukturelle Tests allein beweisen perfekte Animation oder Stilparität.
+Affenquelle: 6 Spalten × 8 Reihen. Je Richtung vier Reihen: zwei Stand-, zwei
+Treffer-, zwei Todesposen in Reihe 0; sechs Laufposen in Reihe 1; sechs Wurfposen
+in Reihe 2; sechs Beschwörungsposen in Reihe 3. Danach dieselben Aktionen von
+hinten. Stand 2/2 FPS, Lauf 6/12, Wurf 6/15, Beschwörung 6/5, Treffer 2/10,
+Tod 2/4. Braunes Fell, cremefarbene Schnauze/Pfoten, kurze petrolfarbene
+Waldkleidung, Holzstab, kleiner Schweif; eigener nichtmenschlicher Körper.
+
+Koboldquellen: je 6 Spalten × 8 Reihen. Pro Richtung: Stand vier und Treffer
+zwei; Lauf sechs; Angriff sechs; Tod sechs. Stand 4/3 FPS, Lauf 6/12, Angriff
+6/15, Treffer 2/10, Tod 6/12. Geduckter Körper, sichtbare kurze Beine, große
+spitze Ohren, moosgrüne Haut und dunkles Leder. Späher: leichter Blattumhang,
+kleiner Dolch. Raufbold: breitere Silhouette, ockerfarbene Weste, Holzkeule.
+
+Neue vollständige Bitmapbögen mit eingebautem Imagegen, danach deterministische
+Rasteraufteilung und harte Alpha-/Materialpalette. Quellen, Prompts und SHA256
+getrennt von kompilierten Laufzeit-PNGs. Strukturtests sind kein Stilnachweis:
+Galerie neben tatsächlichen Godot-Aufnahmen bei nativer Pixelgröße prüfen.

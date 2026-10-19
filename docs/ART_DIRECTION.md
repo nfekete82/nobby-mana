@@ -58,7 +58,10 @@ die größere editierbare Karte sind dort mit Referenzen/Abmessungen dokumentier
 
 [CREATURE_ART_BRIEF.md](CREATURE_ART_BRIEF.md) dokumentiert die vorab festgelegten
 nativen Referenzen, 192px-Zellen, Füße/Hitboxen, Paletten und Animationszahlen.
-Neue Identitätsteile werden mit echten bestehenden Monk-/Warrior-Bewegungen
-komponiert; keine generierten Ersatzbeine. Quellen/Prompts bleiben getrennt
-von lokalen Produktionsatlanten. Tatsächliche Spiel- und Laufsichtprüfung
-und die animierte Vergleichsgalerie sind in [CREATURES.md](CREATURES.md) beschrieben.
+Die erste Kopf-/Körpermontage wurde vom Nutzer abgelehnt und vollständig ersetzt.
+Affen-Schamane, Späher und Raufbold verwenden jetzt separat neu gezeichnete
+Ganzkörperposen, einschließlich eigener Rückenansichten. Native Monk-/Warrior-
+Bilder dienen als Stilreferenzen, nicht als Körperlieferanten. Originalbögen,
+Prompts und Provenienz stehen in art/generated-source/creatures/fullbody-v2.
+Tatsächliche Spiel- und Laufsichtprüfung sowie Vergleichsgalerie siehe
+[CREATURES.md](CREATURES.md). Native Master werden dadurch nicht ersetzt.

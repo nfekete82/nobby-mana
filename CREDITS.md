@@ -29,10 +29,14 @@ Materialpalette, deterministisch kompiliert aus art/generated-source/arrow.json.
 Das angehängte Diablo-Bild dient nur als Layoutreferenz; keine Bildteile
 daraus werden im Spiel oder Repository verwendet.
 
-Affen- und Kobold-Kopf-/Schweifteile wurden mit dem eingebauten OpenAI-Imagegen-
-Werkzeug neu erzeugt, anhand der bestehenden nativen Monk-/Warrior- und
-Gameplayreferenzen. Originalausgaben und vollständige Prompts/Provenienz unter
-art/generated-source/creatures. Der deterministische Creature-Compiler verbindet
-die neuen Teile mit vorhandenen lizenzierten Bewegungsposen; die daraus
-komponierten Produktionssprites bleiben lokal in assets/compiled. Neue Figuren
-sind eigene Erweiterungen, keine originalen Pixel-Frog-Packdateien.
+Affen-Schamane und beide Waldkobolde wurden im zweiten Durchgang als vollständige
+Figuren neu mit dem eingebauten OpenAI-Imagegen-Werkzeug gezeichnet. Native
+Monk-/Warrior-PNGs und der vorhandene Gameplay-Schamane dienten nur als
+Stil-/Größenreferenzen. Die neuen Produktionsfiguren enthalten keine montierten
+nativen Körper. Originale vollständige Bögen, Prompts, SHA256 und Layout unter
+art/generated-source/creatures/fullbody-v2. Ein deterministischer Compiler trennt
+die vollständigen Posen, wendet eine gemeinsame Figurenskalierung per Nearest
+und eine begrenzte Materialpalette an und packt sie in feste 192px-Zellen.
+Produktionsatlanten bleiben lokal in assets/compiled. Neue Figuren sind eigene
+Erweiterungen, keine originalen Pixel-Frog-Packdateien. Die früheren Kopf-/
+Schweifquellen bleiben ausschließlich als verworfene Produktionshistorie erhalten.

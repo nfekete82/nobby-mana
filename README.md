@@ -56,7 +56,7 @@ Cloud-Abhängigkeit für das Spiel.
 
 ```sh
 python3 tools/setup_assets.py --source ../nobby_world
-godot --headless --editor --path . --import
+godot --headless --editor --path . --import --quit
 godot --path .
 ```
 
@@ -77,7 +77,7 @@ GitHub liefert den Pixel-Frog-Pack nicht mit. Die eigenen Pfeil-Pixelpläne werd
 
 ```sh
 python3 tools/check_project.py
-godot --headless --editor --path . --import
+godot --headless --editor --path . --import --quit
 godot --headless --path . --script tests/combat_smoke.gd
 godot --headless --path . --script tests/companions_smoke.gd
 godot --headless --path . --script tests/hud_enemy_smoke.gd
@@ -101,3 +101,7 @@ Projektdateien; vollständige Laufzeittests benötigen die lokalen Grafiken.
 
 Das alte RPG-JS-Spiel bleibt ein separates Projekt. Karten, Objekt-IDs und
 Spielstände daraus werden hier nicht automatisch importiert.
+
+Die aktuellen Affen-/Koboldsprites sind vollständige Neuzeichnungen mit eigenen
+Körpern und Vorder-/Rückenanimationen. Die frühere Kopf-/Körpermontage ist ersetzt.
+Quellen und Animationen: [Kreaturen](docs/CREATURES.md).
