@@ -4,6 +4,7 @@ func _initialize() -> void:
 	call_deferred("capture")
 
 func capture() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	var options := OS.get_cmdline_user_args()
 	var session := root.get_node_or_null("Session")
 	if session == null:

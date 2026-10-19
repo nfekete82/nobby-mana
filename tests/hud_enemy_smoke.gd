@@ -11,6 +11,7 @@ func _initialize() -> void:
 	call_deferred("run")
 
 func run() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	var world := Scene.instantiate()
 	root.add_child(world)
 	current_scene = world
@@ -52,7 +53,7 @@ func run() -> void:
 		var visible: Rect2 = root.get_visible_rect()
 		check(absf(rect.position.x-12) < 1, "HUD stays anchored left at %s" % dimensions)
 		check(absf(rect.end.y-(visible.size.y-10)) < 1, "HUD stays ten pixels from bottom at %s" % dimensions)
-		check(rect.size == Vector2(446,170), "HUD remains compact at %s" % dimensions)
+		check(rect.size == Vector2(312,126), "HUD remains compact at %s" % dimensions)
 	enemy.invulnerable_remaining = 0
 	enemy.take_damage(100,world.hero.position)
 	check(not enemy.health_bar.visible, "Dead enemy hides health bar immediately")

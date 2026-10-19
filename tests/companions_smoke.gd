@@ -16,6 +16,7 @@ func frames(count: int) -> void:
 		await physics_frame
 
 func run() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	var world := Scene.instantiate()
 	root.add_child(world)
 	current_scene = world

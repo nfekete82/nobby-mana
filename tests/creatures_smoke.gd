@@ -20,6 +20,7 @@ func png(file: String) -> Image:
 	return image
 
 func run() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	for id: String in ["monkey-shaman","panda","goblin-scout","goblin-brute"]:
 		var data: Dictionary = Art.registry().assets[id]
 		check(Vector2i(int(data.frame[0]),int(data.frame[1])) == Vector2i(192,192) and Vector2i(int(data.foot[0]),int(data.foot[1])) == Vector2i(96,132),"Fixed native cells/feet for "+id)

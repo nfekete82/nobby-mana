@@ -38,11 +38,17 @@ Die neue Karte liegt in scenes/levels/reference_grove.tscn. Eure älteren Szenen
 forest.tscn und woodland_village.tscn bleiben erhalten, sind aber nicht aktiv.
 Die Grafik ist eine eigene Umsetzung der neuen Richtung, keine exakte Bildkopie.
 
-Unten links steht nun ein kompaktes Referenz-HUD: Heldenporträt, LP/MP-Balken
-mit echten Zahlen, Angriff(J), Heilen(H), Skelett(R) und Item. Beim Panda ist
-Skelett deaktiviert; Item ist erkennbar noch nicht verfügbar. Kein Inventar oder
-begehbares Hausinnere implementiert. Affe/Panda und ihre Animationen bleiben
-persönliche Figuren statt des menschlichen Helden der Bildvorlage.
+Unten links sitzt das verkleinerte HUD mit Heldenporträt, LP/MP-Zahlen und
+Angriff(J), Heilen(H), Skelett(R), Item. Oben rechts zeigt eine kleine Karte
+die tatsächliche Landschaft und einen hellen Punkt für die eigene Position.
+Unerforschte Gebiete bleiben vollständig schwarz. Beim Laufen wird die Umgebung
+aufgedeckt; die Erkundung bleibt für beide Helden sowie nach F5 und späteren
+Spielstarts erhalten. Sie wird lokal als user://map-exploration-v1.json
+periodisch und beim Verlassen der Szene gespeichert. Keine Cloud-Abhängigkeit.
+
+Beim Panda ist Skelett deaktiviert; Item ist erkennbar noch nicht verfügbar.
+Kein Inventar oder begehbares Hausinnere implementiert. Eure persönlichen Figuren
+bleiben erhalten. [HUD-/Minimap-Details](docs/MINIMAP_BRIEF.md).
 
 ## Leveleditor
 
@@ -89,6 +95,7 @@ godot --headless --path . --script tests/companions_smoke.gd
 godot --headless --path . --script tests/hud_enemy_smoke.gd
 godot --headless --path . --script tests/classes_editor_smoke.gd
 godot --headless --path . --script tests/creatures_smoke.gd
+godot --headless --path . --script tests/minimap_smoke.gd
 godot --path . --script tests/capture.gd
 godot --path . --script tests/grove_smoke.gd
 godot --path . --script tests/capture_grove.gd

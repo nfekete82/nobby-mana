@@ -10,6 +10,7 @@ func frames(count: int) -> void:
 	for i in count:
 		await physics_frame
 func run() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	var world = load("res://scenes/clearing.tscn").instantiate()
 	root.add_child(world)
 	current_scene = world

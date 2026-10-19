@@ -8,6 +8,7 @@ func frames(count: int) -> void:
 		await physics_frame
 
 func capture() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	var session := root.get_node_or_null("Session")
 	if session == null:
 		session = load("res://scripts/session.gd").new()

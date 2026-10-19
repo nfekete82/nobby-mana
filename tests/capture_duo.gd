@@ -29,6 +29,7 @@ func walk_review(hero: CharacterBody2D,label: String) -> void:
 	contact.save_png("res://artifacts/duo/"+label+"-walk-gameplay.png")
 
 func capture() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/duo")
 	root.size = Vector2i(1280,960)
 	root.content_scale_size = Vector2i(1280,960)

@@ -23,6 +23,7 @@ var health_numbers: Label
 var mana_numbers: Label
 var heal_button: Button
 var item_button: Button
+var minimap: Panel
 var _navigation: RefCounted
 var remaining := 2
 

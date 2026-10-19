@@ -19,6 +19,7 @@ func settle() -> void:
 	await frames(6)
 
 func run() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	var session := root.get_node_or_null("Session")
 	if session == null:
 		session = load("res://scripts/session.gd").new()

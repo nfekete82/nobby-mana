@@ -98,3 +98,15 @@ abmessungen. compile_grove.gd trennt ganze Module, skaliert per Nearest, setzt
 binäres Alpha und komponiert pixelharte authored Terrainkanten. Terrain64px,
 Wasser128px als2×2Atlas. Keine Quellbilder im Runtime-Editor strecken.
 Aktive Szene reference_grove.tscn, alte Handkarten bleiben unverändert.
+
+## Kompaktes HUD und echte Gebiets-Minimap
+
+Der aktuelle Nutzerwunsch verkleinert das HUD auf312×126 statt446×170. Bestehende
+Porträt-/Symbol-Bitmaps bleiben unverändert; native Controls/Textgrößen und
+Nearest-Sampling werden angepasst, keine unscharfe Skalierung des ganzen HUDs.
+Die180×146Minimap oben rechts enthält168×120Pixel reale Weltgrafik, gebacken aus
+Ground/River/Paths/CliffFaces und geordneten Scenery-Sprites mit ihren tatsächlichen
+Fußpunkten. Vor der Anzeige werden alle unbekannten Zellen vollständig schwarz
+maskiert. Spielerpunkt/Rahmen sind funktionale native Controls. Brief und
+Abmessungen siehe MINIMAP_BRIEF.md. Keine Terrain-, Figuren- oder Kartenquelle
+für diese UI-Änderung neu gezeichnet oder überschrieben.

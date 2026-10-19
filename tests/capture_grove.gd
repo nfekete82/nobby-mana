@@ -9,6 +9,7 @@ func save(name: String) -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://artifacts/grove/"+name+".png")
 func run() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/grove")
 	root.size = Vector2i(1440,960)
 	root.content_scale_size = Vector2i(1440,960)

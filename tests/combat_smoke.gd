@@ -13,6 +13,7 @@ func _initialize() -> void:
 	call_deferred("run")
 
 func run() -> void:
+	preload("res://tests/test_support.gd").isolate_exploration(root)
 	var world := Scene.instantiate()
 	root.add_child(world)
 	await physics_frame

@@ -317,3 +317,44 @@ vertikalen Höhenebenen. Eigene Affe/Panda-/Goblinanimationen statt Referenzheld
 Slime. Gegenstände/Truhen besitzen noch keine Loot-/Inventarinteraktion, Häuser
 keine Innenräume. Keine Behauptung einer pixelidentischen Kopie oder gleicher
 handgezeichneter Vielfalt allein aufgrund grüner Tests.
+
+## Kleineres HUD und schwarze Erkundungs-Minimap
+
+Vorabbrief MINIMAP_BRIEF.md, bestehende Portrait-/Symbol-/Weltbitmapreferenzen
+unverändert wiederverwendet. HUD312×126 mit44px-Aktionsfeldern statt446×170,
+Minimap180×146 rechts oben. Neue Dateien scripts/minimap.gd und exploration.gd;
+adventure_hud.gd/clearing.gd/session.gd integrieren Darstellung und gemeinsame
+Erkundung. Keine Karte oder Grafikquelle verändert. Alte manuell bearbeitete
+forest.tscn bleibt weiterhin außerhalb des Commits; SHA256 unverändert
+5c02086d483bc7cb8a757187b6e6a0866a3e1350e09b06a55798a9765e09baa5.
+
+Die Gebietsgrafik stammt aus tatsächlichen TileMapAtlas-Texturen und Scenery-
+Frames/Ankern, keine erfundene abstrakte Karte. Unbekannte Zellen einschließlich
+Häusern/Brücke schwarz;6Zellen Kreisradius um den Spieler werden beim Gehen
+aufgedeckt und bleiben gespeichert. Spielerpunkt folgt der globalen Position.
+Erkundung über Session/F5/Heldenwechsel und Disk-Reload erhalten. Typprüfung
+numerischer JSON-Dimensionen nach einem vom Test gefundenen Ladefehler korrigiert.
+Keine Gegner-/Schatzmarker und keine echte Sichtlinien-Simulation. Map-Snapshot
+wird nach Editoränderungen beim nächsten Levelstart neu aus der Szene aufgebaut.
+
+Testisolation in test_support.gd und bestehenden Szenen-/Aufnahmeskripten schützt
+den echten lokalen Nutzerstand. Eigenes minimap_smoke.gd prüft reale Bewegung,
+schwarze unbekannte Pixel, tatsächlich aufgedeckte Bildpixel, wachsende Erkundung,
+Spielerpunkt, frisches Laden von Disk, Heldenwechsel, Randbegrenzung, kaputte
+Datei, Auflösung/Anker/Overlay-Abstände und Klickschutz gegen Weltangriffe.
+Capture_minimap.gd erzeugt echte Aufnahmen mit isolierten Speicherständen.
+
+PASS: check_project.py(66Registry-PNGs plus4HUD-Icons und Quellhashes), Godot-
+Import ohne Scriptfehler; Minimap, HUD/enemy, Duo/projectile/village/editor,
+Combat, Companions, Creatures und Grove/bridge/healing: alle7Gruppen0Fehler.
+Zusätzlich art:style:check, npm test134/134, build und art:references PASS im
+Nachbarprojekt; bekannte nicht blockierende Chunkgrößenwarnung beim Build.
+
+Visuell bei1:1Pixelzoom geprüft: fresh-area.png, explored-route.png und
+panda-shared-map.png in artifacts/minimap, neben unveränderten Grafikreferenzen.
+Kleine Symbole und LP/MP lesbar, HUD unten links, Karte oben rechts, keine
+Überlappung bei960×640/1280×720/640×480. Frische Erkundung schwarz außerhalb des
+Startkreises, später zusammenhängend entdeckter Pfad über den Fluss. Grenzen:
+kleine Kartendetails sind bewusst stark reduziert; Fog speichert Gebietsbesuch,
+keine aktuellen Sichtlinien oder dynamische Gegnerzustände. Regelmäßiges Speichern
+alle5Sekunden plus bei normalem Szenenwechsel/Beenden.
