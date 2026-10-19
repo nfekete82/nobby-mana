@@ -1,3 +1,4 @@
+@tool
 extends RefCounted
 ## Native cells and feet from the reviewed Nobby World registry. No trimming.
 

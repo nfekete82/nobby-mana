@@ -42,9 +42,9 @@ func run() -> void:
 		await process_frame
 		var rect: Rect2 = world.hud_dock.get_global_rect()
 		var visible: Rect2 = root.get_visible_rect()
-		check(absf(rect.get_center().x-visible.size.x/2) < 1, "HUD stays horizontally centered at %s" % dimensions)
+		check(absf(rect.position.x-12) < 1, "HUD stays anchored left at %s" % dimensions)
 		check(absf(rect.end.y-(visible.size.y-10)) < 1, "HUD stays ten pixels from bottom at %s" % dimensions)
-		check(rect.size == Vector2(320,84), "HUD remains compact at %s" % dimensions)
+		check(rect.size == Vector2(432,180), "HUD remains compact at %s" % dimensions)
 	enemy.invulnerable_remaining = 0
 	enemy.take_damage(100,world.hero.position)
 	check(not enemy.health_bar.visible, "Dead enemy hides health bar immediately")

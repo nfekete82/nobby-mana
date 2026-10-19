@@ -7,3 +7,5 @@ assets/licensed/*
 !assets/licensed/.gitkeep
 __pycache__/
 *.py[cod]
+
+assets/compiled/

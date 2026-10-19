@@ -88,3 +88,46 @@ Godot-Sichtprüfung ersetzt weiterhin den noch nicht eingerichteten Web-Export.
 Vorgeschriebene Referenzprojekt-Checks bestanden ebenfalls: art:style:check,
 134/134 npm-Tests, Build und art:references. Bestehende Buildwarnung zur
 Chunkgröße bleibt unverändert.
+
+## Klassen, Pfeile, linkes HUD und editorfähige größere Karte
+
+Neue Funktionen: Startauswahl Magier/Schamane, Esc zurück zur Auswahl,
+Pfeilwurf per Linksklick/J, klassenspezifischer Schaden/Mana, Skelette nur
+für den Schamanen. F5 behält die ausgewählte Klasse. Der Schamane nutzt
+die bestehenden vier nativen Monk-Laufposen samt Rückenreihe unverändert.
+HUD unten links mit zwei gestaffelten 96px-Kugeln, R-Skelettsymbol und
+Pfeilslot; nur das Layout des Nutzerbilds übernommen, keine Diablo-Bilder.
+
+Die neue 40×28-Karte liegt in scenes/levels/forest.tscn mit echten
+Ground-/Paths-/Barriers-TileMapLayern, Scenery-Props, Gegner-Markern und
+PlayerSpawn. Kamera und Navigation lesen die Mapgröße; der einmalige
+Bootstrap überschreibt niemals vorhandene Szenen. Das alte Tiled-Projekt
+ist unverändert. Editor.command öffnet direkt die neue Kartenszene.
+
+Neu: Session, Startmenü/-szene, Projectile, LevelData/LevelProp, forest.tscn,
+create_level.gd, eigener Pfeil-Pixelplan, Classes/Editor-Smoke und Anleitungen.
+Geändert: Player, Clearing, Navigation, Art-Loader/Registry, Orbs/Shader,
+Startdateien, Projektkonfiguration, Asset-Setup/-Checks, Capture und HUD-Test.
+Alle Details und Grenzen: CLASSES_ART_BRIEF.md und LEVEL_EDITOR.md.
+
+Prüfungen bestanden:
+- Vollständiger Godot-Import und regulärer Start mit Autoload/Startmenü.
+- Combat-, Companion- und angepasstes HUD/Enemy-Smoke.
+- Classes/Projectile/Editor-Smoke mit echten Klassenbuttons und J-Eingabe,
+  Flugzeit/Schaden/Manakosten/Cooldown, Wandblockierung, fehlendem Mana,
+  maximaler Pfeilreichweite und Freigabe fliegender Pfeile bei Klassenwechsel.
+- Erweiterte Navigation bis zur östlichen Lichtung und passende Kameragrenzen.
+- Tatsächliche Kollision einer gemalten Barriers-Kachel im unsichtbaren
+  Runtime-Layer. Speichern/Laden von Boden, Sperrflächen und verschobenem
+  Gegner in einer temporären Testdatei; Projektkarte dabei nicht gespeichert.
+- Die tatsächliche forest.tscn im Godot-Editor geladen, keine Tool-Scriptfehler.
+- 26 lokale Lizenz-PNGs mit Hash-/Framegrößen-/Richtungsreihenprüfung; eigene
+  Pfeilquellen/kompilierte Maße geprüft; Binärgrafiken weiterhin aus Git ausgeschlossen.
+- Referenzprojekt art:style:check, 134/134 npm-Tests, Build, art:references.
+
+Native Screenshots class-selection.png, summon-combat.png, shaman-shot.png,
+mage-shot.png und eastern-glade.png bei nativem Pixelzoom angesehen;
+Schamanen-/Warrior-/Skelettreferenzen und Browsergalerie verglichen. Keine
+neue SNES-Art-Direction behauptet. Eigene Pfeile sind eine dokumentierte
+Ergänzung, da der vorhandene Packbestand keinen nativen Pfeil enthält.
+Godot-Web-Export bleibt noch nicht eingerichtet; Spiel-Sichtprüfung nativ.

@@ -1,0 +1,42 @@
+{
+  "frame": [
+    32,
+    11
+  ],
+  "foot": [
+    16,
+    5
+  ],
+  "references": [
+    "shaman staff/robe (existing native Monk edit)",
+    "enemy-warrior sword/weapon outline",
+    "hero gameplay scale"
+  ],
+  "rows": [
+    "................................",
+    "................................",
+    "..oo......................o.....",
+    ".otto.....................oo....",
+    "..ottooooooooooooooooooooocoo...",
+    "...ttwwwwwwwwwwwwwwwwwwwwcccco..",
+    "..ottooooooooooooooooooooocoo...",
+    ".otto.....................oo....",
+    "..oo......................o.....",
+    "................................",
+    "................................"
+  ],
+  "palette": {
+    ".": "00000000",
+    "o": "293544ff",
+    "t": "487f7aff",
+    "w": "d2ad65ff",
+    "c": "eee2c3ff"
+  },
+  "arcane_palette": {
+    ".": "00000000",
+    "o": "293544ff",
+    "t": "b8e0eaff",
+    "w": "487fa8ff",
+    "c": "eee2c3ff"
+  }
+}

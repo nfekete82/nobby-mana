@@ -20,3 +20,11 @@ Die Skelettbegleiter verwenden ebenfalls unveränderte Nobby-World-Expansion-PNG
 Diese wurden dort mit OpenAI ImageGen anhand der Tiny-Swords-/Gameplayreferenzen
 entworfen und deterministisch kompiliert; Quellen/Provenienz verbleiben im alten
 Projekt. Auch diese Dateien bleiben lokal und werden nicht mit Git veröffentlicht.
+
+Der spielbare Schamane übernimmt die vorhandenen nativen Monk-Edits aus
+Nobby World (brauner Dutt/Bart, petrolfarbenes Gewand, Stab), einschließlich
+der vier ursprünglichen Monk-Laufposen. Die Bilddateien bleiben lokal.
+Die kleinen Pfeile sind eigene handgesetzte Pixelpläne in der bestehenden
+Materialpalette, deterministisch kompiliert aus art/generated-source/arrow.json.
+Das angehängte Diablo-Bild dient nur als Layoutreferenz; keine Bildteile
+daraus werden im Spiel oder Repository verwendet.

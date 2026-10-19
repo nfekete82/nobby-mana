@@ -1,7 +1,7 @@
 #!/bin/zsh
 set -eu
 cd -- "$(dirname -- "$0")"
-if [[ ! -f assets/licensed/hero-stand.png || ! -f assets/licensed/skeleton-death.png ]]; then
+if [[ ! -f assets/licensed/hero-stand.png || ! -f assets/licensed/skeleton-death.png || ! -f assets/licensed/shaman-walk.png || ! -f assets/compiled/arrow.png ]]; then
   python3 tools/setup_assets.py
 fi
 if [[ -x .tools/Godot.app/Contents/MacOS/Godot ]]; then

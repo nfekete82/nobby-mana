@@ -46,3 +46,10 @@ Siehe [HUD_BRIEF.md](HUD_BRIEF.md): funktionale rote/blaue Füllanzeigen unten
 mittig, native 64px-UI mit pixelharten Kanten und flachen Farbstufen. Keine neuen
 Sprites, keine übernommenen Diablo-Grafiken. Gegnerbalken sind native 48×6px-
 Controls; Füße, Spritegrößen, Hitboxen und Animationen bleiben unverändert.
+
+## Aktueller Stand: Klassen und linkes HUD
+
+[CLASSES_ART_BRIEF.md](CLASSES_ART_BRIEF.md) ersetzt die frühere mittige
+HUD-Anordnung: gestaffelte 96px-Kugeln ganz links, R-Skelettslot daneben.
+Schamane, native Animationsmetadaten, eigene kleine Pfeil-Pixelpläne und
+die größere editierbare Karte sind dort mit Referenzen/Abmessungen dokumentiert.

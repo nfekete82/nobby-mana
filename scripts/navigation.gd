@@ -8,7 +8,7 @@ var body_shape := RectangleShape2D.new()
 func _init(scene: Node2D) -> void:
 	world = scene
 	body_shape.size = Vector2(32,24)
-	grid.region = Rect2i(0,0,48,36)
+	grid.region = Rect2i(Vector2i.ZERO,Vector2i(world.world_pixels()/CELL))
 	grid.cell_size = Vector2(CELL,CELL)
 	grid.offset = Vector2(CELL/2,CELL/2)
 	grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES

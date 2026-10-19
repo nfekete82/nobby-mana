@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import zlib
+import struct
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -36,7 +38,21 @@ def main():
             '[remap]\nimporter="texture"\ntype="CompressedTexture2D"\n\n'
             '[params]\ncompress/mode=0\nmipmaps/generate=false\n'
             'process/fix_alpha_border=false\n')
+    compile_projectiles()
     print(f'{len(entries)} licensed PNGs installed locally; none are tracked by Git.')
+
+def compile_projectiles():
+    recipe = json.loads((ROOT/'art/generated-source/arrow.json').read_text())
+    width,height = recipe['frame']
+    def chunk(kind,data):
+        return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
+    target = ROOT/'assets/compiled'
+    target.mkdir(parents=True,exist_ok=True)
+    for name,palette in [('arrow',recipe['palette']),('arcane-arrow',recipe['arcane_palette'])]:
+        assert len(recipe['rows']) == height and all(len(row)==width for row in recipe['rows'])
+        raw = b''.join(b'\x00'+b''.join(bytes.fromhex(palette[pixel]) for pixel in row) for row in recipe['rows'])
+        data = b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',width,height,8,6,0,0,0))+chunk(b'IDAT',zlib.compress(raw))+chunk(b'IEND',b'')
+        (target/(name+'.png')).write_bytes(data)
 
 if __name__ == '__main__':
     main()

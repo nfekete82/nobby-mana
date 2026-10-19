@@ -244,6 +244,74 @@
           "sha256": "c9c5798a71890a13b14455f486e12794c88c2684436c8d7d0ac13f25b35d9436"
         }
       }
+    },
+    "shaman": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        132
+      ],
+      "hitbox": [
+        32,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "shaman-stand.png",
+          "source": "public/tiny-swords/expansion/shaman-stand.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 0.5,
+          "sha256": "8115952a3898c6c26a446c4d8c616d29c1ccbf8525248282eda708d72ec551cd",
+          "indices": [
+            0,
+            4
+          ]
+        },
+        "walk": {
+          "file": "shaman-walk.png",
+          "source": "public/tiny-swords/biomes/shaman-natural-walk.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 12,
+          "sha256": "5526bd7efffb18acfa30e1e12a5720e73ad14d0f732a43fb078af7f2f7644d87"
+        },
+        "attack": {
+          "file": "shaman-attack.png",
+          "source": "public/tiny-swords/expansion/shaman-attack.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 16,
+          "sha256": "6dd0a160dcd77654204f2a7840e368e841afaa212e9c5528f50e2140d55afa61"
+        },
+        "heal": {
+          "file": "shaman-heal.png",
+          "source": "public/tiny-swords/expansion/shaman-heal.png",
+          "frames": 11,
+          "rows": 2,
+          "fps": 9,
+          "sha256": "80e4a16ac45c92274e42dad99ca2d42a9a77361f2f5f87d1997181afb657496b"
+        },
+        "hit": {
+          "file": "shaman-hit.png",
+          "source": "public/tiny-swords/expansion/shaman-hit.png",
+          "frames": 2,
+          "rows": 2,
+          "fps": 10,
+          "sha256": "67310dde23c317c03c9e63b758b58282ce2f8cb3b28172fbd79746a5df41f35d"
+        },
+        "death": {
+          "file": "shaman-death.png",
+          "source": "public/tiny-swords/expansion/shaman-death.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 8,
+          "sha256": "3eb2ecb449e0fdb42d40b3d9612654156c7f6477d574fa192d566f587fec330e"
+        }
+      }
     }
   },
   "terrain": {

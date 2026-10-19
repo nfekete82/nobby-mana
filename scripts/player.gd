@@ -3,6 +3,7 @@ signal mana_changed(current: float, maximum: float)
 signal companions_changed
 signal summon_feedback(message: String)
 
+const Projectile = preload("res://scripts/projectile.gd")
 const Companion = preload("res://scripts/companion.gd")
 const MOVE_SPEED := 225.0
 const MAX_MANA := 100.0
@@ -10,11 +11,16 @@ const SUMMON_COST := 10.0
 const SUMMON_LIMIT := 3
 const MANA_REGEN := 5.0
 const MANA_IDLE_GRACE := 0.25
+var character_class := "shaman"
+var shot_cooldown := 0.0
+var casting_remaining := 0.0
 var mana := MAX_MANA
 var mana_idle_remaining := MANA_IDLE_GRACE
 
 func _ready() -> void:
-	asset_id = "hero"
+	var session := get_node_or_null("/root/Session")
+	character_class = session.selected_class if session != null else "shaman"
+	asset_id = "shaman" if character_class == "shaman" else "hero"
 	target_group = "enemies"
 	collision_layer = 2
 	collision_mask = 1
@@ -26,23 +32,28 @@ func _ready() -> void:
 	camera.position_smoothing_enabled = false
 	camera.limit_left = 0
 	camera.limit_top = 0
-	camera.limit_right = 1536
-	camera.limit_bottom = 1152
+	camera.limit_right = int(get_parent().get_parent().world_pixels().x)
+	camera.limit_bottom = int(get_parent().get_parent().world_pixels().y)
 	add_child(camera)
 
 func _physics_process(delta: float) -> void:
 	if dead:
 		return
 	tick_combat(delta)
+	shot_cooldown = maxf(0,shot_cooldown-delta)
+	casting_remaining = maxf(0,casting_remaining-delta)
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	animate_movement(direction)
+	if casting_remaining <= 0:
+		animate_movement(direction)
 	if Input.is_action_just_pressed("attack"):
 		start_attack()
+	if Input.is_action_just_pressed("shoot"):
+		shoot_at(aim_position(false))
 	if Input.is_action_just_pressed("summon"):
 		summon_skeleton()
 	velocity = direction * MOVE_SPEED * (0.2 if attack_remaining > 0 else 1.0) + knockback
 	move_and_slide()
-	regenerate_mana(delta,direction != Vector2.ZERO or attack_remaining > 0 or knockback.length() > 1)
+	regenerate_mana(delta,direction != Vector2.ZERO or attack_remaining > 0 or knockback.length() > 1 or casting_remaining > 0)
 
 func companion_count() -> int:
 	var count := 0
@@ -52,6 +63,9 @@ func companion_count() -> int:
 	return count
 
 func summon_skeleton() -> bool:
+	if character_class != "shaman":
+		summon_feedback.emit("Nur der Schamane kann Skelette erwecken.")
+		return false
 	if dead:
 		return false
 	if companion_count() >= SUMMON_LIMIT:
@@ -102,3 +116,49 @@ func dismiss_companions() -> void:
 	for companion in get_tree().get_nodes_in_group("companions"):
 		if companion.summoner == self:
 			companion.dismiss()
+
+func aim_position(mouse_aim := true) -> Vector2:
+	var mouse := get_global_mouse_position()
+	if mouse_aim and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		var near_mouse := 90.0
+		var aimed: Variant = null
+		for enemy in get_tree().get_nodes_in_group("enemies"):
+			var distance: float = mouse.distance_to(enemy.global_position+Vector2(0,-40))
+			if distance < near_mouse:
+				near_mouse = distance
+				aimed = enemy.global_position
+		return aimed if aimed != null else mouse
+	var nearest := 600.0
+	var point := global_position+facing*600
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		var distance: float = global_position.distance_to(enemy.global_position)
+		if distance < nearest:
+			nearest = distance
+			point = enemy.global_position
+	return point
+
+func shoot_at(point: Vector2) -> bool:
+	if dead or shot_cooldown > 0 or attack_remaining > 0:
+		return false
+	var cost := 6.0 if character_class == "mage" else 0.0
+	if mana < cost:
+		summon_feedback.emit("Nicht genug Mana für einen arkanen Pfeil.")
+		return false
+	facing = global_position.direction_to(point)
+	if facing == Vector2.ZERO:
+		facing = Vector2.RIGHT
+	var arrow := Projectile.new()
+	arrow.caster = self
+	arrow.arcane = character_class == "mage"
+	arrow.damage = 25 if arrow.arcane else 18
+	arrow.direction = facing
+	arrow.position = global_position+Vector2(0,-12)
+	get_parent().add_child(arrow)
+	shot_cooldown = 0.55 if arrow.arcane else 0.45
+	casting_remaining = 0.4
+	mana_idle_remaining = MANA_IDLE_GRACE
+	mana -= cost
+	mana_changed.emit(mana,MAX_MANA)
+	sprite.flip_h = facing.x < 0
+	sprite.play(animation_for("attack"))
+	return true
