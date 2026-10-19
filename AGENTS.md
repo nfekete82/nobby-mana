@@ -4,8 +4,10 @@ Eigenständiger Godot-/GDScript-Neustart. Das benachbarte nobby_world niemals
 zurücksetzen, umschreiben oder dessen manuell bearbeitete TMX-Karten generieren.
 
 - Vor Grafikarbeit docs/ART_DIRECTION.md und art/registry.json lesen.
-- Aktuell Tiny Swords als durchgängige Prototypgrafik verwenden; vorhandene
-  geprüfte Sprites wiederverwenden. Keine Secret-of-Mana-Assets kopieren.
+- Aktive Art Direction: docs/REFERENCE_GROVE_BRIEF.md nach ausdrücklicher
+  Nutzer-Bildreferenz. Zusammengehörige eigene Pixelgrafik statt Tiny-Swords-
+  Prototyplandschaft. Native Packdateien nur unverändert als Referenzen/Archiv.
+  Keine Secret-of-Mana-Assets kopieren.
 - Native 64px-Terrainzellen, native Spritegrößen, feste Füße/Hitboxen,
   Nearest-Filter, ganzzahlige Skalierung und keine Glättung.
 - Lizenzierte PNGs ausschließlich unter assets/licensed, niemals mit Git

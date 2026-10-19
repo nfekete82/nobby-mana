@@ -53,6 +53,8 @@ func _physics_process(delta: float) -> void:
 		start_attack()
 	if Input.is_action_just_pressed("shoot"):
 		primary_action(aim_position(false))
+	if Input.is_action_just_pressed("heal"):
+		heal_self()
 	if Input.is_action_just_pressed("summon"):
 		summon_skeleton()
 	velocity = direction * MOVE_SPEED * (0.0 if casting_remaining > 0 else (0.2 if attack_remaining > 0 else 1.0)) + knockback
@@ -103,6 +105,21 @@ func summon_skeleton() -> bool:
 	mana_changed.emit(mana,MAX_MANA)
 	companions_changed.emit()
 	summon_feedback.emit("Skelett erweckt – es kämpft zwei Minuten an deiner Seite.")
+	return true
+
+func heal_self() -> bool:
+	if dead or health >= max_health or mana < 20:
+		return false
+	mana -= 20
+	var restored := mini(35,max_health-health)
+	health += restored
+	mana_idle_remaining = MANA_IDLE_GRACE
+	if sprite.sprite_frames.has_animation("heal"):
+		casting_remaining = 1.2
+		sprite.play(animation_for("heal"))
+	health_changed.emit(health,max_health)
+	mana_changed.emit(mana,MAX_MANA)
+	summon_feedback.emit("+%d LP · 20 Mana" % restored)
 	return true
 
 func regenerate_mana(delta: float, active: bool) -> void:

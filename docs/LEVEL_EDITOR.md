@@ -1,7 +1,7 @@
 # Karte in Godot bearbeiten
 
 `Editor.command` doppelklicken. Die Datei öffnet direkt
-`scenes/levels/forest.tscn` im Godot-Editor. Oben **2D** auswählen.
+`scenes/levels/reference_grove.tscn` im Godot-Editor. Oben **2D** auswählen.
 Mit F5 startet das ganze Spiel mit Klassenwahl; F6 zeigt nur die aktuelle
 Kartenszene. Änderungen vor dem Spielen mit Cmd+S speichern.
 
@@ -68,3 +68,21 @@ ohne Dorf kann Map Tiles wieder auf die bisherigen40×28 gesetzt werden.
 Das Erstellungsskript tools/create_expansion.gd verweigert vorhandene Dateien.
 Es wird weder beim Start noch beim Setup ausgeführt. Manuelle Szeneänderungen
 werden niemals durch eine automatische Weltgenerierung ersetzt.
+
+## Aktive Referenzkarte
+
+Seit dem neuen Grafikauftrag ist reference_grove.tscn die aktive gespeicherte
+Karte. River zeigt animiertes Wasser; Barriers sperrt den Fluss außer bei der
+Brücke (Zeilen17/18). CliffFaces enthält sichtbare und kollidierende Ufer.
+Beim Verschieben der Brücke gleichzeitig den offenen Korridor in Barriers und
+CliffFaces verschieben. Die Brückengrafik allein macht Wasser nicht begehbar.
+
+Scenery enthält grove-tree/house/cliff/bridge/waterfall/flowers/fence/chest/bush/
+foam mit festen Frames/Fußpunkten; vorhandene Instanzen duplizieren oder Asset Id
+im Inspector wechseln, Scale1 beibehalten. Wasserfall ist eine Bitmap an einer
+Felsstufe, Flussbewegung ein pixelweise laufender Shader. Das sind derzeit keine
+frei stapelbaren begehbaren Höhenebenen oder eine komplexe Wasserphysik.
+
+create_reference_grove.gd ist nur ein Erstellungswerkzeug und verweigert eine
+vorhandene Szene. Setup/Start/Build rufen es niemals auf. Die älteren forest-
+und woodland_village-Szenen bleiben separat unverändert als frühere Karten.

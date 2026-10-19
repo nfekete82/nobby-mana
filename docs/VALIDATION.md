@@ -272,3 +272,48 @@ vollständiger Richtungen. Affen-Frontbeschwörung nutzt eine gehaltene Stabpose
 um ungewollte Rückenwechsel der Quelle auszuschließen. Ähnlichkeit zu den Fotos
 bleibt stilisiert; keine Porträtgenauigkeit bei70px Figurenhöhe. Gebäude noch
 ohne Innenräume, Inventar-/Waffenwechsel oder NPC-Dialoge.
+
+## Referenz-Wald und Bild-HUD (aktiver Stand)
+
+Vorabbrief REFERENCE_GROVE_BRIEF.md: ausdrücklicher neuer Nutzerbildwunsch ersetzt
+Tiny-Swords-Prototyplandschaft/HUD, in AGENTS und ART_DIRECTION dokumentiert.
+Komplette aktive56×40-Szene reference_grove.tscn; alte manuelle forest.tscn und
+vorherige woodland_village.tscn nicht überschrieben. Ganze neue eigene Landschaft:
+Laubwald, fünf Holz-/Strohhäuser, verzweigte Erdwege, Blumen/Büsche/Zäune/Truhen,
+Fluss mit kontinuierlichen Felsufern, Schaumkante, Wasserfallstufe und echter
+begehbarer Brücke. Eigene Originalquellen und vollständige Prompts in
+art/generated-source/reference-grove; Generator built-in image_gen.imagegen.
+Terrain-v1 war visuell zu unruhig, v2 ersetzt den produktiven Boden.
+
+Änderungen: neue Grafikquellen/Registry/Compiler, neues Karten-Erstellungswerkzeug
+(niemals automatisch aufgerufen), gespeicherte aktive Karte, Wasser-Shader,
+HUD-Baustein, Heilaktion, Setup/Quellchecks, Start-/Editor-Launcher und angepasste
+Szenen-/HUD-Tests. HUD: echtes Affe-/Pandaporträt, LP/MP-Werte, Angriff/Heilen/
+Skelett/Item. H heilt bis35LP für20MP, keine Überheilung oder Wiederbelebung,
+keine Kosten bei voller Gesundheit/zu wenig Mana. Skelett beim Panda und Item
+bewusst deaktiviert. Keine vorgetäuschte Inventarimplementierung.
+
+Checks: check_project.py und py_compile PASS, Quellen-SHA256/Abmessungen,
+66Registry-PNGs und4HUD-Icons geprüft. Godot-Import und echte Editoröffnung
+reference_grove ohne Scriptfehler. Combat, Companions, HUD/enemy,
+Duo/projectile/village/editor, Creatures und Reference grove/bridge/healing:
+alle PASS mit0Fehlern. Nach Ufer-/HUD-Nachbesserung Grove/HUD/Duo nochmals PASS.
+Tatsächliche Brückenüberquerung, physische Wassersperre, A*-Flussquerung,
+H-Eingabe, Mana-/Heilgrenzen, Wandblockaden, Archetypen und Editor-Roundtrip
+getestet. Npm style:check,134Tests, build und art:references im Nachbarprojekt
+zusätzlich PASS; bekannte reine Build-Chunkgrößenwarnung.
+
+Visuell: artifacts/clearing.png und artifacts/grove/reference-world-hud.png,
+bridge.png und waterfall.png aus echtem Godot bei nativem Pixelzoom angesehen.
+Galerie grove/review.html neben nativer art-direction/style-reference.html
+überprüft. Der erste Boden war zu kleinteilig, Ufer wirkten zunächst freistehend,
+Wasserfall schwebend: Boden vereinfacht, Felskante verbunden, Wasserfall an Stufe
+angeschlossen und Schaumband verschmälert. LP/MP-Balken und Porträt korrigiert.
+
+Verbleibende Unterschiede zur Bildvorlage: die Karte ist noch deutlicher an einem
+64px-Raster orientiert; Bäume und Ufermodule wiederholen sich häufiger, und der
+Wasserfall ist eine statische Grafik (Fluss ist animiert). Keine frei begehbaren
+vertikalen Höhenebenen. Eigene Affe/Panda-/Goblinanimationen statt Referenzheld/
+Slime. Gegenstände/Truhen besitzen noch keine Loot-/Inventarinteraktion, Häuser
+keine Innenräume. Keine Behauptung einer pixelidentischen Kopie oder gleicher
+handgezeichneter Vielfalt allein aufgrund grüner Tests.

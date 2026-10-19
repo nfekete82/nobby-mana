@@ -17,7 +17,7 @@ def main():
     parser.add_argument('--godot', type=Path, help='Optional path to Godot executable')
     args = parser.parse_args()
     registry = json.loads((ROOT / 'art/registry.json').read_text())
-    entries = list(registry['terrain'].values())
+    entries = [entry for entry in registry['terrain'].values() if not entry.get('compiled')]
     for asset in registry['assets'].values():
         for animation in asset['animations'].values():
             if not animation.get('compiled'):
@@ -49,6 +49,7 @@ def main():
             parser.error('Godot is needed to compile creature art; use --godot /path/to/godot')
         engine = Path(found)
     subprocess.run([str(engine),'--headless','--path',str(ROOT),'--script','tools/compile_creatures.gd'],check=True)
+    subprocess.run([str(engine),'--headless','--path',str(ROOT),'--script','tools/compile_grove.gd'],check=True)
     print(f'{len(entries)} licensed PNGs installed locally; none are tracked by Git.')
 
 def compile_projectiles():

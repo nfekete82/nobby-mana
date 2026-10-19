@@ -4,16 +4,32 @@ var choice_buttons: Dictionary = {}
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var background := ColorRect.new()
-	background.color = Color("16242d")
+	var background := TextureRect.new()
+	background.texture = load("res://assets/compiled/grove-grass.png")
+	background.stretch_mode = TextureRect.STRETCH_TILE
+	background.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var shade := ColorRect.new()
+	shade.color = Color(0.025,0.065,0.045,0.88)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(shade)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var center := CenterContainer.new()
 	add_child(center)
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation",18)
-	center.add_child(box)
+	var panel := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("13251fed")
+	style.border_color = Color("ae9455")
+	style.set_border_width_all(2)
+	style.set_content_margin_all(24)
+	panel.add_theme_stylebox_override("panel",style)
+	center.add_child(panel)
+	panel.add_child(box)
 	var title := Label.new()
 	title.text = "NOBBY MANA"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -49,7 +65,7 @@ func _ready() -> void:
 		description.add_theme_font_size_override("font_size",14)
 		card.add_child(description)
 	var help := Label.new()
-	help.text = "WASD / Pfeile: laufen · Linksklick / J: Klassenangriff\nLeertaste: Nahkampf · Esc: Klassenwahl · F5: neue Runde"
+	help.text = "WASD / Pfeile: laufen · Linksklick / J: Klassenangriff\nLeertaste: Nahkampf · H: Heilen · R: Skelette\nEsc: Heldenwahl · F5: neue Runde"
 	help.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	help.add_theme_font_size_override("font_size",13)
 	box.add_child(help)

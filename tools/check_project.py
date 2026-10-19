@@ -24,9 +24,10 @@ for key, asset in registry['assets'].items():
                 assert hashlib.sha256(data).hexdigest() == animation['sha256'], key
             checked += 1
 for entry in registry['terrain'].values():
-    path = ROOT / 'assets/licensed' / entry['file']
+    path = ROOT / ('assets/compiled' if entry.get('compiled') else 'assets/licensed') / entry['file']
     if path.exists():
-        assert hashlib.sha256(path.read_bytes()).hexdigest() == entry['sha256']
+        if not entry.get('compiled'):
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == entry['sha256']
         checked += 1
 # Own full-body inputs are committed, so validate the rebuild chain in CI too.
 for source_root in (ROOT/'art/generated-source/creatures').glob('*/'):
@@ -49,6 +50,22 @@ for source_root in (ROOT/'art/generated-source/creatures').glob('*/'):
         for state, poses in spec['states'].items():
             assert len(poses) == registry['assets'][ident]['animations'][state]['frames']
             assert all(0 <= row < 4 and 0 <= col < 6 for row,col in poses)
+# Newly authored reference environment and HUD inputs are reproducible in CI.
+grove_root = ROOT/'art/generated-source/reference-grove'
+grove_provenance = json.loads((grove_root/'provenance.json').read_text())
+for name,record in grove_provenance['files'].items():
+    data = (grove_root/name).read_bytes()
+    assert hashlib.sha256(data).hexdigest() == record['sha256'], name
+    assert list(struct.unpack('>II',data[16:24])) == record['size'], name
+for name in ['attack','heal','summon','item']:
+    icon = ROOT/'assets/compiled'/f'hud-{name}.png'
+    if icon.exists():
+        assert struct.unpack('>II',icon.read_bytes()[16:24]) == (48,48)
+for name,size in [('grove-grass',(64,64)),('grove-path',(192,192)),('grove-water',(128,128)),('grove-stone',(64,64))]:
+    tile = ROOT/'assets/compiled'/f'{name}.png'
+    if tile.exists():
+        assert struct.unpack('>II',tile.read_bytes()[16:24]) == size
+assert (ROOT/'scenes/levels/reference_grove.tscn').exists()
 recipe = json.loads((ROOT/'art/generated-source/arrow.json').read_text())
 assert len(recipe['rows']) == recipe['frame'][1]
 assert all(len(row) == recipe['frame'][0] for row in recipe['rows'])

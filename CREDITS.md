@@ -51,3 +51,13 @@ Dorfgebäude (House1, House2, Monastery), zusätzliche Birke(Tree2) und Felsen(R
 sind unveränderte bereits im lokalen Tiny-Swords-Pack enthaltene Dateien. Herkunft
 und SHA256 stehen in art/registry.json; PNGs bleiben ausschließlich unter dem
 ignorierten assets/licensed. Keine neuen externen Packdateien werden verteilt.
+
+Referenz-Wald: Landschaftsmodule, Bodenmaterialien und HUD-Symbole wurden mit
+dem eingebauten OpenAI-Imagegen neu erzeugt, nach der vom Nutzer bereitgestellten
+Bildreferenz. Keine Bildteile daraus wurden ausgeschnitten oder kopiert. Eigene
+Originalausgaben, Prompts und SHA256 in art/generated-source/reference-grove.
+Die Quelle des Nutzerbildes ist nicht bekannt; es dient nur als Richtungsreferenz.
+Der Wechsel ist ausdrücklich dokumentiert und behauptet keine originale
+Pixel-Frog- oder Secret-of-Mana-Grafik. Native Packdateien bleiben unverändert
+und lokal. Auch die neuen Produktions-PNGs liegen unter assets/compiled;
+veröffentlicht werden die eigenen Quellbilder und der deterministische Compiler.

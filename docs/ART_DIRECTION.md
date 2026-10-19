@@ -81,3 +81,20 @@ Die Registry übernimmt ursprüngliche Zellen, Füße und konservative Grundflä
 Kein neuer Asset-Pack-Download, keine abweichenden Illustrationen. Welt56×40,
 Terrain64px, alle Instanzen Scale1 und Nearest. Alte forest.tscn bleibt unverändert;
 Dorf/Wege/Grasinsel sind als separate Szene editierbar.
+
+## Aktive Richtung: Referenz-Wald statt Tiny-Swords-Prototyplandschaft
+
+Der neue ausdrückliche Nutzerwunsch nach dem angehängten dichten Wald-/Flussbild
+ersetzt die frühere Tiny-Swords-Mastervorgabe für die aktive Landschaft und das
+HUD. [REFERENCE_GROVE_BRIEF.md](REFERENCE_GROVE_BRIEF.md) wurde vor Produktion
+festgehalten. Keine stille Mischung einzelner Illustrationen: ganze neue Karte
+mit zusammengehörigem eigenem Modulset und neuem Boden/HUD. Native Originale
+bleiben unveränderte historische Größen-/Technikreferenzen. Affe und Panda
+behalten bereits akzeptierte Identitäten und ganze Animationen.
+
+Eigene Quellen: art/generated-source/reference-grove mit vollständigen Prompts,
+Originalausgaben, SHA256, gemessenen Schnittrechtecken, Füßen und Produktions-
+abmessungen. compile_grove.gd trennt ganze Module, skaliert per Nearest, setzt
+binäres Alpha und komponiert pixelharte authored Terrainkanten. Terrain64px,
+Wasser128px als2×2Atlas. Keine Quellbilder im Runtime-Editor strecken.
+Aktive Szene reference_grove.tscn, alte Handkarten bleiben unverändert.

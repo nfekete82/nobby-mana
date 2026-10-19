@@ -1,0 +1,34 @@
+{
+  "generator": "OpenAI built-in image_gen.imagegen",
+  "reference": "User-provided lush RPG world and HUD image, new art direction explicitly requested",
+  "files": {
+    "environment.png": {
+      "sha256": "fb7358f3ae49868d0b3bff5dd86f6769c5aeeae669dc3aeb609850008f9b3789",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    "terrain.png": {
+      "sha256": "cc019d078075b8306204003c25a9b4b48f589c9ddde9ae639a6108a05ae556ab",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    "hud-icons.png": {
+      "sha256": "9d0898d0a6552d30986a8f35db45a6112bd093f91cda1350c18d61f5323ec464",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    "terrain-v2.png": {
+      "sha256": "2d0d7fd82af30691f7c8693c7ce636e97beaadff644f860606ab1b053fe4836e",
+      "size": [
+        1254,
+        1254
+      ]
+    }
+  }
+}

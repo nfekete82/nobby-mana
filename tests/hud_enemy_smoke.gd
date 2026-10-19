@@ -31,12 +31,19 @@ func run() -> void:
 	enemy.position += Vector2(40,20)
 	check(enemy.health_bar.global_position == before + Vector2(40,20), "Enemy bar follows its actor")
 	world.hero.take_damage(25,enemy.position)
-	check(world.health_bar.value == 75, "Health orb reads actual player health")
-	check(world.health_bar.fill_material.get_shader_parameter("amount") == 0.75, "Health fill reflects resource ratio")
+	check(world.health_bar.value == 75, "LP bar reads actual player health")
+	check(world.health_numbers.text == "75/100", "LP numbers reflect actual health")
 	world.hero.mana = 40
 	world.hero.mana_changed.emit(40,100)
-	check(world.mana_bar.value == 40, "Mana orb reads actual player mana")
-	check(is_equal_approx(world.mana_bar.fill_material.get_shader_parameter("amount"),0.4), "Mana fill reflects resource ratio")
+	check(world.mana_bar.value == 40, "MP bar reads actual player mana")
+	check(world.mana_numbers.text == "40/100", "MP numbers reflect actual mana")
+	check(not world.heal_button.disabled and world.hero.heal_self(), "Heal button is enabled when hurt with enough mana")
+	check(world.hero.health == 100 and world.hero.mana == 20, "Healing restores up to 35 LP and costs 20 MP")
+	check(not world.hero.heal_self() and world.hero.mana == 20, "Full health refuses healing without cost")
+	world.hero.health = 40
+	world.hero.mana = 19
+	check(not world.hero.heal_self(), "Insufficient MP blocks healing")
+	check(world.item_button.disabled, "Item slot truthfully disabled without inventory")
 	for dimensions in [Vector2i(960,640),Vector2i(1280,720),Vector2i(640,480)]:
 		root.size = dimensions
 		await process_frame
@@ -45,7 +52,7 @@ func run() -> void:
 		var visible: Rect2 = root.get_visible_rect()
 		check(absf(rect.position.x-12) < 1, "HUD stays anchored left at %s" % dimensions)
 		check(absf(rect.end.y-(visible.size.y-10)) < 1, "HUD stays ten pixels from bottom at %s" % dimensions)
-		check(rect.size == Vector2(432,180), "HUD remains compact at %s" % dimensions)
+		check(rect.size == Vector2(446,170), "HUD remains compact at %s" % dimensions)
 	enemy.invulnerable_remaining = 0
 	enemy.take_damage(100,world.hero.position)
 	check(not enemy.health_bar.visible, "Dead enemy hides health bar immediately")

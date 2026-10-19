@@ -105,9 +105,9 @@ func run() -> void:
 	check(scout != null and brute != null,"Both goblin types spawn in the actual forest")
 	check(scout.max_health == 45 and brute.max_health == 75,"Scout and brute have distinct health")
 	check(scout.move_speed > brute.move_speed and brute.attack_damage > scout.attack_damage,"Scout is quicker, brute hits harder")
-	hero.position = Vector2(1700,720)
+	hero.position = Vector2(1260,1120)
 	hero.invulnerable_remaining = 0
-	scout.position = Vector2(1760,720)
+	scout.position = Vector2(1320,1120)
 	scout.home = scout.position
 	scout.attack_delay = 0
 	scout.repath_remaining = 0

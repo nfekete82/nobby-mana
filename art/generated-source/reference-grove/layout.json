@@ -1,0 +1,341 @@
+{
+  "version": 1,
+  "description": "Measured source rectangles, complete authored silhouettes, fixed feet, common nearest resize per module. New reference-image art direction.",
+  "modules": {
+    "grove-tree": {
+      "rect": [
+        0,
+        0,
+        490,
+        549
+      ],
+      "frame": [
+        192,
+        256
+      ],
+      "foot": [
+        96,
+        234
+      ],
+      "fit": [
+        188,
+        230
+      ],
+      "hitbox": [
+        52,
+        28
+      ],
+      "solid": true
+    },
+    "grove-house": {
+      "rect": [
+        490,
+        59,
+        411,
+        485
+      ],
+      "frame": [
+        256,
+        320
+      ],
+      "foot": [
+        128,
+        300
+      ],
+      "fit": [
+        242,
+        288
+      ],
+      "hitbox": [
+        166,
+        64
+      ],
+      "solid": true
+    },
+    "grove-cliff": {
+      "rect": [
+        931,
+        98,
+        304,
+        446
+      ],
+      "frame": [
+        128,
+        192
+      ],
+      "foot": [
+        64,
+        184
+      ],
+      "fit": [
+        124,
+        178
+      ],
+      "hitbox": [
+        96,
+        30
+      ],
+      "solid": true
+    },
+    "grove-bridge": {
+      "rect": [
+        20,
+        637,
+        598,
+        269
+      ],
+      "frame": [
+        512,
+        256
+      ],
+      "foot": [
+        256,
+        234
+      ],
+      "fit": [
+        480,
+        216
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false
+    },
+    "grove-waterfall": {
+      "rect": [
+        627,
+        539,
+        269,
+        411
+      ],
+      "frame": [
+        192,
+        320
+      ],
+      "foot": [
+        96,
+        310
+      ],
+      "fit": [
+        176,
+        300
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false
+    },
+    "grove-flowers": {
+      "rect": [
+        921,
+        637,
+        314,
+        240
+      ],
+      "frame": [
+        64,
+        64
+      ],
+      "foot": [
+        32,
+        58
+      ],
+      "fit": [
+        60,
+        56
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false
+    },
+    "grove-fence": {
+      "rect": [
+        69,
+        960,
+        323,
+        235
+      ],
+      "frame": [
+        128,
+        96
+      ],
+      "foot": [
+        64,
+        88
+      ],
+      "fit": [
+        124,
+        84
+      ],
+      "hitbox": [
+        112,
+        18
+      ],
+      "solid": true
+    },
+    "grove-chest": {
+      "rect": [
+        509,
+        999,
+        216,
+        196
+      ],
+      "frame": [
+        64,
+        64
+      ],
+      "foot": [
+        32,
+        58
+      ],
+      "fit": [
+        58,
+        54
+      ],
+      "hitbox": [
+        42,
+        28
+      ],
+      "solid": true
+    },
+    "grove-bush": {
+      "rect": [
+        852,
+        940,
+        372,
+        274
+      ],
+      "frame": [
+        128,
+        128
+      ],
+      "foot": [
+        64,
+        116
+      ],
+      "fit": [
+        120,
+        112
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false
+    },
+    "grove-foam": {
+      "rect": [
+        627,
+        823,
+        270,
+        127
+      ],
+      "frame": [
+        64,
+        80
+      ],
+      "foot": [
+        32,
+        72
+      ],
+      "fit": [
+        36,
+        68
+      ],
+      "rotate": true,
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false,
+      "strip": 8
+    }
+  },
+  "icons": {
+    "attack": {
+      "rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "frame": [
+        48,
+        48
+      ],
+      "foot": [
+        24,
+        48
+      ],
+      "fit": [
+        46,
+        46
+      ]
+    },
+    "heal": {
+      "rect": [
+        627,
+        0,
+        627,
+        627
+      ],
+      "frame": [
+        48,
+        48
+      ],
+      "foot": [
+        24,
+        48
+      ],
+      "fit": [
+        46,
+        46
+      ]
+    },
+    "summon": {
+      "rect": [
+        0,
+        627,
+        627,
+        627
+      ],
+      "frame": [
+        48,
+        48
+      ],
+      "foot": [
+        24,
+        48
+      ],
+      "fit": [
+        46,
+        46
+      ]
+    },
+    "item": {
+      "rect": [
+        627,
+        627,
+        627,
+        627
+      ],
+      "frame": [
+        48,
+        48
+      ],
+      "foot": [
+        24,
+        48
+      ],
+      "fit": [
+        46,
+        46
+      ]
+    }
+  },
+  "texture_source": "terrain-v2.png"
+}

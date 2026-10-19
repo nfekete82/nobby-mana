@@ -18,7 +18,9 @@ Heldenwahl; F5 startet dieselbe Figur neu. WASD/Pfeile bewegen.
 Mausklick zielt zur Maus; J visiert den nächsten Gegner an. Das Schwert trifft
 nur innerhalb seiner Reichweite, nach einer Ausholbewegung und einmal je
 Schlag. Bäume und Hausfundamente blockieren Schläge und Pfeile. Der Panda
-besitzt keine Pfeile oder Skelettbeschwörung; sein HUD zeigt das Holzschwert.
+besitzt keine Pfeile oder Skelettbeschwörung. Beide Figuren können mit H bzw.
+dem Heilkreuz für20Mana bis zu35LP heilen; volle LP oder zu wenig Mana blockieren
+die Aktion ohne Kosten.
 
 Ein Skelett kostet den Affen10Mana und kämpft zwei Minuten mit. Mana erholt sich
 im Stehen nach0,25Sekunden Ruhe mit5Punkten pro Sekunde. Gegner haben
@@ -29,21 +31,28 @@ korallfarbene Kleidung nach den persönlichen Bildreferenzen. Ganze Körper und
 Vorder-/Rückenanimationen, keine Kopfmontagen. Private Fotos liegen nicht im Repo.
 [Figuren, Quellen und Grenzen](docs/CREATURES.md).
 
-Die Welt ist **56×40 Kacheln (3584×2560 Pixel)** groß, doppelt so viel Fläche
-wie zuvor. Östlich der alten Lichtung liegt ein Dorf mit Häusern und Dorfhalle;
-eine südliche Waldroute führt an der Holzfällerhütte vorbei zurück nach Osten.
-Birken, Nadelbäume, Büsche und Felsen bringen Abwechslung. Eine Hütte ist schon
-beim Start sichtbar. Gebäude besitzen Grundkollisionen; begehbare Innenräume
-und NPC-Dialoge sind noch nicht implementiert.
+Die aktive Welt ist **56×40 Kacheln (3584×2560 Pixel)** groß und wurde nach der
+neuen Bildreferenz als dichter Wald gestaltet: warme Holz-/Strohhäuser, Gras und
+Blumen, Felsufer, animierter Fluss, Wasserfallstufe und begehbare Holzbrücke.
+Die neue Karte liegt in scenes/levels/reference_grove.tscn. Eure älteren Szenen
+forest.tscn und woodland_village.tscn bleiben erhalten, sind aber nicht aktiv.
+Die Grafik ist eine eigene Umsetzung der neuen Richtung, keine exakte Bildkopie.
+
+Unten links steht nun ein kompaktes Referenz-HUD: Heldenporträt, LP/MP-Balken
+mit echten Zahlen, Angriff(J), Heilen(H), Skelett(R) und Item. Beim Panda ist
+Skelett deaktiviert; Item ist erkennbar noch nicht verfügbar. Kein Inventar oder
+begehbares Hausinnere implementiert. Affe/Panda und ihre Animationen bleiben
+persönliche Figuren statt des menschlichen Helden der Bildvorlage.
 
 ## Leveleditor
 
-**Editor.command** öffnet die bisherige Waldkarte. Das neue Dorf liegt separat
-in **scenes/levels/woodland_village.tscn**: Ground/Paths malen, Scenery mit
-Häusern/Bäumen/Felsen kopieren und verschieben. Scale bleibt(1,1), Cmd+S speichern,
-F5 spielen. Die manuell bearbeitete forest.tscn wird nicht neu erzeugt.
+**Editor.command** öffnet die aktive Referenzkarte. Ground, Paths, River,
+CliffFaces, Barriers, Scenery, Encounters und PlayerSpawn sind normale
+Godot-Nodes. Häuser/Bäume/Blumen/Felsen verschieben, auf Scale(1,1) belassen,
+Cmd+S speichern und F5 spielen. Die Welt wird beim Start nicht neu generiert.
 
-[Schrittweise Editor-Anleitung](docs/LEVEL_EDITOR.md).
+[Editor-Anleitung](docs/LEVEL_EDITOR.md) ·
+[Neue Grafikquellen und Art Direction](docs/REFERENCE_GROVE_BRIEF.md).
 
 ## Lokal starten
 
@@ -81,11 +90,12 @@ godot --headless --path . --script tests/hud_enemy_smoke.gd
 godot --headless --path . --script tests/classes_editor_smoke.gd
 godot --headless --path . --script tests/creatures_smoke.gd
 godot --path . --script tests/capture.gd
-godot --path . --script tests/capture_duo.gd
+godot --path . --script tests/grove_smoke.gd
+godot --path . --script tests/capture_grove.gd
 ```
 
 Die Aufnahmebefehle brauchen eine grafische Sitzung und schreiben echte
-Godot-Screenshots nach `artifacts/clearing.png` bzw. `artifacts/duo/`. Strukturprüfungen ersetzen
+Godot-Screenshots nach `artifacts/clearing.png` bzw. `artifacts/grove/`. Strukturprüfungen ersetzen
 keine Sichtprüfung oder Spieltests. CI prüft die öffentlich verfügbaren
 Projektdateien; vollständige Laufzeittests benötigen die lokalen Grafiken.
 

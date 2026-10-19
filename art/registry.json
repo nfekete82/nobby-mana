@@ -651,6 +651,246 @@
           "sha256": "62de877a4732bee98e170c1a4aac44c3bd39929205923176a4acbec812d2630a"
         }
       }
+    },
+    "grove-tree": {
+      "frame": [
+        192,
+        256
+      ],
+      "foot": [
+        96,
+        234
+      ],
+      "hitbox": [
+        52,
+        28
+      ],
+      "solid": true,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-tree-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-house": {
+      "frame": [
+        256,
+        320
+      ],
+      "foot": [
+        128,
+        300
+      ],
+      "hitbox": [
+        166,
+        64
+      ],
+      "solid": true,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-house-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-cliff": {
+      "frame": [
+        128,
+        192
+      ],
+      "foot": [
+        64,
+        184
+      ],
+      "hitbox": [
+        96,
+        30
+      ],
+      "solid": true,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-cliff-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-bridge": {
+      "frame": [
+        512,
+        256
+      ],
+      "foot": [
+        256,
+        234
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-bridge-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-waterfall": {
+      "frame": [
+        192,
+        320
+      ],
+      "foot": [
+        96,
+        310
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-waterfall-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-flowers": {
+      "frame": [
+        64,
+        64
+      ],
+      "foot": [
+        32,
+        58
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-flowers-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-fence": {
+      "frame": [
+        128,
+        96
+      ],
+      "foot": [
+        64,
+        88
+      ],
+      "hitbox": [
+        112,
+        18
+      ],
+      "solid": true,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-fence-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-chest": {
+      "frame": [
+        64,
+        64
+      ],
+      "foot": [
+        32,
+        58
+      ],
+      "hitbox": [
+        42,
+        28
+      ],
+      "solid": true,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-chest-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-bush": {
+      "frame": [
+        128,
+        128
+      ],
+      "foot": [
+        64,
+        116
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-bush-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
+    },
+    "grove-foam": {
+      "frame": [
+        64,
+        80
+      ],
+      "foot": [
+        32,
+        72
+      ],
+      "hitbox": [
+        1,
+        1
+      ],
+      "solid": false,
+      "identity_source": "art/generated-source/reference-grove/environment.png",
+      "animations": {
+        "stand": {
+          "file": "grove-foam-stand.png",
+          "frames": 1,
+          "fps": 1,
+          "compiled": true
+        }
+      }
     }
   },
   "terrain": {
@@ -663,6 +903,26 @@
       "file": "path.png",
       "source": "src/tiled/tiny-swords/path-earthy.png",
       "sha256": "1d5bfa3f61c6d9c5b59633817ced37d89b293b40ffe7420aae9948c63526e214"
+    },
+    "grove-grass": {
+      "file": "grove-grass.png",
+      "compiled": true,
+      "source": "art/generated-source/reference-grove/terrain-v2.png"
+    },
+    "grove-water": {
+      "file": "grove-water.png",
+      "compiled": true,
+      "source": "art/generated-source/reference-grove/terrain-v2.png"
+    },
+    "grove-path": {
+      "file": "grove-path.png",
+      "compiled": true,
+      "source": "art/generated-source/reference-grove/terrain-v2.png"
+    },
+    "grove-stone": {
+      "file": "grove-stone.png",
+      "compiled": true,
+      "source": "art/generated-source/reference-grove/terrain-v2.png"
     }
   }
 }

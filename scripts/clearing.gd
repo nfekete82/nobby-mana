@@ -3,7 +3,7 @@ extends Node2D
 const Art = preload("res://scripts/art_library.gd")
 const Player = preload("res://scripts/player.gd")
 const Enemy = preload("res://scripts/enemy.gd")
-const ResourceOrb = preload("res://scripts/resource_orb.gd")
+const AdventureHUD = preload("res://scripts/adventure_hud.gd")
 const Navigation = preload("res://scripts/navigation.gd")
 var world_size := Vector2i(40,28)
 var level: Node2D
@@ -19,6 +19,10 @@ var summon_button: Button
 var shoot_button: Button
 var hud_dock: Control
 var message_timer: Timer
+var health_numbers: Label
+var mana_numbers: Label
+var heal_button: Button
+var item_button: Button
 var _navigation: RefCounted
 var remaining := 2
 
@@ -32,7 +36,7 @@ func _ready() -> void:
 		push_error(message.text)
 		return
 	y_sort_enabled = true
-	level = load("res://scenes/levels/forest.tscn").instantiate()
+	level = load("res://scenes/levels/reference_grove.tscn").instantiate()
 	add_child(level)
 	world_size = level.map_tiles
 	var size := world_pixels()
@@ -49,7 +53,7 @@ func _ready() -> void:
 	hero.name = "Nobby"
 	hero.position = level.get_node("PlayerSpawn").position
 	actors.add_child(hero)
-	hero.health_changed.connect(func(current: int, _maximum: int): health_bar.value = current)
+	hero.health_changed.connect(func(_current: int, _maximum: int): refresh_party())
 	hero.defeated.connect(func(): status.text = "Dein Held ist erschöpft. Drücke F5 für einen neuen Versuch.")
 	var encounter_sets: Array[Node] = [level.get_node("Encounters")]
 	if level.include_goblin_camp:
@@ -77,7 +81,7 @@ func configure_input() -> void:
 	var bindings := {
 		"move_left": [KEY_A, KEY_LEFT], "move_right": [KEY_D, KEY_RIGHT],
 		"move_up": [KEY_W, KEY_UP], "move_down": [KEY_S, KEY_DOWN],
-		"attack": [KEY_SPACE], "shoot": [KEY_J], "menu": [KEY_ESCAPE], "summon": [KEY_R], "restart": [KEY_F5],
+		"attack": [KEY_SPACE], "shoot": [KEY_J], "menu": [KEY_ESCAPE], "summon": [KEY_R], "heal": [KEY_H], "restart": [KEY_F5],
 	}
 	for action: String in bindings:
 		if not InputMap.has_action(action):
@@ -109,148 +113,7 @@ func add_wall(at: Vector2, size: Vector2) -> void:
 	add_child(body)
 
 func build_hud() -> void:
-	var layer := CanvasLayer.new()
-	layer.name = "HUD"
-	add_child(layer)
-	var screen := Control.new()
-	screen.name = "Screen"
-	screen.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	layer.add_child(screen)
-	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	hud_dock = Control.new()
-	hud_dock.name = "ResourceDock"
-	hud_dock.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	screen.add_child(hud_dock)
-	hud_dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
-	hud_dock.offset_left = 12
-	hud_dock.offset_right = 444
-	hud_dock.offset_top = -190
-	hud_dock.offset_bottom = -10
-	var panel := Panel.new()
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.position = Vector2(132,82)
-	panel.size = Vector2(180 if hero.is_summoner() else 92,80)
-	var background := StyleBoxFlat.new()
-	background.bg_color = Color("192830")
-	background.border_color = Color("796443")
-	background.set_border_width_all(1)
-	panel.add_theme_stylebox_override("panel",background)
-	hud_dock.add_child(panel)
-	health_bar = ResourceOrb.new()
-	health_bar.name = "HealthOrb"
-	health_bar.position = Vector2(0,0 if hero.is_summoner() else 64)
-	health_bar.size = Vector2(96,96)
-	health_bar.max_value = hero.max_health
-	health_bar.value = hero.health
-	hud_dock.add_child(health_bar)
-	mana_bar = ResourceOrb.new()
-	mana_bar.name = "ManaOrb"
-	mana_bar.mana_style = true
-	mana_bar.position = Vector2(40,64)
-	mana_bar.size = Vector2(96,96)
-	mana_bar.max_value = hero.MAX_MANA
-	mana_bar.step = 0
-	hud_dock.add_child(mana_bar)
-	summon_button = Button.new()
-	summon_button.name = "Summon"
-	summon_button.text = ""
-	summon_button.position = Vector2(140,82)
-	summon_button.size = Vector2(72,80)
-	summon_button.add_theme_font_size_override("font_size",13)
-	summon_button.focus_mode = Control.FOCUS_NONE
-	summon_button.tooltip_text = "Skelett erwecken · 10 Mana · bis zu 3 Begleiter für 2 Minuten.\nWASD/Pfeile: bewegen · Leertaste/J: Angriff · F5: Neustart"
-	summon_button.pressed.connect(func():
-		if hero.is_summoner():
-			hero.summon_skeleton()
-		else:
-			hero.primary_action(hero.aim_position(false)))
-	hud_dock.add_child(summon_button)
-	var skeleton_icon := TextureRect.new()
-	var icon := AtlasTexture.new()
-	icon.atlas = load("res://assets/licensed/skeleton-stand.png" if hero.is_summoner() else "res://assets/compiled/panda-stand.png")
-	icon.region = Rect2(64,64,64,72) if hero.is_summoner() else Rect2(116,74,30,46)
-	skeleton_icon.texture = icon
-	skeleton_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	skeleton_icon.position = Vector2(4,4)
-	skeleton_icon.size = Vector2(64,72)
-	skeleton_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	skeleton_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	summon_button.add_child(skeleton_icon)
-	if not hero.is_summoner():
-		summon_button.tooltip_text = "Holzschwert · 28 Schaden · Linksklick / J / Leertaste"
-		mana_bar.hide()
-	var key := Label.new()
-	key.text = "R" if hero.is_summoner() else "J"
-	key.position = Vector2(5,0)
-	key.add_theme_color_override("font_outline_color",Color("16242d"))
-	key.add_theme_constant_override("outline_size",4)
-	key.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	summon_button.add_child(key)
-	shoot_button = Button.new()
-	shoot_button.position = Vector2(224,82)
-	shoot_button.size = Vector2(72,80)
-	shoot_button.focus_mode = Control.FOCUS_NONE
-	shoot_button.tooltip_text = "Linksklick: gezielt werfen · J: nächsten Gegner anvisieren"
-	shoot_button.pressed.connect(func(): hero.primary_action(hero.aim_position(false)))
-	hud_dock.add_child(shoot_button)
-	var arrow_icon := TextureRect.new()
-	arrow_icon.texture = load("res://assets/compiled/arrow.png")
-	arrow_icon.position = Vector2(20,28)
-	arrow_icon.size = Vector2(32,11)
-	arrow_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	shoot_button.add_child(arrow_icon)
-	shoot_button.visible = hero.is_summoner()
-	for data in ([["R · Erwecken",140],["Pfeile · J",224]] if hero.is_summoner() else [["Holzschwert",140]]):
-		var caption := Label.new()
-		caption.text = data[0]
-		caption.position = Vector2(data[1],164)
-		caption.size = Vector2(72,14)
-		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		caption.add_theme_font_size_override("font_size",10)
-		caption.add_theme_color_override("font_outline_color",Color("16242d"))
-		caption.add_theme_constant_override("outline_size",3)
-		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		hud_dock.add_child(caption)
-	party_label = Label.new()
-	party_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	party_label.position = Vector2(138,62)
-	party_label.size = Vector2(170 if hero.is_summoner() else 100,18)
-	party_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	party_label.add_theme_font_size_override("font_size",11)
-	party_label.add_theme_color_override("font_color",Color("eee2c3"))
-	hud_dock.add_child(party_label)
-	status = Label.new()
-	status.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	screen.add_child(status)
-	status.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
-	status.offset_left = -300
-	status.offset_right = 300
-	status.offset_top = 12
-	status.offset_bottom = 36
-	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	status.text = "Wald & Dorf · %d Wächter · Esc: Heldenwahl" % remaining
-	status.add_theme_font_size_override("font_size",13)
-	status.add_theme_color_override("font_color",Color("eee2c3"))
-	status.add_theme_color_override("font_outline_color",Color("16242d"))
-	status.add_theme_constant_override("outline_size",4)
-	summon_message = Label.new()
-	summon_message.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	screen.add_child(summon_message)
-	summon_message.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	summon_message.offset_left = -300
-	summon_message.offset_right = 300
-	summon_message.offset_top = -46
-	summon_message.offset_bottom = -22
-	summon_message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	summon_message.add_theme_font_size_override("font_size",12)
-	summon_message.add_theme_color_override("font_outline_color",Color("16242d"))
-	summon_message.add_theme_constant_override("outline_size",4)
-	summon_message.hide()
-	message_timer = Timer.new()
-	message_timer.one_shot = true
-	message_timer.wait_time = 2.5
-	message_timer.timeout.connect(summon_message.hide)
-	layer.add_child(message_timer)
+	AdventureHUD.build(self)
 
 func show_summon_feedback(message: String) -> void:
 	summon_message.text = "Skelett erweckt" if message.begins_with("Skelett erweckt") else message
@@ -265,11 +128,19 @@ func on_enemy_defeated() -> void:
 		status.text = "Noch ein Wächter."
 
 func refresh_party() -> void:
+	if health_bar == null:
+		return
 	var count: int = hero.companion_count()
+	health_bar.value = hero.health
 	mana_bar.value = hero.mana
-	party_label.text = (hero.display_name()+" · Skelette %d / 3" % count) if hero.is_summoner() else "Panda · Holzschwert"
+	health_numbers.text = "%d/%d" % [hero.health,hero.max_health]
+	mana_numbers.text = "%d/%d" % [int(hero.mana),int(hero.MAX_MANA)]
+	party_label.text = ("Affe\nSkelette %d/3" % count) if hero.is_summoner() else "Panda\nHolzschwert"
 	shoot_button.disabled = hero.dead
-	summon_button.disabled = hero.dead or (hero.is_summoner() and (hero.mana < hero.SUMMON_COST or count >= hero.SUMMON_LIMIT))
+	heal_button.disabled = hero.dead or hero.health >= hero.max_health or hero.mana < 20
+	summon_button.disabled = not hero.is_summoner() or hero.dead or hero.mana < hero.SUMMON_COST or count >= hero.SUMMON_LIMIT
+	if not hero.is_summoner():
+		summon_button.tooltip_text = "Nur der Affen-Schamane kann Skelette erwecken."
 
 func navigation() -> RefCounted:
 	if _navigation == null:
