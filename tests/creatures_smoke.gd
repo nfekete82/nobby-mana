@@ -20,7 +20,7 @@ func png(file: String) -> Image:
 	return image
 
 func run() -> void:
-	for id: String in ["monkey-shaman","goblin-scout","goblin-brute"]:
+	for id: String in ["monkey-shaman","panda","goblin-scout","goblin-brute"]:
 		var data: Dictionary = Art.registry().assets[id]
 		check(Vector2i(int(data.frame[0]),int(data.frame[1])) == Vector2i(192,192) and Vector2i(int(data.foot[0]),int(data.foot[1])) == Vector2i(96,132),"Fixed native cells/feet for "+id)
 		for state: String in data.animations:
@@ -42,7 +42,7 @@ func run() -> void:
 	# Whole new figures: independently authored front/rear gait poses must vary,
 	# stay inside their cells and land on the shared baseline. Visual review
 	# remains necessary to judge whether the step sequence actually looks good.
-	for id: String in ["monkey-shaman","goblin-scout","goblin-brute"]:
+	for id: String in ["monkey-shaman","panda","goblin-scout","goblin-brute"]:
 		var walk := png("res://assets/compiled/"+id+"-walk.png")
 		var signatures: Array[String] = []
 		for row in 2:

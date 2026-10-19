@@ -65,3 +65,19 @@ Bilder dienen als Stilreferenzen, nicht als Körperlieferanten. Originalbögen,
 Prompts und Provenienz stehen in art/generated-source/creatures/fullbody-v2.
 Tatsächliche Spiel- und Laufsichtprüfung sowie Vergleichsgalerie siehe
 [CREATURES.md](CREATURES.md). Native Master werden dadurch nicht ersetzt.
+
+## Persönliches Duo und größeres Waldorf
+
+[DUO_WORLD_BRIEF.md](DUO_WORLD_BRIEF.md) legt vor der Produktion Namen, Dimensionen,
+Paletten, Referenzen, Animationszahlen und Erhalt der alten Karte fest. Magier
+und menschlicher Schamane sind aus der Heldenauswahl entfernt. Vollständige
+Affe-/Panda-Bitmapquellen unter duo-v3, keine Fotomontagen oder privaten
+Fotodateien im öffentlichen Repository. Native Red Warrior/Blue Monk als
+Actor-Stilmaster, aktuelle Ganzkörper-Kreaturen als Gameplayvergleich.
+
+Gebäude und neue Landschaftsteile verwenden unveränderte bereits lokal
+lizenzierte Tiny-Swords-Dateien: House1, House2, Monastery, Tree2 und Rock1.
+Die Registry übernimmt ursprüngliche Zellen, Füße und konservative Grundflächen.
+Kein neuer Asset-Pack-Download, keine abweichenden Illustrationen. Welt56×40,
+Terrain64px, alle Instanzen Scale1 und Nearest. Alte forest.tscn bleibt unverändert;
+Dorf/Wege/Grasinsel sind als separate Szene editierbar.

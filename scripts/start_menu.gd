@@ -27,7 +27,7 @@ func _ready() -> void:
 	var cards := HBoxContainer.new()
 	cards.add_theme_constant_override("separation",24)
 	box.add_child(cards)
-	for id: String in ["mage","shaman","monkey"]:
+	for id: String in ["monkey","panda"]:
 		var card := VBoxContainer.new()
 		card.custom_minimum_size = Vector2(230,0)
 		cards.add_child(card)
@@ -35,21 +35,21 @@ func _ready() -> void:
 		portrait.custom_minimum_size = Vector2(192,192)
 		portrait.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 		portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		portrait.texture = Art.frames_for({"mage":"hero","shaman":"shaman","monkey":"monkey-shaman"}[id]).get_frame_texture("stand",0)
+		portrait.texture = Art.frames_for({"monkey":"monkey-shaman","panda":"panda"}[id]).get_frame_texture("stand",0)
 		card.add_child(portrait)
 		var button := Button.new()
-		button.text = {"mage":"Magier","shaman":"Schamane","monkey":"Affen-Schamane"}[id]
+		button.text = {"monkey":"Affen-Schamane","panda":"Panda-Kämpferin"}[id]
 		button.custom_minimum_size = Vector2(220,42)
 		button.pressed.connect(choose.bind(id))
 		choice_buttons[id] = button
 		card.add_child(button)
 		var description := Label.new()
-		description.text = "Arkane Pfeile · 6 Mana\n25 Schaden pro Treffer" if id == "mage" else "Pfeile werfen · kein Mana\nSkelette erwecken mit R"
+		description.text = "Holzschwert · 28 Schaden\nNahkampf · 125 Leben" if id == "panda" else "Pfeile werfen · kein Mana\nSkelette erwecken mit R"
 		description.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		description.add_theme_font_size_override("font_size",14)
 		card.add_child(description)
 	var help := Label.new()
-	help.text = "WASD / Pfeile: laufen · Linksklick / J: Fernangriff\nLeertaste: Nahkampf · Esc: Klassenwahl · F5: neue Runde"
+	help.text = "WASD / Pfeile: laufen · Linksklick / J: Klassenangriff\nLeertaste: Nahkampf · Esc: Klassenwahl · F5: neue Runde"
 	help.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	help.add_theme_font_size_override("font_size",13)
 	box.add_child(help)

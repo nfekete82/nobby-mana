@@ -1,8 +1,8 @@
 extends Node
-var selected_class := "shaman"
+var selected_class := "monkey"
 
 func choose(character_class: String) -> bool:
-	if character_class not in ["mage","shaman","monkey"]:
+	if character_class not in ["monkey","panda"]:
 		return false
 	selected_class = character_class
 	return true

@@ -370,8 +370,8 @@
           "compiled": true
         }
       },
-      "identity_source": "art/generated-source/creatures/fullbody-v2/monkey-shaman.png",
-      "animation_source": "complete authored poses; no native body reuse"
+      "identity_source": "art/generated-source/creatures/duo-v3/monkey-shaman.png",
+      "animation_source": "complete authored personal animal hero poses"
     },
     "goblin-scout": {
       "frame": [
@@ -478,6 +478,179 @@
       },
       "identity_source": "art/generated-source/creatures/fullbody-v2/goblin-brute.png",
       "animation_source": "complete authored poses; no native body reuse"
+    },
+    "panda": {
+      "frame": [
+        192,
+        192
+      ],
+      "foot": [
+        96,
+        132
+      ],
+      "hitbox": [
+        32,
+        24
+      ],
+      "animations": {
+        "stand": {
+          "file": "panda-stand.png",
+          "frames": 4,
+          "rows": 2,
+          "fps": 3,
+          "compiled": true
+        },
+        "walk": {
+          "file": "panda-walk.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 12,
+          "compiled": true
+        },
+        "attack": {
+          "file": "panda-attack.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 15,
+          "compiled": true
+        },
+        "hit": {
+          "file": "panda-hit.png",
+          "frames": 2,
+          "rows": 2,
+          "fps": 10,
+          "compiled": true
+        },
+        "death": {
+          "file": "panda-death.png",
+          "frames": 6,
+          "rows": 2,
+          "fps": 12,
+          "compiled": true
+        }
+      },
+      "identity_source": "art/generated-source/creatures/duo-v3/panda.png",
+      "animation_source": "complete authored personal animal hero poses"
+    },
+    "house": {
+      "frame": [
+        128,
+        192
+      ],
+      "foot": [
+        64,
+        170
+      ],
+      "hitbox": [
+        88,
+        44
+      ],
+      "solid": true,
+      "animations": {
+        "stand": {
+          "file": "house-stand.png",
+          "source": "public/tiny-swords/Buildings/Blue Buildings/House1.png",
+          "frames": 1,
+          "fps": 6,
+          "sha256": "f68fbce236ca663e2c1d86484f4617586bc99f4f9b634c493e62fa7eeece5c63"
+        }
+      }
+    },
+    "house-large": {
+      "frame": [
+        128,
+        192
+      ],
+      "foot": [
+        64,
+        170
+      ],
+      "hitbox": [
+        92,
+        46
+      ],
+      "solid": true,
+      "animations": {
+        "stand": {
+          "file": "house-large-stand.png",
+          "source": "public/tiny-swords/Buildings/Blue Buildings/House2.png",
+          "frames": 1,
+          "fps": 6,
+          "sha256": "21e35d4d47e778c996cc56d95170908f663ca8858f08a6f8637fa15c1236448f"
+        }
+      }
+    },
+    "monastery": {
+      "frame": [
+        192,
+        320
+      ],
+      "foot": [
+        96,
+        288
+      ],
+      "hitbox": [
+        130,
+        62
+      ],
+      "solid": true,
+      "animations": {
+        "stand": {
+          "file": "monastery-stand.png",
+          "source": "public/tiny-swords/Buildings/Blue Buildings/Monastery.png",
+          "frames": 1,
+          "fps": 6,
+          "sha256": "19ceee020215c572f9365f27ee5bd35cd52e17f796d81b082f16206e0ea7da5c"
+        }
+      }
+    },
+    "rock": {
+      "frame": [
+        64,
+        64
+      ],
+      "foot": [
+        32,
+        55
+      ],
+      "hitbox": [
+        36,
+        22
+      ],
+      "solid": true,
+      "animations": {
+        "stand": {
+          "file": "rock-stand.png",
+          "source": "public/tiny-swords/Terrain/Decorations/Rocks/Rock1.png",
+          "frames": 1,
+          "fps": 6,
+          "sha256": "de9f1d954577003e278bae7ee71338c76b4799c9aabf34a002219ca2c67c7c00"
+        }
+      }
+    },
+    "tree-birch": {
+      "frame": [
+        192,
+        256
+      ],
+      "foot": [
+        96,
+        234
+      ],
+      "hitbox": [
+        40,
+        24
+      ],
+      "solid": true,
+      "animations": {
+        "stand": {
+          "file": "tree-birch-stand.png",
+          "source": "public/tiny-swords/Terrain/Resources/Wood/Trees/Tree2.png",
+          "frames": 8,
+          "fps": 2.5,
+          "sha256": "62de877a4732bee98e170c1a4aac44c3bd39929205923176a4acbec812d2630a"
+        }
+      }
     }
   },
   "terrain": {

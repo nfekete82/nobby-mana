@@ -10,7 +10,7 @@ func capture() -> void:
 		session = load("res://scripts/session.gd").new()
 		session.name = "Session"
 		root.add_child(session)
-	session.selected_class = "mage" if "--mage" in options else "shaman"
+	session.selected_class = "panda" if "--panda" in options else "monkey"
 	var menu := "--menu" in options
 	var party := "--companions" in options
 	var combat := "--combat" in options
@@ -33,7 +33,7 @@ func capture() -> void:
 		enemy.position = Vector2(900,640)
 		enemy.set_physics_process(false)
 		await physics_frame
-		scene.hero.shoot_at(enemy.position)
+		scene.hero.primary_action(enemy.position)
 	for frame in (90 if combat else (50 if party else 12)):
 		await physics_frame
 	await RenderingServer.frame_post_draw
@@ -44,7 +44,7 @@ func capture() -> void:
 	elif east:
 		name = "eastern-glade"
 	elif "--shoot" in options:
-		name = "mage-shot" if "--mage" in options else "shaman-shot"
+		name = "panda-melee" if "--panda" in options else "monkey-shot"
 	elif combat:
 		name = "summon-combat"
 	elif party:

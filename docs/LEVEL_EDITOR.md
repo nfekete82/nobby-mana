@@ -25,14 +25,14 @@ Büsche sind durchquerbar.
 ## Bäume, Büsche, Gegner und Startpunkt
 
 - Unter **Scenery** einen Baum auswählen, mit Cmd+D duplizieren und verschieben.
-  Im Inspector bestimmt **Asset Id** Baum groß, Baum klein oder Busch. Füße und
+  Im Inspector bestimmt **Asset Id** Baumarten, Busch, Fels oder native Häuser. Füße und
   Kollisionen folgen dem Asset; die Scale bleibt bei (1,1).
 - Unter **Encounters** einen Warrior-Marker verschieben oder duplizieren.
   Seine Sprite-Vorschau kennzeichnet die Position des tatsächlichen Gegners.
   Anzahl, Kampfziel und Spawnpositionen werden daraus beim Start gelesen.
 - **PlayerSpawn** verschieben, um den Heldenstart zu verändern.
 - Den Root **Forest** auswählen: **Map Tiles** bestimmt die Grenzen. Aktuell
-  40×28 bzw. 2560×1792 Pixel. Bei Erweiterung die neuen Flächen selbst malen;
+  56×40 bzw. 3584×2560 Pixel. Bei Erweiterung die neuen Flächen selbst malen;
   Kamera, Weltgrenzen und Navigationsraster übernehmen die Maße beim Neustart.
 
 Die Karte ist eine reguläre gespeicherte Godot-Szene und wird beim Spielen oder
@@ -48,3 +48,23 @@ sich als Gegner in die Encounters-Gruppe ziehen. Die separate Standardgruppe
 liegt in forest_goblins.tscn und kann dort bearbeitet werden; deine bestehende
 Waldkarte wird dafür nicht überschrieben. Beim Root schaltet Include Goblin Camp
 diese Zusatzgruppe ein/aus. Details: [CREATURES.md](CREATURES.md).
+
+## Dorf und größere Welt
+
+Die bestehende Waldkarte bleibt erhalten. Das zusätzliche Gebiet liegt in
+**scenes/levels/woodland_village.tscn**; diese Datei im Dateisystembereich öffnen.
+Dort sind Ground, Paths, Scenery und Wegpunktmarker regulär bearbeitbare Nodes.
+Die kleinen Häuser, die Dorfhalle und Holzfällerhütte lassen sich unter Scenery
+verschieben/duplizieren. Ihre Größe nicht strecken: native Fußpunkte und
+Grundflächen folgen automatisch dem Asset Id. Dächer sind durchquerbar, die
+Fundamente blockieren Bewegung, Pfeile, Nahkampf und Navigation.
+
+Forest zeigt das Gebiet auch im Editor als ungespeicherte Szeneinstanz an;
+**Include Village** schaltet es ein/aus. Zum Bearbeiten die Quelldatei oben öffnen,
+nicht die temporäre Instanz verändern. So entstehen beim Speichern der alten
+Waldkarte keine Kopien. Die Standardmaße gelten für die größere Gesamtwelt;
+ohne Dorf kann Map Tiles wieder auf die bisherigen40×28 gesetzt werden.
+
+Das Erstellungsskript tools/create_expansion.gd verweigert vorhandene Dateien.
+Es wird weder beim Start noch beim Setup ausgeführt. Manuelle Szeneänderungen
+werden niemals durch eine automatische Weltgenerierung ersetzt.

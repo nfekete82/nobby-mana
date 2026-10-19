@@ -217,3 +217,58 @@ Layout dokumentiert die Auswahl vollständiger Ersatzposen aus derselben Folge.
 Die zuvor manuell bearbeitete scenes/levels/forest.tscn bleibt unverändert
 außerhalb dieses Grafikcommits. Keine Szenen-IDs, Platzierungen, Kollisions-
 oder Kampfwerte durch diese Änderung ersetzt.
+
+## Persönliches Heldenduo und Dorf (aktueller Stand)
+
+Vorabbrief: DUO_WORLD_BRIEF.md. Magier und menschlicher Schamane aus Auswahl,
+Session und Spielerlogik entfernt. Nur Affe und Panda starten reguläres Gameplay.
+Affe: Dutt/Bart nach Nutzerfoto, Pfeile und Skelette erhalten. Panda: stilisierte
+schwarze Brille, blonde Seitenfrisur, Koralltunika nach zweiter Fotoreferenz;
+125Leben, Start-Holzschwert28Schaden. Linksklick/J lösen klassenspezifisch Schwert
+oder Pfeil aus, Leertaste schlägt im Nahkampf. Panda-HUD zeigt Schwert und Leben,
+keine nutzlose Mana-/Beschwörungsanzeige. Alte menschliche PNG-Metadaten verbleiben
+nur als historische lokale Grafikreferenzen, nicht als spielbare Klassen.
+
+Vollständige neue Heldenbögen mit eingebautem image_gen.imagegen, keine
+Fotomontagen oder privaten Fotodateien im Repo. Originale Quellen/Prompts/SHA256
+unter art/generated-source/creatures/duo-v3. Native Referenzen: Red Warrior/Blue
+Monk; Gameplay-Vergleich mit aktuellen ganzen Kreaturen. Häuser1/2, Monastery,
+BirkeTree2 und Rock1 stammen unverändert aus dem bereits lizenzierten lokalen
+Pack. Insgesamt52Runtime-PNGs im Manifest, Quellenhashes geprüft.
+
+Neue separat gespeicherte woodland_village.tscn: sechs Dorfgebäude plus
+Start-Hütte und südliche Holzfällerhütte; verbundene64px-Wege, Grasinsel,
+Birken/Nadelbäume/Büsche/Felsen. Welt von40×28 auf56×40Tiles (3584×2560)
+verdoppelt. Grundflächen blockieren Bewegung/Schläge/Pfeile/Navigation, Dächer
+nicht. Base-forest.tscn bytegleich zu Beginn: SHA256
+5c02086d483bc7cb8a757187b6e6a0866a3e1350e09b06a55798a9765e09baa5.
+Nicht im Grafikcommit enthalten. Temporäre Dorf-/Koboldinstanzen bleiben beim
+Packen aus der ursprünglichen Editor-Szene heraus; eigene Dorfdatei editierbar.
+
+Checks: check_project.py PASS (52PNGs plus Quellhashes), Python py_compile PASS,
+Godot headless import PASS. Combat, Companions, HUD/enemy, Creatures und
+Duo/projectile/village/editor: alle PASS mit0Fehlern. Nach letzter Grafik-/HUD-
+Bereinigung Duo/HUD/Creatures gezielt wiederholt, ebenfalls PASS. Reale Schwert-
+Ausholzeit,28Schaden genau einmal, Nahkampfreichweite, Wandblockade, keine Panda-
+Pfeile/Beschwörung, Klassenwechsel-Cleanup, Dorf-/Südpfade, Hausgrundfläche und
+Speichern/Laden manueller Editoränderungen im echten Godot geprüft. Dorfszene
+mit headless editor geöffnet, keine Scriptfehler. Git diff --check PASS.
+
+Vorgeschriebene Checks im Nachbarprojekt: art:style:check PASS; npm test134/134
+PASS; build PASS (bekannte Chunkgrößenwarnung); art:references PASS.
+Kein design-worlds --force und keine manuell bearbeiteten TMX-Dateien ersetzt.
+
+Visuell geprüft: actual artifacts/class-selection.png zeigt genau zwei Figuren;
+artifacts/duo/panda-village.png, panda-sword-gameplay.png, panda-walk-gameplay.png,
+monkey-cottage.png, monkey-walk-gameplay.png, southern-woodland.png aus echtem
+Godot bei nativem Pixelmaß. Chrome-Animationsgalerie neben nativer
+artifacts/art-direction/style-reference.html geprüft. Kleine isolierte
+Quellbogenreste an einzelnen Panda-Frames gefunden und vor Abschluss entfernt;
+nochmals tatsächliche Spielaufnahmen kontrolliert. Größen, Füße, Umrisse,
+Schwert-/Laufbewegungen und Dachüberdeckung passend. Keine behauptete perfekte
+Stilparität: eigene generierte Figuren haben mehr kleine Farbgruppen als native
+Originalfiguren. Echte Front-/Rückensequenzen, seitliche Spiegelung statt vier
+vollständiger Richtungen. Affen-Frontbeschwörung nutzt eine gehaltene Stabpose,
+um ungewollte Rückenwechsel der Quelle auszuschließen. Ähnlichkeit zu den Fotos
+bleibt stilisiert; keine Porträtgenauigkeit bei70px Figurenhöhe. Gebäude noch
+ohne Innenräume, Inventar-/Waffenwechsel oder NPC-Dialoge.

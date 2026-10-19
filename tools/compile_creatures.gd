@@ -1,6 +1,6 @@
 extends SceneTree
 ## Whole authored poses only. No native body reuse, grafting or rotated deaths.
-const ROOT := "res://art/generated-source/creatures/fullbody-v2/"
+const BUNDLES := ["res://art/generated-source/creatures/fullbody-v2/", "res://art/generated-source/creatures/duo-v3/"]
 const OUT := "res://assets/compiled/"
 var quantized: Dictionary = {}
 
@@ -57,18 +57,57 @@ func pose(source: Image,spec: Dictionary,row: int,col: int,palette: Array[Color]
 				var point := at+Vector2i(x,y)
 				assert(point.x > 0 and point.y > 0 and point.x < 191 and point.y < 191,"Authored pose clipped")
 				result.set_pixelv(point,closest(c,palette))
+	if spec.get("clean_islands",false):
+		remove_specks(result)
 	return result
 
+func remove_specks(image: Image) -> void:
+	# Isolated tiny fragments from neighboring source cells are not anatomy.
+	# Retain whole silhouettes and weapons; remove disconnected <=64px crumbs.
+	var seen := PackedByteArray()
+	seen.resize(192*192)
+	for y in 192:
+		for x in 192:
+			if seen[y*192+x] != 0 or image.get_pixel(x,y).a == 0:
+				continue
+			var queue: Array[Vector2i] = [Vector2i(x,y)]
+			var component: Array[Vector2i] = []
+			seen[y*192+x] = 1
+			while not queue.is_empty():
+				var at: Vector2i = queue.pop_back()
+				component.append(at)
+				for dy in range(-1,2):
+					for dx in range(-1,2):
+						var next := at+Vector2i(dx,dy)
+						if next.x < 0 or next.y < 0 or next.x >= 192 or next.y >= 192:
+							continue
+						var key := next.y*192+next.x
+						if seen[key] == 0 and image.get_pixelv(next).a > 0:
+							seen[key] = 1
+							queue.append(next)
+			if component.size() <= 64:
+				for at in component:
+					image.set_pixelv(at,Color(0,0,0,0))
+
 func compile_all() -> void:
-	var layout: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(ROOT+"layout.json"))
 	var registry: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://art/registry.json"))
 	DirAccess.make_dir_recursive_absolute(OUT)
+	for folder: String in BUNDLES:
+		compile_bundle(folder,registry)
+	print("Compiled complete creature poses from active source bundles.")
+	quit()
+
+func compile_bundle(folder: String,registry: Dictionary) -> void:
+	var layout: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(folder+"layout.json"))
 	var palette: Array[Color] = []
+	quantized.clear()
 	for hex: String in layout.palette:
 		palette.append(Color(hex))
 	for id: String in layout.characters:
+		if registry.assets[id].identity_source != folder.trim_prefix("res://")+id+".png":
+			continue
 		var spec: Dictionary = layout.characters[id]
-		var source := raw_image(ROOT+id+".png")
+		var source := raw_image(folder+id+".png")
 		for state: String in spec.states:
 			var frames: Array = spec.states[state]
 			var count := frames.size()
@@ -77,11 +116,8 @@ func compile_all() -> void:
 			for facing in 2:
 				for frame in count:
 					var location: Array = frames[frame]
-					# Optional independently reviewed rear selection avoids a malformed pose.
 					if facing == 1 and spec.has("rear_overrides") and spec.rear_overrides.has(state):
 						location = spec.rear_overrides[state][frame]
 					var whole := pose(source,spec,int(location[0])+facing*4,int(location[1]),palette)
 					result.blit_rect(whole,Rect2i(0,0,192,192),Vector2i(frame*192,facing*192))
 			assert(result.save_png(OUT+id+"-"+state+".png") == OK)
-	print("Compiled three complete authored characters; fixed 192px cells, common per-character scale, no native body composites.")
-	quit()

@@ -1,12 +1,16 @@
 # Affen-Schamane und Waldkobolde
 
-Im Startmenü **Affen-Schamane** wählen. Menschlicher Magier und Schamane bleiben
-verfügbar. Linksklick/J wirft Pfeile; R erweckt Skelette. Der Affe hat einen vollständig neu gezeichneten Körper mit Pfoten,
-Blätterkleidung und Schweif. Sechs eigene Lauf-, Wurf- und Beschwörungsposen
-pro Richtung ersetzen die früheren zusammengesetzten Figuren. Treffer
-unterbrechen die Zauberpose; danach funktionieren Laufen und Angreifen weiter.
-Die Beschwörung dauert 1,2 Sekunden, aus der tatsächlich verwendeten Animation
-berechnet. Der menschliche Schamane behält seine bisherige native Sequenz.
+Im Startmenü **Affen-Schamane** oder **Panda-Kämpferin** wählen. Die beiden
+früheren menschlichen Klassen sind nicht mehr spielbar. Der Affe hat nach der
+Fotoreferenz einen hohen dunklen Dutt und kräftigen Bart, der Panda schwarze
+rechteckige Brille, blonde Seitenfrisur und korallfarbene Tunika. Die Figuren
+bleiben Tiere und teilen Pixelmaß, Konturen, Perspektive und Materialpalette.
+
+Affe: Pfeile18Schaden, R für Skelette; sechs Lauf-/Wurf-/Beschwörungsframes pro
+Richtung. Panda: Start-Holzschwert28Schaden,125Leben; Linksklick/J und Leertaste
+schlagen tatsächlich in Nahkampfreichweite zu. Kein Fernkampf oder Beschwören.
+Treffer, Tod und separat gezeichnete Rückenansichten für beide. Beschwören1,2s;
+Treffer unterbrechen die Pose. [Vorabbrief](DUO_WORLD_BRIEF.md).
 
 Neue Gegner in der östlichen Lichtung:
 
@@ -37,7 +41,7 @@ in deiner eigenen Encounters-Gruppe bleiben unabhängig davon bestehen.
 ## Grafik und Grenzen
 
 Quelle: [Produktionsbrief](CREATURE_ART_BRIEF.md) und
-[Imagegen-Prompts v2](../art/generated-source/creatures/fullbody-v2/prompts.md).
+[Imagegen-Prompts des Duos](../art/generated-source/creatures/duo-v3/prompts.md).
 Der Nutzer lehnte die erste Montage aus neuen Köpfen und nativen Körpern ab.
 Diese wurde komplett ersetzt: ganze Körper, Kleidung, Ausrüstung, Vorder- und
 Rückenposen sind jetzt zusammen gezeichnet. Zwei Richtungsreihen plus seitliche
@@ -55,6 +59,9 @@ gemessenen transparenten Zeilenabstände, gemeinsame Skalierung pro Figur,
 Palettenfarben und ausgewählten Posen. Ein versehentlich liegend gezeichneter
 Späher-Rückenangriffsframe wird ausgelassen; der Ablauf nutzt die übrigen
 vollständigen Posen. Historische Teilequellen werden nicht mehr eingelesen.
+Aktive Heldenquellen: duo-v3; Kobolde: fullbody-v2. Alte Heldenbögen bleiben
+als Produktionshistorie erhalten. Neuere Quellen ersetzen die alten automatisch
+über identity_source. Kleine isolierte Quelldatei-Schnipsel werden entfernt.
 Produktionsatlanten liegen unter dem ignorierten assets/compiled. Neue Quellen
 werden nicht automatisch zu nativen Stilmastern hochgestuft.
 
@@ -68,3 +75,16 @@ Die animierte Galerie liegt in artifacts/creatures/review.html. Tatsächliche
 Spielaufnahmen: party.png und walk-gameplay.png im selben Ordner. Tests können
 Framegeometrie, gemeinsame Fußpunkte und Verhalten prüfen; sie beweisen keine perfekte
 Animation oder vollständige visuelle Stilgleichheit.
+
+## Persönliche Quellen und Animationen
+
+Eigene komplette Originalausgaben, vollständige Prompts, SHA256 und Layout stehen
+in art/generated-source/creatures/duo-v3. Die beiden Fotoreferenzen werden nicht
+abgelegt. Die Ähnlichkeit ist eine stilisierte Übertragung von Frisur, Bart,
+Brille und Farben; kein fotorealistisches Porträt. Die Affen-Beschwörung wählt
+bewusst nur frontal bleibende Ganzkörperposen mit einer gehaltenen Stabpose,
+statt innerhalb der Frontfolge plötzlich den Rücken zu zeigen. Die Rückenfolge
+verwendet sechs eigene Rückenposen. Seitlich wird weiterhin gespiegelt.
+
+Echte neue Aufnahmen: artifacts/duo/panda-village.png, panda-sword-gameplay.png,
+panda-walk-gameplay.png, monkey-cottage.png und monkey-walk-gameplay.png.

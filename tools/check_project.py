@@ -29,24 +29,26 @@ for entry in registry['terrain'].values():
         assert hashlib.sha256(path.read_bytes()).hexdigest() == entry['sha256']
         checked += 1
 # Own full-body inputs are committed, so validate the rebuild chain in CI too.
-source_root = ROOT/'art/generated-source/creatures/fullbody-v2'
-layout = json.loads((source_root/'layout.json').read_text())
-provenance = json.loads((source_root/'provenance.json').read_text())
-for ident, spec in layout['characters'].items():
-    source = source_root/f'{ident}.png'
-    data = source.read_bytes()
-    recorded = provenance['files'][source.name]
-    assert hashlib.sha256(data).hexdigest() == recorded['sha256'], source
-    width,height = struct.unpack('>II',data[16:24])
-    assert [width,height] == recorded['size'] and width % 6 == 0
-    assert len(spec['bands']) == 8 and 0 < spec['scale'] <= 1
-    previous_end = 0
-    for start,end in spec['bands']:
-        assert previous_end <= start < end <= height
-        previous_end = end
-    for state, poses in spec['states'].items():
-        assert len(poses) == registry['assets'][ident]['animations'][state]['frames']
-        assert all(0 <= row < 4 and 0 <= col < 6 for row,col in poses)
+for source_root in (ROOT/'art/generated-source/creatures').glob('*/'):
+    if not (source_root/'layout.json').exists():
+        continue
+    layout = json.loads((source_root/'layout.json').read_text())
+    provenance = json.loads((source_root/'provenance.json').read_text())
+    for ident, spec in layout['characters'].items():
+        source = source_root/f'{ident}.png'
+        data = source.read_bytes()
+        recorded = provenance['files'][source.name]
+        assert hashlib.sha256(data).hexdigest() == recorded['sha256'], source
+        width,height = struct.unpack('>II',data[16:24])
+        assert [width,height] == recorded['size'] and width % 6 == 0
+        assert len(spec['bands']) == 8 and 0 < spec['scale'] <= 1
+        previous_end = 0
+        for start,end in spec['bands']:
+            assert previous_end <= start < end <= height
+            previous_end = end
+        for state, poses in spec['states'].items():
+            assert len(poses) == registry['assets'][ident]['animations'][state]['frames']
+            assert all(0 <= row < 4 and 0 <= col < 6 for row,col in poses)
 recipe = json.loads((ROOT/'art/generated-source/arrow.json').read_text())
 assert len(recipe['rows']) == recipe['frame'][1]
 assert all(len(row) == recipe['frame'][0] for row in recipe['rows'])

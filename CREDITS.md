@@ -40,3 +40,14 @@ und eine begrenzte Materialpalette an und packt sie in feste 192px-Zellen.
 Produktionsatlanten bleiben lokal in assets/compiled. Neue Figuren sind eigene
 Erweiterungen, keine originalen Pixel-Frog-Packdateien. Die früheren Kopf-/
 Schweifquellen bleiben ausschließlich als verworfene Produktionshistorie erhalten.
+
+Aktuelles persönliches Heldenduo: vollständig gezeichnete Affe-/Panda-Quellen in
+art/generated-source/creatures/duo-v3, erzeugt mit dem eingebauten Imagegen.
+Vom Nutzer bereitgestellte Fotos dienten nur der stilisierten Ähnlichkeit;
+diese privaten Referenzen werden nicht im Repository gespeichert. Neue eigene
+Grafikquellen und vollständige Prompts werden veröffentlicht, keine Fotodateien.
+
+Dorfgebäude (House1, House2, Monastery), zusätzliche Birke(Tree2) und Felsen(Rock1)
+sind unveränderte bereits im lokalen Tiny-Swords-Pack enthaltene Dateien. Herkunft
+und SHA256 stehen in art/registry.json; PNGs bleiben ausschließlich unter dem
+ignorierten assets/licensed. Keine neuen externen Packdateien werden verteilt.

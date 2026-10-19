@@ -11,7 +11,7 @@ const SUMMON_COST := 10.0
 const SUMMON_LIMIT := 3
 const MANA_REGEN := 5.0
 const MANA_IDLE_GRACE := 0.25
-var character_class := "shaman"
+var character_class := "monkey"
 var shot_cooldown := 0.0
 var casting_remaining := 0.0
 var mana := MAX_MANA
@@ -19,8 +19,12 @@ var mana_idle_remaining := MANA_IDLE_GRACE
 
 func _ready() -> void:
 	var session := get_node_or_null("/root/Session")
-	character_class = session.selected_class if session != null else "shaman"
-	asset_id = {"mage":"hero","shaman":"shaman","monkey":"monkey-shaman"}[character_class]
+	character_class = session.selected_class if session != null else "monkey"
+	asset_id = {"monkey":"monkey-shaman","panda":"panda"}[character_class]
+	if character_class == "panda":
+		max_health = 125
+		health = max_health
+		attack_damage = 28
 	target_group = "enemies"
 	collision_layer = 2
 	collision_mask = 1
@@ -48,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("attack"):
 		start_attack()
 	if Input.is_action_just_pressed("shoot"):
-		shoot_at(aim_position(false))
+		primary_action(aim_position(false))
 	if Input.is_action_just_pressed("summon"):
 		summon_skeleton()
 	velocity = direction * MOVE_SPEED * (0.0 if casting_remaining > 0 else (0.2 if attack_remaining > 0 else 1.0)) + knockback
@@ -139,37 +143,42 @@ func aim_position(mouse_aim := true) -> Vector2:
 			point = enemy.global_position
 	return point
 
-func shoot_at(point: Vector2) -> bool:
-	if dead or hurt_remaining > 0 or shot_cooldown > 0 or attack_remaining > 0:
+func primary_action(point: Vector2) -> bool:
+	if character_class != "panda":
+		return shoot_at(point)
+	if dead or hurt_remaining > 0 or attack_remaining > 0:
 		return false
-	var cost := 6.0 if character_class == "mage" else 0.0
-	if mana < cost:
-		summon_feedback.emit("Nicht genug Mana für einen arkanen Pfeil.")
+	var direction := global_position.direction_to(point)
+	if direction != Vector2.ZERO:
+		facing = direction
+	start_attack()
+	return attack_remaining > 0
+
+func shoot_at(point: Vector2) -> bool:
+	if character_class != "monkey" or dead or hurt_remaining > 0 or shot_cooldown > 0 or attack_remaining > 0:
 		return false
 	facing = global_position.direction_to(point)
 	if facing == Vector2.ZERO:
 		facing = Vector2.RIGHT
 	var arrow := Projectile.new()
 	arrow.caster = self
-	arrow.arcane = character_class == "mage"
-	arrow.damage = 25 if arrow.arcane else 18
+	arrow.arcane = false
+	arrow.damage = 18
 	arrow.direction = facing
 	arrow.position = global_position+Vector2(0,-12)
 	get_parent().add_child(arrow)
-	shot_cooldown = 0.55 if arrow.arcane else 0.45
+	shot_cooldown = 0.45
 	casting_remaining = 0.4
 	mana_idle_remaining = MANA_IDLE_GRACE
-	mana -= cost
-	mana_changed.emit(mana,MAX_MANA)
 	sprite.flip_h = facing.x < 0
 	sprite.play(animation_for("attack"))
 	return true
 
 func is_summoner() -> bool:
-	return character_class in ["shaman","monkey"]
+	return character_class == "monkey"
 
 func display_name() -> String:
-	return {"mage":"Magier","shaman":"Schamane","monkey":"Affen-Schamane"}[character_class]
+	return {"monkey":"Affen-Schamane","panda":"Panda-Kämpferin"}[character_class]
 
 func take_damage(amount: int, origin: Vector2) -> void:
 	var before := health

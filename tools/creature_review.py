@@ -7,7 +7,7 @@ registry=json.loads((ROOT/'art/registry.json').read_text())
 out=ROOT/'artifacts/creatures';out.mkdir(parents=True,exist_ok=True)
 cards=[]
 styles=[]
-for ident in ['shaman','monkey-shaman','enemy-warrior','goblin-scout','goblin-brute']:
+for ident in ['monkey-shaman','panda','enemy-warrior','goblin-scout','goblin-brute']:
     asset=registry['assets'][ident]
     for state in ['stand','walk','attack','heal','hit','death']:
         if state not in asset['animations']:continue

@@ -6,47 +6,44 @@ Geschichte werden eigenständig entwickelt. Keine Verbindung zu Square Enix.
 
 ## Spielen
 
-Beim Start **Magier**, **Schamane** oder **Affen-Schamane** wählen. Esc öffnet die Klassenwahl
-wieder; F5 startet die aktuelle Klasse neu. WASD/Pfeile bewegen, Leertaste
-ist Nahkampf. **Linksklick** wirft in Richtung der Maus, **J** visiert den
-nächsten Gegner an. Pfeile fliegen sichtbar, treffen einmal und werden von
-Wänden/Bäumen gestoppt. Schamane: 18 Schaden ohne Manakosten. Magier: arkane
-Pfeile, 25 Schaden für 6 Mana. Keine Munitionsverwaltung.
+Beim Start zwischen **Affen-Schamane** und **Panda-Kämpferin** wählen. Die
+menschlichen Klassen Magier und Schamane sind entfernt. Esc öffnet die
+Heldenwahl; F5 startet dieselbe Figur neu. WASD/Pfeile bewegen.
 
-Menschlicher Schamane und Affen-Schamane erwecken mit **R** oder dem Skelettsymbol bis zu drei Mitkämpfer
-für je 10 Mana und zwei Minuten. Sie folgen ihm und kämpfen selbstständig.
-Gegner können sie besiegen. Mana erholt sich im Stehen nach 0,25 Sekunden
-Ruhe mit 5 Punkten pro Sekunde. Der Magier hat keine Skelettbeschwörung.
+| Figur | Linksklick / J | Leertaste | Spezialität |
+|---|---|---|---|
+| Affen-Schamane | Pfeile, 18 Schaden, ohne Mana | Nahkampf | R: bis zu drei Skelettmitkämpfer |
+| Panda-Kämpferin | Holzschwert, 28 Schaden | Holzschwert | 125 Leben, reiner Nahkampf |
 
-Unten links: rote Lebens- und blaue Manakugel, gestaffelt wie in der
-HUD-Referenz, rechts daneben das Skelettsymbol mit „R · Erwecken“ und der
-Pfeilslot. Gegner haben schmale Lebensbalken und verschwinden nach dem Tod.
+Mausklick zielt zur Maus; J visiert den nächsten Gegner an. Das Schwert trifft
+nur innerhalb seiner Reichweite, nach einer Ausholbewegung und einmal je
+Schlag. Bäume und Hausfundamente blockieren Schläge und Pfeile. Der Panda
+besitzt keine Pfeile oder Skelettbeschwörung; sein HUD zeigt das Holzschwert.
 
-Die Waldkarte ist **40×28 Kacheln (2560×1792 Pixel)** groß, mit zusätzlicher
-Lichtung, Verbindungspfad und Baumgruppen. Die vorhandenen Tiny-Swords-/Nobby-
-Grafiken bleiben Prototypgrafiken; keine übernommenen Secret-of-Mana- oder
-Diablo-Assets. Der Schamane besitzt Vorder-/Rückenreihen, der Magier behält
-vorerst die bisherigen seitlich/frontalen Posen.
+Ein Skelett kostet den Affen10Mana und kämpft zwei Minuten mit. Mana erholt sich
+im Stehen nach0,25Sekunden Ruhe mit5Punkten pro Sekunde. Gegner haben
+Lebensbalken und verschwinden nach ihrer Todesfolge.
 
-## Neue Figuren
+Der Affe trägt Dutt und Bart, der Panda blonde Seitenfrisur, schwarze Brille und
+korallfarbene Kleidung nach den persönlichen Bildreferenzen. Ganze Körper und
+Vorder-/Rückenanimationen, keine Kopfmontagen. Private Fotos liegen nicht im Repo.
+[Figuren, Quellen und Grenzen](docs/CREATURES.md).
 
-Der **Affen-Schamane** ist ein spielbarer Charakter mit neuen Kopf-/Schweifteilen
-auf authentischen nativen Monk-Bewegungen: vier echte Laufphasen, getrennte
-Vorder-/Rückenreihen, Wurf, Beschwörung, Treffer und Tod. Füße und Hitbox bleiben
-fest. Zwei **Waldkoboldtypen** bewachen die östliche Lichtung: schnelle Späher
-und kräftigere Raufbolde, mit eigenen Werten und platzierbaren Editorvorlagen.
-[Figuren, Grafikquellen und Editor-Anleitung](docs/CREATURES.md).
+Die Welt ist **56×40 Kacheln (3584×2560 Pixel)** groß, doppelt so viel Fläche
+wie zuvor. Östlich der alten Lichtung liegt ein Dorf mit Häusern und Dorfhalle;
+eine südliche Waldroute führt an der Holzfällerhütte vorbei zurück nach Osten.
+Birken, Nadelbäume, Büsche und Felsen bringen Abwechslung. Eine Hütte ist schon
+beim Start sichtbar. Gebäude besitzen Grundkollisionen; begehbare Innenräume
+und NPC-Dialoge sind noch nicht implementiert.
 
 ## Leveleditor
 
-**Editor.command** öffnet direkt die bearbeitbare Waldkarte in Godot.
-Ground/Paths: Kacheln malen. Barriers: Sperrflächen malen. Scenery: Bäume
-und Büsche kopieren/verschieben. Encounters: Gegner platzieren. PlayerSpawn:
-Startpunkt verschieben. **Cmd+S speichern, F5 spielen.**
+**Editor.command** öffnet die bisherige Waldkarte. Das neue Dorf liegt separat
+in **scenes/levels/woodland_village.tscn**: Ground/Paths malen, Scenery mit
+Häusern/Bäumen/Felsen kopieren und verschieben. Scale bleibt(1,1), Cmd+S speichern,
+F5 spielen. Die manuell bearbeitete forest.tscn wird nicht neu erzeugt.
 
-[Schrittweise Editor-Anleitung](docs/LEVEL_EDITOR.md). Die Karte wird zur
-Laufzeit aus der gespeicherten Szene geladen und beim Einrichten nicht
-überschrieben. Kein Browsereditor und kein Tiled-Import nötig.
+[Schrittweise Editor-Anleitung](docs/LEVEL_EDITOR.md).
 
 ## Lokal starten
 
@@ -84,17 +81,18 @@ godot --headless --path . --script tests/hud_enemy_smoke.gd
 godot --headless --path . --script tests/classes_editor_smoke.gd
 godot --headless --path . --script tests/creatures_smoke.gd
 godot --path . --script tests/capture.gd
+godot --path . --script tests/capture_duo.gd
 ```
 
-Der letzte Befehl braucht eine grafische Sitzung und schreibt einen echten
-Godot-Screenshot nach `artifacts/clearing.png`. Strukturprüfungen ersetzen
+Die Aufnahmebefehle brauchen eine grafische Sitzung und schreiben echte
+Godot-Screenshots nach `artifacts/clearing.png` bzw. `artifacts/duo/`. Strukturprüfungen ersetzen
 keine Sichtprüfung oder Spieltests. CI prüft die öffentlich verfügbaren
 Projektdateien; vollständige Laufzeittests benötigen die lokalen Grafiken.
 
 ## Weiterentwicklung
 
 1. Bewegung und Nahkampf spielerisch abstimmen; vier Blickrichtungen gestalten.
-2. Kleines Dorf, NPC-Dialog und eine eigenständige Aufgabe ergänzen.
+2. Dorf um NPC-Dialoge, Innenräume und eine eigenständige Aufgabe ergänzen.
 3. Wald-Dungeon und ersten Boss bauen.
 4. Inventar, Ausrüstung, weitere Magie und neue Spielstände ergänzen.
 5. Begleiter im nächsten Spielabschnitt weiter abstimmen.
