@@ -102,8 +102,8 @@ func run() -> void:
 	await frames(65)
 	check(get_nodes_in_group("projectiles").is_empty(),"Missed arrows expire at maximum range")
 	check(hero.summon_skeleton() and hero.companion_count() == 1,"Monkey still summons a real companion")
-	check(world.world_pixels() == Vector2(3584,2560),"World is 56 by 40 native tiles")
-	check(world.navigation().grid.region.size == Vector2i(112,80),"Navigation covers both old world and new district")
+	check(world.world_pixels() == Vector2(3584,5120),"World is 56 by 80 native tiles")
+	check(world.navigation().grid.region.size == Vector2i(112,160),"Navigation covers both old world and new district")
 	check(world.level.has_node("Scenery/RiverCottage"),"Native village houses exist in actual world")
 	check(not world.navigation().free_at(Vector2(2624,930)),"House ground footprint blocks movement")
 	check(world.navigation().free_at(Vector2(2624,770)),"House roof does not block walking behind it")
@@ -115,7 +115,7 @@ func run() -> void:
 	for child in hero.get_children():
 		if child is Camera2D:
 			camera = child
-	check(camera.limit_right == 3584 and camera.limit_bottom == 2560,"Camera follows expanded bounds")
+	check(camera.limit_right == 3584 and camera.limit_bottom == 5120,"Camera follows expanded bounds")
 	var ground: TileMapLayer = world.level.get_node("Ground")
 	var barriers: TileMapLayer = world.level.get_node("Barriers")
 	ground.erase_cell(Vector2i(2,20))

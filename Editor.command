@@ -16,4 +16,4 @@ else
   exit 1
 fi
 "$nobby_engine" --headless --editor --path . --import --quit
-exec "$nobby_engine" --editor --path . res://scenes/levels/reference_grove.tscn
+exec "$nobby_engine" --editor --path . res://scenes/levels/expanded_grove.tscn

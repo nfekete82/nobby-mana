@@ -358,3 +358,47 @@ Startkreises, später zusammenhängend entdeckter Pfad über den Fluss. Grenzen:
 kleine Kartendetails sind bewusst stark reduziert; Fog speichert Gebietsbesuch,
 keine aktuellen Sichtlinien oder dynamische Gegnerzustände. Regelmäßiges Speichern
 alle5Sekunden plus bei normalem Szenenwechsel/Beenden.
+
+
+## 2026-10-20 · Größere Welt, Sichtweite und permanente Heldenlevel
+
+- Brief vor Umsetzung: EXPANSION_LEVELS_BRIEF.md. Bestehende grove-tree/house/
+  bridge/path/river-Module und Duo-/Koboldsprites wiederverwendet. Historische
+  native Master in nobby_world/artifacts/art-direction/style-reference.html
+  im Browser geöffnet, zusätzlich tatsächliche grove-tree/house-Produktions-PNGs
+  neben den folgenden nativen Godot-Screenshots angesehen.
+- Neu: scenes/levels/expanded_grove.tscn, tools/extend_grove.gd,
+  scripts/progression.gd, tests/levels_expansion_smoke.gd, tests/capture_levels.gd.
+  Angepasst: Viewport, Weltloader, Player-/Enemy-/Fighter-Levelwerte, Session,
+  Encounter-Marker, HUD, Minimap/Fog-Migration, Tests, Editor.command und Anleitung.
+- 56×80Zellen/3584×5120Pixel, doppelte Fläche durch südliche Erweiterung;
+  28statt6Gegner, neue Stufen2–3, neun Häuser gesamt und zwei Flussquerungen.
+  Viewport1152×800, Kamera1:1, Nearest. Kein neuer Sprite/kein modifiziertes PNG.
+- Echte Spielansichten artifacts/levels/larger-view.png,
+  south-bridge-level2.png und panda-southern-village.png bei nativen1152×800
+  Pixeln visuell geprüft: größeres Sichtfeld, scharfes bestehendes Material,
+  kleine Overlays, EP-Füllung und Leveltexte, korrekt schwarze unbekannte Karte.
+  whole-map-overview.png ist gesonderte Kameraübersicht zur Geografieprüfung;
+  ihr verkleinerter Zoom gilt ausschließlich für das Aufnahme-Skript.
+- Acht Godot-Gruppen: combat, companions, hud_enemy, classes_editor, creatures,
+  grove, minimap und levels_expansion bestanden mit jeweils0Fehlern.
+  Neues Level-/Erweiterungsszenario prüft alle28Gegner auf freie/erreichbare
+  Spawnpunkte, sichere Startentfernung, tatsächliches Gehen über die neue Brücke,
+  gesperrtes Wasser, alte Fog-Übernahme, Skelettkill-EP, Duplikatschutz,
+  Levelgrenzen/mehrere Aufstiege, echte stärkere Pfeiltreffer, angepasste HUD-
+  Maxima, getrennte Klassenfortschritte und tatsächlichen Speicherrückimport.
+  Tests verwenden eigene temporäre Dateien; reale Spielstände bleiben unberührt.
+- python3 tools/check_project.py:66lokale Runtime-PNGs verifiziert. Godot-Import
+  ohne Skriptfehler. npm run art:style:check, npm test (134/134), npm run build,
+  npm run art:references bestanden im benachbarten Altprojekt. Build zeigt den
+  bestehenden Hinweis auf große JS-Chunks. Der erste npm-Testversuch wurde
+  durch Sandbox-Loopback-Verbot gestoppt, der genehmigte Wiederholungslauf bestand.
+- Unveränderte Originalkarten: forest.tscn SHA256
+  5c02086d483bc7cb8a757187b6e6a0866a3e1350e09b06a55798a9765e09baa5;
+  reference_grove.tscn 0031038ebf0a26e4099525259ba4944ca6ed354b826f65c3524d53d5e74cc975;
+  woodland_village.tscn 09ccb693eb623f4aa6a897e841bf806842dbe66a5d8517376d9f668da847cfb0.
+  Die vorbestehende lokale Änderung in forest.tscn wird nicht committed.
+- Grenzen: statische Gegnerplatzierung; F5 erneuert Gegner bei erhaltenen EP.
+  Permanente Daten sind Klassen-EP und Erkundung, keine Positions-/Inventarsaves.
+  Die frühere Referenzwald-Stilabweichung ist unverändert dokumentiert, keine
+  behauptete pixelgenaue Parität zur Nutzerillustration oder Tiny-Swords-Mastern.

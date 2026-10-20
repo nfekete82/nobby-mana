@@ -66,6 +66,7 @@ for name,size in [('grove-grass',(64,64)),('grove-path',(192,192)),('grove-water
     if tile.exists():
         assert struct.unpack('>II',tile.read_bytes()[16:24]) == size
 assert (ROOT/'scenes/levels/reference_grove.tscn').exists()
+assert (ROOT/'scenes/levels/expanded_grove.tscn').exists()
 recipe = json.loads((ROOT/'art/generated-source/arrow.json').read_text())
 assert len(recipe['rows']) == recipe['frame'][1]
 assert all(len(row) == recipe['frame'][0] for row in recipe['rows'])

@@ -39,6 +39,17 @@ func ensure_map(id: String,size: Vector2i) -> void:
 	elif not (matches_size(saved,size) and saved.get("cells") is Dictionary):
 		maps[id] = {"size":[size.x,size.y],"cells":{}}
 
+func inherit_area(old_id: String,new_id: String,old_size: Vector2i,new_size: Vector2i) -> void:
+	if maps.has(new_id) or not maps.has(old_id):
+		return
+	ensure_map(old_id,old_size)
+	ensure_map(new_id,new_size)
+	for index: int in maps[old_id].cells:
+		var cell := Vector2i(index%old_size.x,index/old_size.x)
+		if cell.x < new_size.x and cell.y < new_size.y:
+			maps[new_id].cells[cell.y*new_size.x+cell.x] = true
+	dirty = true
+
 func is_explored(id: String,cell: Vector2i) -> bool:
 	if not maps.has(id):
 		return false

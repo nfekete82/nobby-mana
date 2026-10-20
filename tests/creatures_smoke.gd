@@ -99,9 +99,9 @@ func run() -> void:
 	var scout: CharacterBody2D
 	var brute: CharacterBody2D
 	for enemy in get_nodes_in_group("enemies"):
-		if enemy.enemy_kind == "goblin-scout":
+		if enemy.enemy_kind == "goblin-scout" and enemy.enemy_level == 1:
 			scout = enemy
-		elif enemy.enemy_kind == "goblin-brute":
+		elif enemy.enemy_kind == "goblin-brute" and enemy.enemy_level == 1:
 			brute = enemy
 	check(scout != null and brute != null,"Both goblin types spawn in the actual forest")
 	check(scout.max_health == 45 and brute.max_health == 75,"Scout and brute have distinct health")

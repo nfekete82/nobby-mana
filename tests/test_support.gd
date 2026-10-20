@@ -6,5 +6,6 @@ static func isolate_exploration(root: Window) -> Node:
 		session = load("res://scripts/session.gd").new()
 		session.name = "Session"
 		root.add_child(session)
+	session.progression = load("res://scripts/progression.gd").new("")
 	session.exploration = load("res://scripts/exploration.gd").new("")
 	return session

@@ -15,6 +15,8 @@ Heldenwahl; F5 startet dieselbe Figur neu. WASD/Pfeile bewegen.
 | Affen-Schamane | Pfeile, 18 Schaden, ohne Mana | Nahkampf | R: bis zu drei Skelettmitkämpfer |
 | Panda-Kämpferin | Holzschwert, 28 Schaden | Holzschwert | 125 Leben, reiner Nahkampf |
 
+Die Tabellenwerte gelten auf Level1.
+
 Mausklick zielt zur Maus; J visiert den nächsten Gegner an. Das Schwert trifft
 nur innerhalb seiner Reichweite, nach einer Ausholbewegung und einmal je
 Schlag. Bäume und Hausfundamente blockieren Schläge und Pfeile. Der Panda
@@ -31,10 +33,10 @@ korallfarbene Kleidung nach den persönlichen Bildreferenzen. Ganze Körper und
 Vorder-/Rückenanimationen, keine Kopfmontagen. Private Fotos liegen nicht im Repo.
 [Figuren, Quellen und Grenzen](docs/CREATURES.md).
 
-Die aktive Welt ist **56×40 Kacheln (3584×2560 Pixel)** groß und wurde nach der
+Die aktive Welt ist **56×80 Kacheln (3584×5120 Pixel)** groß und wurde nach der
 neuen Bildreferenz als dichter Wald gestaltet: warme Holz-/Strohhäuser, Gras und
-Blumen, Felsufer, animierter Fluss, Wasserfallstufe und begehbare Holzbrücke.
-Die neue Karte liegt in scenes/levels/reference_grove.tscn. Eure älteren Szenen
+Blumen, Felsufer, animierter Fluss, Wasserfallstufe und zwei begehbare Holzbrücken.
+Die neue Karte liegt in scenes/levels/expanded_grove.tscn. Die bisherige reference_grove.tscn und eure älteren Szenen
 forest.tscn und woodland_village.tscn bleiben erhalten, sind aber nicht aktiv.
 Die Grafik ist eine eigene Umsetzung der neuen Richtung, keine exakte Bildkopie.
 
@@ -49,6 +51,20 @@ periodisch und beim Verlassen der Szene gespeichert. Keine Cloud-Abhängigkeit.
 Beim Panda ist Skelett deaktiviert; Item ist erkennbar noch nicht verfügbar.
 Kein Inventar oder begehbares Hausinnere implementiert. Eure persönlichen Figuren
 bleiben erhalten. [HUD-/Minimap-Details](docs/MINIMAP_BRIEF.md).
+
+Die Ansicht ist jetzt1152×800 statt960×640Pixel groß: mehr Umgebung in Breite
+und Höhe bei weiterhin nativer Kamera1:1 und scharfen Pixeln. Die Waldfläche
+wächst nach Süden;28platzierte Gegner statt6, im Süden auf Stufe2–3.
+
+Besiegte Gegner geben EP, auch wenn ein Skelett den letzten Treffer landet:
+Späher25, Raufbold40, Krieger35, jeweils mal Gegnerstufe. Level2 braucht100EP,
+danach kostet jeder Aufstieg50EP mehr. Affe bekommt je Level+12LP/+5MP/+3Schaden,
+Panda+15LP/+5MP/+4Schaden. Aufstiege füllen LP/MP vollständig. Die goldene dünne
+Leiste über den Aktionen zeigt EP (Details per Maus), unter dem Porträt steht
+das Level. Höchststufe50. Beide Helden speichern ihre EP separat lokal in
+user://hero-progress-v1.json; Neustarts, Tod und Heldenwechsel behalten sie.
+F5 lädt die Gegner neu und behält den Fortschritt. Noch kein Talentbaum.
+Die bisherige Erkundung wird übernommen, der neue Süden bleibt zunächst schwarz.
 
 ## Leveleditor
 
@@ -96,6 +112,8 @@ godot --headless --path . --script tests/hud_enemy_smoke.gd
 godot --headless --path . --script tests/classes_editor_smoke.gd
 godot --headless --path . --script tests/creatures_smoke.gd
 godot --headless --path . --script tests/minimap_smoke.gd
+godot --headless --path . --script tests/levels_expansion_smoke.gd
+godot --path . --script tests/capture_levels.gd
 godot --path . --script tests/capture.gd
 godot --path . --script tests/grove_smoke.gd
 godot --path . --script tests/capture_grove.gd

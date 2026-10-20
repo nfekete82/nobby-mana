@@ -23,7 +23,7 @@ func run() -> void:
 		enemy.set_physics_process(false)
 	hero_freeze(world)
 	var mini = world.minimap
-	check(mini.base_image.get_size() == Vector2i(168,120),"Small map matches actual 56x40 territory")
+	check(mini.base_image.get_size() == Vector2i(168,240),"Small map matches doubled 56x80 territory")
 	check(mini.fog_image.get_pixel(0,0) == Color.BLACK,"Unknown ground is fully black")
 	var house := Vector2i(41,15)
 	check(mini.fog_image.get_pixelv(house*3) == Color.BLACK,"Distant unknown house/location is hidden too")
@@ -45,7 +45,7 @@ func run() -> void:
 	var next := Vector2i((world.hero.position/64).floor())
 	check(store.is_explored(key,next) and store.is_explored(key,start),"Exploration grows without hiding previously visited ground")
 	check(store.maps[key].cells.size() > count,"Moving into new territory adds explored cells")
-	var expected: Vector2 = mini.map_view.position+Vector2(Vector2i((world.hero.position*3/64).round()))-Vector2(2,2)
+	var expected: Vector2 = mini.map_view.position+(Vector2(Vector2i((world.hero.position*3/64).round()))*mini.map_scale).round()-Vector2(2,2)
 	check(mini.player_marker.position == expected,"Location marker follows actual hero")
 	check(mini.fog_image.get_pixel(0,0) == Color.BLACK,"Unvisited distant corner remains black after movement")
 	# Opaque map panel must not trigger an attack in the world underneath.

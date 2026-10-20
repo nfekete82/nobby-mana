@@ -14,6 +14,7 @@ var fog_image: Image
 var map_texture: ImageTexture
 var map_view: TextureRect
 var player_marker: Panel
+var map_scale := 1.0
 var last_cell := Vector2i(-999,-999)
 var elapsed := 0.0
 var save_elapsed := 0.0
@@ -27,6 +28,8 @@ func _ready() -> void:
 	map_id = world.level.scene_file_path+"|%dx%d"%[map_size.x,map_size.y]
 	var session := world.get_node_or_null("/root/Session")
 	store = session.exploration if session != null else Exploration.new()
+	if world.level.scene_file_path == "res://scenes/levels/expanded_grove.tscn":
+		store.inherit_area("res://scenes/levels/reference_grove.tscn|56x40",map_id,Vector2i(56,40),map_size)
 	store.ensure_map(map_id,map_size)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("0b1816ed")
@@ -53,8 +56,10 @@ func _ready() -> void:
 				reveal_pixels(cell)
 	map_texture = ImageTexture.create_from_image(fog_image)
 	map_view = TextureRect.new()
-	map_view.position = Vector2(6,20)
-	map_view.size = Vector2(base_image.get_size())
+	map_scale = minf(1.0,minf(168.0/base_image.get_width(),120.0/base_image.get_height()))
+	map_view.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	map_view.size = Vector2(base_image.get_size())*map_scale
+	map_view.position = Vector2(6+(168-map_view.size.x)/2,20+(120-map_view.size.y)/2)
 	map_view.texture = map_texture
 	map_view.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	map_view.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -144,7 +149,7 @@ func update_exploration() -> void:
 			map_texture.update(fog_image)
 	var marker_position := Vector2i((hero_position*PIXELS/TILE).round())
 	marker_position = marker_position.clamp(Vector2i(2,2),base_image.get_size()-Vector2i(3,3))
-	player_marker.position = map_view.position+Vector2(marker_position)-Vector2(2,2)
+	player_marker.position = map_view.position+(Vector2(marker_position)*map_scale).round()-Vector2(2,2)
 
 func _process(delta: float) -> void:
 	elapsed += delta

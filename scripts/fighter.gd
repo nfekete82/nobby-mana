@@ -4,6 +4,15 @@ signal health_changed(current: int, maximum: int)
 signal defeated
 
 const Art = preload("res://scripts/art_library.gd")
+# Central balance for both classes, level growth, and encounter rewards.
+const HERO_STATS := {
+	"monkey": {"health":100,"mana":100,"melee":25,"ranged":18,"hp_gain":12,"damage_gain":3},
+	"panda": {"health":125,"mana":100,"melee":28,"ranged":0,"hp_gain":15,"damage_gain":4},
+}
+const MANA_PER_LEVEL := 5
+const ENEMY_HEALTH_PER_LEVEL := 0.2
+const ENEMY_DAMAGE_PER_LEVEL := 2
+const ENEMY_XP := {"warrior":35,"goblin-scout":25,"goblin-brute":40}
 const MAX_HEALTH := 100
 const ATTACK_DAMAGE := 25
 const ATTACK_REACH := 98.0

@@ -1,7 +1,7 @@
 # Karte in Godot bearbeiten
 
 `Editor.command` doppelklicken. Die Datei öffnet direkt
-`scenes/levels/reference_grove.tscn` im Godot-Editor. Oben **2D** auswählen.
+`scenes/levels/expanded_grove.tscn` im Godot-Editor. Oben **2D** auswählen.
 Mit F5 startet das ganze Spiel mit Klassenwahl; F6 zeigt nur die aktuelle
 Kartenszene. Änderungen vor dem Spielen mit Cmd+S speichern.
 
@@ -31,8 +31,8 @@ Büsche sind durchquerbar.
   Seine Sprite-Vorschau kennzeichnet die Position des tatsächlichen Gegners.
   Anzahl, Kampfziel und Spawnpositionen werden daraus beim Start gelesen.
 - **PlayerSpawn** verschieben, um den Heldenstart zu verändern.
-- Den Root **Forest** auswählen: **Map Tiles** bestimmt die Grenzen. Aktuell
-  56×40 bzw. 3584×2560 Pixel. Bei Erweiterung die neuen Flächen selbst malen;
+- Den Root **ReferenceGrove** auswählen: **Map Tiles** bestimmt die Grenzen. Aktuell
+  56×80 bzw. 3584×5120 Pixel. Bei Erweiterung die neuen Flächen selbst malen;
   Kamera, Weltgrenzen und Navigationsraster übernehmen die Maße beim Neustart.
 
 Die Karte ist eine reguläre gespeicherte Godot-Szene und wird beim Spielen oder
@@ -71,9 +71,9 @@ werden niemals durch eine automatische Weltgenerierung ersetzt.
 
 ## Aktive Referenzkarte
 
-Seit dem neuen Grafikauftrag ist reference_grove.tscn die aktive gespeicherte
+Seit dem neuen Grafikauftrag ist expanded_grove.tscn die aktive gespeicherte
 Karte. River zeigt animiertes Wasser; Barriers sperrt den Fluss außer bei der
-Brücke (Zeilen17/18). CliffFaces enthält sichtbare und kollidierende Ufer.
+Brücken (Zeilen17/18 und59/60). CliffFaces enthält sichtbare und kollidierende Ufer.
 Beim Verschieben der Brücke gleichzeitig den offenen Korridor in Barriers und
 CliffFaces verschieben. Die Brückengrafik allein macht Wasser nicht begehbar.
 
@@ -86,3 +86,12 @@ frei stapelbaren begehbaren Höhenebenen oder eine komplexe Wasserphysik.
 create_reference_grove.gd ist nur ein Erstellungswerkzeug und verweigert eine
 vorhandene Szene. Setup/Start/Build rufen es niemals auf. Die älteren forest-
 und woodland_village-Szenen bleiben separat unverändert als frühere Karten.
+
+## Erweiterung und Gegnerlevel
+
+expanded_grove.tscn enthält den übernommenen Norden und den ergänzten Süden,
+56×80Zellen. reference_grove.tscn bleibt als vorherige Karte erhalten. Das
+Werkzeug tools/extend_grove.gd verweigert jedes Überschreiben; nicht erneut
+zum Bearbeiten aufrufen. Beim Marker unter Encounters legt Enemy Level die
+Stufe fest (aktuell1–3). Höhere Stufen besitzen mehr LP/Schaden und geben mehr
+EP; Enemy Kind bestimmt weiterhin die vorhandene Grafik und Kampfart.

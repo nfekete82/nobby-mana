@@ -24,6 +24,7 @@ var mana_numbers: Label
 var heal_button: Button
 var item_button: Button
 var minimap: Panel
+var experience_bar: ProgressBar
 var _navigation: RefCounted
 var remaining := 2
 
@@ -37,7 +38,7 @@ func _ready() -> void:
 		push_error(message.text)
 		return
 	y_sort_enabled = true
-	level = load("res://scenes/levels/reference_grove.tscn").instantiate()
+	level = load("res://scenes/levels/expanded_grove.tscn").instantiate()
 	add_child(level)
 	world_size = level.map_tiles
 	var size := world_pixels()
@@ -66,14 +67,17 @@ func _ready() -> void:
 		for marker in encounters.get_children():
 			var enemy := Enemy.new()
 			enemy.enemy_kind = marker.get_meta("enemy_kind","warrior")
+			enemy.enemy_level = marker.enemy_level
 			enemy.position = marker.position
 			actors.add_child(enemy)
-			enemy.defeated.connect(on_enemy_defeated)
+			enemy.defeated.connect(on_enemy_defeated.bind(enemy))
 			remaining += 1
 		encounters.hide()
 	build_hud()
 	hero.mana_changed.connect(func(_current: float, _maximum: float): refresh_party())
 	hero.companions_changed.connect(refresh_party)
+	hero.experience_changed.connect(refresh_party)
+	hero.level_gained.connect(func(value: int): show_summon_feedback("Level %d! Leben, Mana und Schaden erhöht." % value))
 	hero.summon_feedback.connect(show_summon_feedback)
 	hero.defeated.connect(refresh_party)
 	refresh_party()
@@ -121,22 +125,31 @@ func show_summon_feedback(message: String) -> void:
 	summon_message.show()
 	message_timer.start()
 
-func on_enemy_defeated() -> void:
+func on_enemy_defeated(enemy: CharacterBody2D) -> void:
+	hero.gain_experience(int(enemy.ENEMY_XP[enemy.enemy_kind])*enemy.enemy_level)
 	remaining -= 1
 	if remaining == 0:
 		status.text = "Lichtung befreit! F5 startet eine neue Runde."
 	else:
-		status.text = "Noch ein Wächter."
+		status.text = "Waldpfad · Noch %d Gegner" % remaining
 
 func refresh_party() -> void:
 	if health_bar == null:
 		return
 	var count: int = hero.companion_count()
+	health_bar.max_value = hero.max_health
+	mana_bar.max_value = hero.max_mana
 	health_bar.value = hero.health
 	mana_bar.value = hero.mana
 	health_numbers.text = "%d/%d" % [hero.health,hero.max_health]
-	mana_numbers.text = "%d/%d" % [int(hero.mana),int(hero.MAX_MANA)]
-	party_label.text = ("Affe\nSkelette %d/3" % count) if hero.is_summoner() else "Panda\nHolzschwert"
+	mana_numbers.text = "%d/%d" % [int(hero.mana),int(hero.max_mana)]
+	party_label.text = ("Affe · Lv.%d\nSkelette %d/3" % [hero.level,count]) if hero.is_summoner() else "Panda · Lv.%d\nHolzschwert" % hero.level
+	experience_bar.max_value = hero.experience_required
+	experience_bar.value = hero.experience
+	experience_bar.tooltip_text = "Level %d · EP %d/%d" % [hero.level,hero.experience,hero.experience_required]
+	if hero.level == hero.progression.MAX_LEVEL:
+		experience_bar.value = experience_bar.max_value
+		experience_bar.tooltip_text = "Level 50 · Höchststufe"
 	shoot_button.disabled = hero.dead
 	heal_button.disabled = hero.dead or hero.health >= hero.max_health or hero.mana < 20
 	summon_button.disabled = not hero.is_summoner() or hero.dead or hero.mana < hero.SUMMON_COST or count >= hero.SUMMON_LIMIT

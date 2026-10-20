@@ -8,6 +8,8 @@ const Art = preload("res://scripts/art_library.gd")
 		if is_inside_tree():
 			refresh()
 
+@export_range(1,50) var enemy_level := 1
+
 func _ready() -> void:
 	set_meta("enemy_kind",enemy_kind)
 	refresh()

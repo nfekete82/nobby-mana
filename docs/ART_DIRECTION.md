@@ -110,3 +110,16 @@ Fußpunkten. Vor der Anzeige werden alle unbekannten Zellen vollständig schwarz
 maskiert. Spielerpunkt/Rahmen sind funktionale native Controls. Brief und
 Abmessungen siehe MINIMAP_BRIEF.md. Keine Terrain-, Figuren- oder Kartenquelle
 für diese UI-Änderung neu gezeichnet oder überschrieben.
+
+## Doppelte Waldhöhe, größere Sicht und EP-HUD
+
+EXPANSION_LEVELS_BRIEF.md wurde vor Implementierung festgelegt. Die neue
+expanded_grove.tscn übernimmt die komplette Referenzkarte und ergänzt den Süden
+auf56×80; bestehende Quelldateien bleiben unverändert. Verwendet werden dieselben
+grove-Module mit identischen Frames/Füßen, Licht, Paletten, native64px-Zellen.
+1152×800Viewport und Kamera1:1 zeigen mehr Umgebung ohne Sprite-Skalierung.
+Goldene3px-EP-Leiste und Lv.-Text sind funktionale Controls im312×126HUD,
+keine neue Illustration. Minimap wird mit Nearest und korrektem Seitenverhältnis
+in dasselbe kleine Panel eingepasst. Gegnerstufen sind lesbare native Labels.
+Die bereits dokumentierte Stilabweichung der Referenzlandschaft gegenüber den
+historischen Tiny-Swords-Mastern bleibt bestehen; kein neues Stilmaterial.

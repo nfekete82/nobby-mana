@@ -1,4 +1,6 @@
 extends "res://scripts/fighter.gd"
+signal experience_changed
+signal level_gained(level: int)
 signal mana_changed(current: float, maximum: float)
 signal companions_changed
 signal summon_feedback(message: String)
@@ -12,6 +14,12 @@ const SUMMON_LIMIT := 3
 const MANA_REGEN := 5.0
 const MANA_IDLE_GRACE := 0.25
 var character_class := "monkey"
+var level := 1
+var experience := 0
+var experience_required := 100
+var max_mana := MAX_MANA
+var ranged_damage := 18
+var progression: RefCounted
 var shot_cooldown := 0.0
 var casting_remaining := 0.0
 var mana := MAX_MANA
@@ -21,10 +29,10 @@ func _ready() -> void:
 	var session := get_node_or_null("/root/Session")
 	character_class = session.selected_class if session != null else "monkey"
 	asset_id = {"monkey":"monkey-shaman","panda":"panda"}[character_class]
-	if character_class == "panda":
-		max_health = 125
-		health = max_health
-		attack_damage = 28
+	progression = session.progression if session != null else preload("res://scripts/progression.gd").new("")
+	apply_progression()
+	health = max_health
+	mana = max_mana
 	target_group = "enemies"
 	collision_layer = 2
 	collision_mask = 1
@@ -102,7 +110,7 @@ func summon_skeleton() -> bool:
 	sprite.play(animation_for("heal"))
 	mana -= SUMMON_COST
 	mana_idle_remaining = MANA_IDLE_GRACE
-	mana_changed.emit(mana,MAX_MANA)
+	mana_changed.emit(mana,max_mana)
 	companions_changed.emit()
 	summon_feedback.emit("Skelett erweckt – es kämpft zwei Minuten an deiner Seite.")
 	return true
@@ -118,7 +126,7 @@ func heal_self() -> bool:
 		casting_remaining = 1.2
 		sprite.play(animation_for("heal"))
 	health_changed.emit(health,max_health)
-	mana_changed.emit(mana,MAX_MANA)
+	mana_changed.emit(mana,max_mana)
 	summon_feedback.emit("+%d LP · 20 Mana" % restored)
 	return true
 
@@ -131,9 +139,9 @@ func regenerate_mana(delta: float, active: bool) -> void:
 	var before := mana_idle_remaining
 	mana_idle_remaining = maxf(0,mana_idle_remaining-delta)
 	var elapsed := maxf(0,delta-before)
-	if elapsed > 0 and mana < MAX_MANA:
-		mana = minf(MAX_MANA,mana+MANA_REGEN*elapsed)
-		mana_changed.emit(mana,MAX_MANA)
+	if elapsed > 0 and mana < max_mana:
+		mana = minf(max_mana,mana+MANA_REGEN*elapsed)
+		mana_changed.emit(mana,max_mana)
 
 func dismiss_companions() -> void:
 	for companion in get_tree().get_nodes_in_group("companions"):
@@ -180,7 +188,7 @@ func shoot_at(point: Vector2) -> bool:
 	var arrow := Projectile.new()
 	arrow.caster = self
 	arrow.arcane = false
-	arrow.damage = 18
+	arrow.damage = ranged_damage
 	arrow.direction = facing
 	arrow.position = global_position+Vector2(0,-12)
 	get_parent().add_child(arrow)
@@ -208,3 +216,31 @@ func start_attack() -> void:
 		return
 	casting_remaining = 0
 	super.start_attack()
+
+func apply_progression() -> void:
+	var values: Dictionary = progression.stats(character_class)
+	level = values.level
+	experience = values.xp
+	experience_required = values.required
+	var base: Dictionary = HERO_STATS[character_class]
+	max_health = base.health+(level-1)*base.hp_gain
+	max_mana = float(base.mana+(level-1)*MANA_PER_LEVEL)
+	attack_damage = base.melee+(level-1)*base.damage_gain
+	ranged_damage = base.ranged+(level-1)*base.damage_gain
+
+func gain_experience(amount: int) -> void:
+	if amount <= 0 or dead:
+		return
+	var before := level
+	progression.award(character_class,amount)
+	apply_progression()
+	if level > before:
+		health = max_health
+		mana = max_mana
+		health_changed.emit(health,max_health)
+		mana_changed.emit(mana,max_mana)
+		level_gained.emit(level)
+	experience_changed.emit()
+	var error: Error = progression.flush()
+	if error != OK:
+		push_warning("Heldenfortschritt konnte nicht gespeichert werden: %s" % error_string(error))
